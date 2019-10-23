@@ -21,6 +21,7 @@ class RegisterController extends Controller
     |
     */
 
+    public function showRegisterForm(){return view('auth.register');}
     use RegistersUsers;
 
     /**
@@ -28,7 +29,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/user/login';
 
     /**
      * Create a new controller instance.
@@ -49,8 +50,10 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
+            'username' => ['required', 'string', 'max:50'],
+            'fullname' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'phonenum' => ['required', 'string', 'max:20'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
@@ -64,9 +67,12 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
-            'name' => $data['name'],
+            'username' => $data['username'],
+            'fullname' => $data['fullname'],
             'email' => $data['email'],
+            'phonenum' => $data['phonenum'],
             'password' => Hash::make($data['password']),
+            'usrrole' => 'parent',
         ]);
     }
 }

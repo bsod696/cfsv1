@@ -46,6 +46,26 @@ return [
             'provider' => 'users',
             'hash' => false,
         ],
+
+        'staff' => [
+            'driver' => 'session',
+            'provider' => 'staffs',
+        ],
+
+        'staff-api' => [
+            'driver' => 'token',
+            'provider' => 'staffs',
+        ],
+
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admins',
+        ],
+
+        'admin-api' => [
+            'driver' => 'token',
+            'provider' => 'admins',
+        ],
     ],
 
     /*
@@ -75,6 +95,15 @@ return [
         //     'driver' => 'database',
         //     'table' => 'users',
         // ],
+        'staffs' => [
+            'driver' => 'eloquent',
+            'model' => App\Staff::class,
+        ],
+
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Admin::class,
+        ],
     ],
 
     /*
@@ -97,6 +126,16 @@ return [
             'provider' => 'users',
             'table' => 'password_resets',
             'expire' => 60,
+        ],
+        'staffs' => [
+            'provider' => 'staffs',
+            'table' => 'password_resets',
+            'expire' => 15,
+        ],
+        'admins' => [
+            'provider' => 'admins',
+            'table' => 'password_resets',
+            'expire' => 15,
         ],
     ],
 
