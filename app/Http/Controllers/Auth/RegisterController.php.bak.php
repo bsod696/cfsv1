@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\User;
 use App\Http\Controllers\Controller;
-use App\Admin;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
-class AdminRegisterController extends Controller
+class RegisterController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
@@ -21,7 +21,7 @@ class AdminRegisterController extends Controller
     |
     */
 
-    public function showRegisterForm(){return view('auth.adminregister');}
+    public function showRegisterForm(){return view('auth.register');}
     use RegistersUsers;
 
     /**
@@ -29,7 +29,11 @@ class AdminRegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/admin/login';
+    protected $redirectTo = '/user/login';
+    // protected function redirectTo()
+    // {
+    //   return '/user/login';
+    // }
 
     /**
      * Create a new controller instance.
@@ -38,7 +42,7 @@ class AdminRegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest:admin');
+        $this->middleware('guest');
     }
 
     /**
@@ -66,12 +70,13 @@ class AdminRegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return Admin::create([
+        return User::create([
             'username' => $data['username'],
             'fullname' => $data['fullname'],
             'email' => $data['email'],
             'phonenum' => $data['phonenum'],
             'password' => Hash::make($data['password']),
+            'usrrole' => 'parent',
         ]);
     }
 }
