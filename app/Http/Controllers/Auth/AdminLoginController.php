@@ -9,21 +9,15 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminLoginController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
-    public function showLoginForm(){return view('auth.adminlogin');}
+    /**
+     * Show the application’s login form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showLoginForm(){return view('auth.admlogin');}
     protected function guard(){return Auth::guard('admin');}
-
+    
     use AuthenticatesUsers;
-
     /**
      * Where to redirect users after login.
      *

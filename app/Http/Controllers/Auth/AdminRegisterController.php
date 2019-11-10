@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
 use App\Admin;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Auth\RegistersUsers;
 
 class AdminRegisterController extends Controller
 {
@@ -21,7 +21,7 @@ class AdminRegisterController extends Controller
     |
     */
 
-    public function showRegisterForm(){return view('auth.adminregister');}
+    public function showRegisterForm(){return view('auth.admregister');}
     use RegistersUsers;
 
     /**
@@ -29,7 +29,7 @@ class AdminRegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/admin/login';
+    protected $redirectTo = '/admin/dashboard';
 
     /**
      * Create a new controller instance.
@@ -50,11 +50,11 @@ class AdminRegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'username' => ['required', 'string', 'max:50'],
+            'username' => ['required', 'string', 'max:255', 'unique:admins'],
             'fullname' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'phonenum' => ['required', 'string', 'max:20'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:admins'],
+            'password' => ['required', 'string', 'min:6', 'confirmed'],
+            'phonenum' => ['required', 'string', 'min:10']
         ]);
     }
 
@@ -70,8 +70,8 @@ class AdminRegisterController extends Controller
             'username' => $data['username'],
             'fullname' => $data['fullname'],
             'email' => $data['email'],
-            'phonenum' => $data['phonenum'],
             'password' => Hash::make($data['password']),
+            'phonenum' => $data['phonenum'],
         ]);
     }
 }

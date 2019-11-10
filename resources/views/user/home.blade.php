@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('layouts.user-app')
 
 @section('content')
 <div class="container">
@@ -13,8 +13,18 @@
                             {{ session('status') }}
                         </div>
                     @endif
+                    <p>Student Management</p>
+                    <a href="{{url('/user/storestudent')}}">Add Student</a>
+                    <br>
+                    <a href="{{url('/user/viewstudent')}}">View Student</a>
+                    <br>
+                    <br>
 
-                    You are logged in!
+                    <p>Menu Management</p>
+                    <a href="{{url('/user/orderfood')}}">Menu Selection</a>
+                    <br>
+                    <a href="{{url('/user/vieworder')}}">View Orders</a>
+
                 </div>
             </div>
         </div>

@@ -11,6 +11,7 @@ class Orders extends Model
 		'childuid',
 		'menu_id',
 		'menu_date', 
+		'menu_qty', 
 		'redeem_status', 
 		'redeem_timestamp', 
 		'menu_price', 

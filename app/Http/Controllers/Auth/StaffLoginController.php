@@ -9,21 +9,15 @@ use Illuminate\Support\Facades\Auth;
 
 class StaffLoginController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
+    /**
+     * Show the application’s login form.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function showLoginForm(){return view('auth.stafflogin');}
     protected function guard(){return Auth::guard('staff');}
-
+    
     use AuthenticatesUsers;
-
     /**
      * Where to redirect users after login.
      *

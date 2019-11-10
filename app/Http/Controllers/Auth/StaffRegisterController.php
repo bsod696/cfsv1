@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
 use App\Staff;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Auth\RegistersUsers;
 
 class StaffRegisterController extends Controller
 {
@@ -29,7 +29,7 @@ class StaffRegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/staff/login';
+    protected $redirectTo = '/staff/dashboard';
 
     /**
      * Create a new controller instance.
@@ -50,11 +50,11 @@ class StaffRegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'username' => ['required', 'string', 'max:50'],
+            'username' => ['required', 'string', 'max:255', 'unique:staffs'],
             'fullname' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'phonenum' => ['required', 'string', 'max:20'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:staffs'],
+            'password' => ['required', 'string', 'min:6', 'confirmed'],
+            'phonenum' => ['required', 'string', 'min:10']
         ]);
     }
 
@@ -70,8 +70,8 @@ class StaffRegisterController extends Controller
             'username' => $data['username'],
             'fullname' => $data['fullname'],
             'email' => $data['email'],
-            'phonenum' => $data['phonenum'],
             'password' => Hash::make($data['password']),
+            'phonenum' => $data['phonenum'],
         ]);
     }
 }

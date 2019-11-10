@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Children extends Model
+class Student extends Model
 {
-    protected $table = 'children';
+    protected $table = 'student';
 	protected $fillable = [
 		'fullname',
 		'studentid', 
@@ -14,6 +14,7 @@ class Children extends Model
 		'secondary_parentid', 
 		'class', 
 		'school_session',
+		'dob',
 		'age',
 		'gender',
 		'height',

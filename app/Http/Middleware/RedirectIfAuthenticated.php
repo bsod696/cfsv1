@@ -15,18 +15,15 @@ class RedirectIfAuthenticated
      * @param  string|null  $guard
      * @return mixed
      */
-    public function handle($request, Closure $next, $guard = null)
-    {
-        if ($guard == "admin" && Auth::guard($guard)->check()) {
-            return redirect('/admin');
+    public function handle($request, Closure $next, $guard = null){
+        switch ($guard) {
+            case 'admin' :
+                if (Auth::guard($guard)->check()) {return redirect()->route('admin.home');}
+                break;
+            default:
+                if (Auth::guard($guard)->check()) {return redirect()->route('user.home');}
+                break;
         }
-        if ($guard == "staff" && Auth::guard($guard)->check()) {
-            return redirect('/staff');
-        }
-        if (Auth::guard($guard)->check()) {
-            return redirect('/home');
-        }
-
         return $next($request);
     }
 }
