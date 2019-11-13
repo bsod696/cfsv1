@@ -29,8 +29,8 @@
                     	<br>
 	                    <a href="{{url('/admin/login')}}">Sign In</a>
 	                    <br>
-	                    <a href="{{url('/admin/register')}}">Sign Up</a>
-	                    <br>
+	                    <!-- <a href="{{url('/admin/register')}}">Sign Up</a>
+	                    <br> -->
 	                </p>
                     <br>
                     <p>
