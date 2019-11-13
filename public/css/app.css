@@ -11085,10 +11085,13 @@ a.text-dark:focus {
 
   .table-dark {
     color: inherit;
+    border: 1px solid #dee2e6 !important;
   }
 
   .table-dark th,
-  .table-dark td,
+  .table-dark td {
+    border: 1px solid #dee2e6 !important;
+  }
   .table-dark thead th,
   .table-dark tbody + tbody {
     border-color: #dee2e6;

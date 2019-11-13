@@ -129,7 +129,7 @@
                             <label for="height" class="col-md-4 col-form-label text-md-right">{{ __('Height (CM)') }}</label>
 
                             <div class="col-md-6">
-                                <input id="height" type="number" min="1" max="500" class="form-control @error('height') is-invalid @enderror" name="height" value="{{ old('height') }}" required autocomplete="height" autofocus>
+                                <input id="height" type="number" min="1" max="500" class="form-control @error('height') is-invalid @enderror" name="height" value="{{ $u->height }}" required autocomplete="height" autofocus>
 
                                 @error('height')
                                     <span class="invalid-feedback" role="alert">
@@ -143,7 +143,7 @@
                             <label for="weight" class="col-md-4 col-form-label text-md-right">{{ __('Weight (KG)') }}</label>
 
                             <div class="col-md-6">
-                                <input id="weight" type="number" min="1" max="500" class="form-control @error('weight') is-invalid @enderror" name="weight" value="{{ old('weight') }}" required autocomplete="weight" autofocus onchange="showBMI()">
+                                <input id="weight" type="number" min="1" max="500" class="form-control @error('weight') is-invalid @enderror" name="weight" value="{{ $u->weight }}" required autocomplete="weight" autofocus onchange="showBMI()">
 
                                 @error('weight')
                                     <span class="invalid-feedback" role="alert">
@@ -182,6 +182,78 @@
                             </div>
                         </div>
 
+                        <!-- <div class="form-group row">
+                            <label for="target_calories" class="col-md-4 col-form-label text-md-right">{{ __('Allergies') }}</label>
+
+                            <div class="col-md-6 offset-md-0">
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="shellfish" id="shellfish" {{ old('shellfish') ? 'checked' : '' }}>
+
+                                    <label class="form-check-label" for="shellfish">
+                                        {{ __('Shellfish') }}
+                                    </label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="dairy" id="dairy" {{ old('dairy') ? 'checked' : '' }}>
+
+                                    <label class="form-check-label" for="dairy">
+                                        {{ __('Dairy') }}
+                                    </label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="peanuts" id="peanuts" {{ old('peanuts') ? 'checked' : '' }}>
+
+                                    <label class="form-check-label" for="peanuts">
+                                        {{ __('Peanuts') }}
+                                    </label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="treenuts" id="treenuts" {{ old('treenuts') ? 'checked' : '' }}>
+
+                                    <label class="form-check-label" for="treenuts">
+                                        {{ __('Tree Nuts') }}
+                                    </label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="eggs" id="eggs" {{ old('eggs') ? 'checked' : '' }}>
+
+                                    <label class="form-check-label" for="eggs">
+                                        {{ __('Eggs') }}
+                                    </label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="wheat" id="wheat" {{ old('wheat') ? 'checked' : '' }}>
+
+                                    <label class="form-check-label" for="wheat">
+                                        {{ __('Wheat') }}
+                                    </label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="soy" id="soy" {{ old('soy') ? 'checked' : '' }}>
+
+                                    <label class="form-check-label" for="soy">
+                                        {{ __('Soy') }}
+                                    </label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="fish" id="fish" {{ old('fish') ? 'checked' : '' }}>
+
+                                    <label class="form-check-label" for="fish">
+                                        {{ __('Fish') }}
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+ -->
                         <div class="form-group row">
                             <label for="primary" class="col-md-4 col-form-label text-md-right">{{ __('Primary/Secondary guardian') }}</label>
                        

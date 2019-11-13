@@ -8,8 +8,11 @@ class Orders extends Model
 {
     protected $table = 'orders';
 	protected $fillable = [
-		'childuid',
+		'parentid',
+		'studentid',
+		'studentname',
 		'menu_id',
+		'menu_name',
 		'menu_date', 
 		'menu_qty', 
 		'redeem_status', 

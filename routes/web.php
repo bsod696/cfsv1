@@ -40,8 +40,8 @@ Route::prefix('user')->group(function() {
 	Route::get('/orderfood','userFXControllerv6@orderfoodinit');
 	Route::post('/submit/orderfood','userFXControllerv6@orderfoodProc')->name('user.submit.orderfood');
 
-	Route::get('/vieworder','userFXControllerv6@viewtudentinit');
-	Route::post('/submit/vieworder','userFXControllerv6@vieworderProc')->name('user.submit.veworder');
+	Route::get('/vieworder','userFXControllerv6@vieworderinit');
+	//Route::post('/submit/vieworder','userFXControllerv6@vieworderProc')->name('user.submit.vieworder');
 
 	Route::get('/editorder','userFXControllerv6@editorderinit');
 	Route::post('/submit/editorder','userFXControllerv6@editorderProc')->name('user.submit.editorder');
@@ -49,12 +49,15 @@ Route::prefix('user')->group(function() {
 	Route::get('/deleteorder','userFXControllerv6@deleteorderinit');
 	Route::post('/submit/deleteorder','userFXControllerv6@deleteorderProc')->name('user.submit.deleteorder');
 
+	Route::post('/payorder','userFXControllerv6@payorderinit')->name('user.payorder');
+	Route::post('/submit/payorder','userFXControllerv6@payorderProc')->name('user.submit.payorder');
+
 });
 
 //-----------------------------------------------------------ADMIN-----------------------------------------------------------------------------//
 Route::prefix('admin')->group(function() {
-	Route::get('/register', 'Auth\AdminRegisterController@showRegisterForm')->name('admin.register');
-	Route::post('/register', 'Auth\AdminRegisterController@register')->name('admin.register.submit');
+	//Route::get('/register', 'Auth\AdminRegisterController@showRegisterForm')->name('admin.register');
+	//Route::post('/register', 'Auth\AdminRegisterController@register')->name('admin.register.submit');
 	Route::get('/login', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
    	Route::post('/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
 	Route::get('/dashboard', 'adminFXControllerv6@index')->name('admin.dashboard');

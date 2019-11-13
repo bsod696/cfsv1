@@ -6,7 +6,10 @@ use App\Staff;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Foundation\Auth\RegistersUsers;
+//use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class StaffRegisterController extends Controller
 {
@@ -22,14 +25,48 @@ class StaffRegisterController extends Controller
     */
 
     public function showRegisterForm(){return view('auth.staffregister');}
-    use RegistersUsers;
+
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request->all())));
+
+        //$this->guard('staff')->login($user);
+
+        return $this->registered($request, $user);
+    }
+
+    /**
+     * Get the guard to be used during registration.
+     *
+     * @return \Illuminate\Contracts\Auth\StatefulGuard
+     */
+    protected function guard()
+    {
+        return Auth::guard('staff');
+    }
+
+    /**
+     * The user has been registered.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function registered(Request $request, $user)
+    {
+        return redirect('/staff/login');//return redirect($this->redirectPath());
+    }
+
+    //use RegistersUsers;
 
     /**
      * Where to redirect users after registration.
      *
      * @var string
      */
-    protected $redirectTo = '/staff/dashboard';
+    protected $redirectTo = '/staff/login';
 
     /**
      * Create a new controller instance.

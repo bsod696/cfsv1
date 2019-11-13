@@ -17,24 +17,30 @@
                         <br>
                         <div class="form-group row mb-0">
                             <div class="col-md-12 offset-md-0">
-                            <table>
+                            <table class="table">
+                                <col width="250">
+                                <col width="80">
+                                <col width="50">
+                                <thead class="thead-dark">
+
                                 <tr>
                                 @if(!empty($stud))
-                                <th>Full Name</th>
-                                <th>Student ID</th>
-                                <th>Class</th>
-                                <th>School Session</th>
-                                <th>Gender</th>
-                                <th>BMI</th>
-                                <th>Target Calories(Kcal)</th>
+                                <th><center>Full Name</center></th>
+                                <th><center>StudentID</center></th>
+                                <th><center>Class</center></th>
+                                <th><center>Session</center></th>
+                                <th><center>Gender</center></th>
+                                <th><center>BMI</center></th>
+                                <th><center>Calories(Kcal)</center></th>
+                                <th></th>
                                 </tr>
                         @foreach($stud as $s)
                                 <tr>
-                                <td><center>{{$s->fullname}}</center></td>
-                                <td><center>{{$s->studentid}}</center></td>
-                                <td><center>{{$s->class}}</center></td>
-                                <td><center>{{$s->school_session}}</center></td>
-                                <td><center>{{$s->gender}}</center></td>
+                                <td><center>{{ucfirst($s->fullname)}}</center></td>
+                                <td><center>{{strtoupper($s->studentid)}}</center></td>
+                                <td><center>{{strtoupper($s->class)}}</center></td>
+                                <td><center>{{ucfirst($s->school_session)}}</center></td>
+                                <td><center>{{ucfirst($s->gender)}}</center></td>
                                 <td><center>{{$s->bmi}}</center></td>
                                 <td><center>{{$s->target_calories}}</center></td>
                                 <td><center>

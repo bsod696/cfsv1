@@ -57,6 +57,10 @@ use AuthenticatesUsers;
    		$target_calories = $request->target_calories;
    		$primary = $request->primary;
 
+   		// $allergy = implode(",",$request->allergy);
+
+   		// dd($allergy);
+
    		if($primary == 'true'){
    			$primary_parentid = $request->parentid;
    			$secondary_parentid = '';
@@ -181,41 +185,68 @@ use AuthenticatesUsers;
 		}
 		else {
 			$menu = Menus::all();
-	      	return view('user.menuselection', compact('menu'));
+			$stud = Student::where('primary_parentid', Auth::user()->id)->orwhere('secondary_parentid', Auth::user()->id)->get();
+	      	return view('user.menuselection', compact('menu', 'stud'));
 		}
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
    	public function orderfoodProc(Request $request){
    		$menu_id = $request->id;
+   		$parent_id = $request->parentid;
+   		$student_id = $request->studentid;
+
+   		$stud = Student::where('studentid', $student_id)->first();
+   		$student_name = $stud->fullname;
    		$menuselect = Menus::where('id', $menu_id)->first();
+   		$menuname = $menuselect->menu_name;
    		$foodqty = $request->foodqty;
    		$menudate = $menuselect->created_at;
    		$price = $menuselect->price;
 
-   		dd(
-   			$menu_id,
-			$menuselect,
-			$foodqty,
-			$menudate,
-			$price
-   		);
-
    		Orders::create([
-			'studentuid'=>$studentuid,
+   			'parentid'=>$parent_id,
+			'studentid'=>$student_id,
+			'studentname'=>$student_name,
 			'menu_id'=>$menu_id,
+			'menu_name'=>$menuname,
 			'menu_date'=>$menudate,
 			'menu_qty'=>$foodqty,
-			'redeem_status'=>'NOTREDEEMED',
+			'menu_price'=>$price,
+			'redeem_status'=>'NOTREDEEEMED',
 			'redeem_date'=> '',
 			'txid'=> '',
 		]);
 
 		Menus::where('id', $menu_id)->update([
-			'menu_qty'=>$menuselect->menu_qty - $foodqty,
+			'stock'=>$menuselect->stock - $foodqty,
 		]);
 
 		$message = "New Orders added";
 		return view('user.home', compact('message'));
+	}
+//---------------------------------------------------------------------------------------------------------------------------------------------//
+	public function vieworderinit(){
+		if (!Auth::check()) {
+			Session::flash('message', trans('errors.session_label'));
+		  	Session::flash('type', 'warning');
+		  	return redirect()->route('');
+		}
+		else {
+			$orders = Orders::where('parentid', Auth::user()->id)->get();
+	      	return view('user.vieworders', compact('orders'));
+	    }
+	}
+//---------------------------------------------------------------------------------------------------------------------------------------------//
+	public function payorderinit(){
+		if (!Auth::check()) {
+			Session::flash('message', trans('errors.session_label'));
+		  	Session::flash('type', 'warning');
+		  	return redirect()->route('');
+		}
+		else {
+			$orders = Orders::where('parentid', Auth::user()->id)->get();
+	      	return view('user.vieworders', compact('orders', 'menu'));
+	    }
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 

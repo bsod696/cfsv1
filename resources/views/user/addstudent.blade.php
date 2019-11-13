@@ -168,6 +168,78 @@
                             </div>
                         </div>
 
+                       <!--  <div class="form-group row">
+                            <label for="target_calories" class="col-md-4 col-form-label text-md-right">{{ __('Allergies') }}</label>
+
+                            <div class="col-md-6 offset-md-0">
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ old('allergy') ? 'checked' : '' }} value="shellfish">
+
+                                    <label class="form-check-label" for="shellfish">
+                                        {{ __('Shellfish') }}
+                                    </label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ old('allergy') ? 'checked' : '' }} value="dairy">
+
+                                    <label class="form-check-label" for="dairy">
+                                        {{ __('Dairy') }}
+                                    </label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ old('allergy') ? 'checked' : '' }} value="peanuts">
+
+                                    <label class="form-check-label" for="peanuts">
+                                        {{ __('Peanuts') }}
+                                    </label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ old('allergy') ? 'checked' : '' }} value="treenuts">
+
+                                    <label class="form-check-label" for="treenuts">
+                                        {{ __('Tree Nuts') }}
+                                    </label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ old('allergy') ? 'checked' : '' }} value="eggs">
+
+                                    <label class="form-check-label" for="eggs">
+                                        {{ __('Eggs') }}
+                                    </label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ old('allergy') ? 'checked' : '' }} value="wheat">
+
+                                    <label class="form-check-label" for="wheat">
+                                        {{ __('Wheat') }}
+                                    </label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ old('allergy') ? 'checked' : '' }} value="soy">
+
+                                    <label class="form-check-label" for="soy">
+                                        {{ __('Soy') }}
+                                    </label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ old('allergy') ? 'checked' : '' }} value="fish">
+
+                                    <label class="form-check-label" for="fish">
+                                        {{ __('Fish') }}
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div> -->
+
                         <div class="form-group row">
                             <label for="primary" class="col-md-4 col-form-label text-md-right">{{ __('Primary/Secondary guardian') }}</label>
                        
