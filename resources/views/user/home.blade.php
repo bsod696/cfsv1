@@ -16,14 +16,21 @@
                     <p>Student Management</p>
                     <a href="{{url('/user/storestudent')}}">Add Student</a>
                     <br>
-                    <a href="{{url('/user/viewstudent')}}">View Student</a>
+                    <a href="{{url('/user/viewstudent')}}">List Student</a>
                     <br>
                     <br>
 
                     <p>Menu Management</p>
                     <a href="{{url('/user/orderfood')}}">Menu Selection</a>
                     <br>
-                    <a href="{{url('/user/vieworder')}}">View Orders</a>
+                    <a href="{{url('/user/vieworder')}}">List Orders</a>
+                    <br>
+                    <br>
+
+                    <p>Transaction Management</p>
+                    <a href="{{url('/user/listtrans')}}">List Transactions</a>
+                    <br>
+                    
 
                 </div>
             </div>

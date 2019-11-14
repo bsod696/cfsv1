@@ -168,7 +168,7 @@
                             </div>
                         </div>
 
-                       <!--  <div class="form-group row">
+                        <div class="form-group row">
                             <label for="target_calories" class="col-md-4 col-form-label text-md-right">{{ __('Allergies') }}</label>
 
                             <div class="col-md-6 offset-md-0">
@@ -238,7 +238,7 @@
                                 </div>
 
                             </div>
-                        </div> -->
+                        </div>
 
                         <div class="form-group row">
                             <label for="primary" class="col-md-4 col-form-label text-md-right">{{ __('Primary/Secondary guardian') }}</label>

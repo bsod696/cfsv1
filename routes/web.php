@@ -49,8 +49,13 @@ Route::prefix('user')->group(function() {
 	Route::get('/deleteorder','userFXControllerv6@deleteorderinit');
 	Route::post('/submit/deleteorder','userFXControllerv6@deleteorderProc')->name('user.submit.deleteorder');
 
-	Route::post('/payorder','userFXControllerv6@payorderinit')->name('user.payorder');
+	Route::get('/payorder','userFXControllerv6@payorderinit')->name('user.payorder');
 	Route::post('/submit/payorder','userFXControllerv6@payorderProc')->name('user.submit.payorder');
+
+	Route::get('/listtrans','userFXControllerv6@listtransinit');
+	Route::post('/viewtrans','userFXControllerv6@viewtransinit')->name('user.submit.viewtrans');
+
+	Route::post('/submit/deleteorder','userFXControllerv6@deleteorderProc')->name('user.submit.deleteorder');
 
 });
 

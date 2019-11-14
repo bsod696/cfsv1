@@ -23,7 +23,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand" href="{{ url('/user/home') }}">
                     <!-- {{ config('app.name', 'Laravel') }} -->
                     <img src="{{ asset('images/logo.jfif') }}" height="30" width="50">
                     Canteen Food System
@@ -45,7 +45,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('user.login') }}">{{ __('Sign In') }}</a>
                             </li>
-                            @if (Route::has('register'))
+                            @if (Route::has('user.register'))
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('user.register') }}">{{ __('Sign Up') }}</a>
                                 </li>

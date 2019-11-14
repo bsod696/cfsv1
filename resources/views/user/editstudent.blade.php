@@ -182,13 +182,13 @@
                             </div>
                         </div>
 
-                        <!-- <div class="form-group row">
+                         <div class="form-group row">
                             <label for="target_calories" class="col-md-4 col-form-label text-md-right">{{ __('Allergies') }}</label>
 
                             <div class="col-md-6 offset-md-0">
 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="shellfish" id="shellfish" {{ old('shellfish') ? 'checked' : '' }}>
+                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ unserialize($u->allergies)['shellfish'] == true ? 'checked' : '' }} value="shellfish">
 
                                     <label class="form-check-label" for="shellfish">
                                         {{ __('Shellfish') }}
@@ -196,7 +196,7 @@
                                 </div>
 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="dairy" id="dairy" {{ old('dairy') ? 'checked' : '' }}>
+                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ unserialize($u->allergies)['dairy'] == true ? 'checked' : '' }} value="dairy">
 
                                     <label class="form-check-label" for="dairy">
                                         {{ __('Dairy') }}
@@ -204,7 +204,7 @@
                                 </div>
 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="peanuts" id="peanuts" {{ old('peanuts') ? 'checked' : '' }}>
+                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ unserialize($u->allergies)['peanuts'] == true ? 'checked' : '' }} value="peanuts">
 
                                     <label class="form-check-label" for="peanuts">
                                         {{ __('Peanuts') }}
@@ -212,7 +212,7 @@
                                 </div>
 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="treenuts" id="treenuts" {{ old('treenuts') ? 'checked' : '' }}>
+                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ unserialize($u->allergies)['tree nuts'] == true ? 'checked' : '' }} value="treenuts">
 
                                     <label class="form-check-label" for="treenuts">
                                         {{ __('Tree Nuts') }}
@@ -220,7 +220,7 @@
                                 </div>
 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="eggs" id="eggs" {{ old('eggs') ? 'checked' : '' }}>
+                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ unserialize($u->allergies)['eggs'] == true ? 'checked' : '' }} value="eggs">
 
                                     <label class="form-check-label" for="eggs">
                                         {{ __('Eggs') }}
@@ -228,7 +228,7 @@
                                 </div>
 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="wheat" id="wheat" {{ old('wheat') ? 'checked' : '' }}>
+                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ unserialize($u->allergies)['wheat'] == true ? 'checked' : '' }} value="wheat">
 
                                     <label class="form-check-label" for="wheat">
                                         {{ __('Wheat') }}
@@ -236,7 +236,7 @@
                                 </div>
 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="soy" id="soy" {{ old('soy') ? 'checked' : '' }}>
+                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ unserialize($u->allergies)['soy'] == true ? 'checked' : '' }} value="soy">
 
                                     <label class="form-check-label" for="soy">
                                         {{ __('Soy') }}
@@ -244,7 +244,7 @@
                                 </div>
 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="fish" id="fish" {{ old('fish') ? 'checked' : '' }}>
+                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ unserialize($u->allergies)['fish'] == true ? 'checked' : '' }} value="fish">
 
                                     <label class="form-check-label" for="fish">
                                         {{ __('Fish') }}
@@ -253,7 +253,7 @@
 
                             </div>
                         </div>
- -->
+
                         <div class="form-group row">
                             <label for="primary" class="col-md-4 col-form-label text-md-right">{{ __('Primary/Secondary guardian') }}</label>
                        

@@ -21,5 +21,6 @@ class Student extends Model
 		'weight',
 		'bmi',
 		'target_calories',
+		'allergies',
 		];
 }
