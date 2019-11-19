@@ -29,7 +29,7 @@
                             <label for="studentid" class="col-md-4 col-form-label text-md-right">{{ __('Student ID') }}</label>
 
                             <div class="col-md-6">
-                                <input id="studentid" type="text" class="form-control @error('studentid') is-invalid @enderror" name="studentid" value="{{ $u->studentid }}" required autocomplete="studentid" autofocus>
+                                <input id="studentid" type="text" class="form-control @error('studentid') is-invalid @enderror" name="studentid" value="{{ $u->studentid }}" readonly autocomplete="studentid" autofocus>
 
                                 @error('studentid')
                                     <span class="invalid-feedback" role="alert">
@@ -43,7 +43,7 @@
                             <label for="fullname" class="col-md-4 col-form-label text-md-right">{{ __('Full Name') }}</label>
 
                             <div class="col-md-6">
-                                <input id="fullname" type="text" class="form-control @error('fullname') is-invalid @enderror" name="fullname" value="{{ $u->fullname }}" required autocomplete="fullname" autofocus>
+                                <input id="fullname" type="text" class="form-control @error('fullname') is-invalid @enderror" name="fullname" value="{{ $u->fullname }}" readonly autocomplete="fullname" autofocus>
 
                                 @error('fullname')
                                     <span class="invalid-feedback" role="alert">
@@ -56,18 +56,14 @@
                         <div class="form-group row">
                             <label for="gender" class="col-md-4 col-form-label text-md-right">{{ __('Gender') }}</label>
 
-                            <div class="col-md-6">
-                                <select id="gender" class="form-control{{ $errors->has('gender') ? ' is-invalid' : '' }}" name="gender" required autofocus>
-                                    <option value="{{ $u->gender }}">{{ ucfirst($u->gender) }}</option>
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
-                                </select>
-                                    
-                                @if ($errors->has('gender'))
+                             <div class="col-md-6">
+                                <input id="gender" type="text" class="form-control @error('gender') is-invalid @enderror" name="gender" value="{{ ucfirst($u->gender) }}" readonly autocomplete="gender" autofocus>
+
+                                @error('gender')
                                     <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('gender') }}</strong>
+                                        <strong>{{ $message }}</strong>
                                     </span>
-                                @endif
+                                @enderror
                             </div>
                         </div>
 
@@ -75,7 +71,7 @@
                             <label for="dob" class="col-md-4 col-form-label text-md-right">{{ __('Date of Birth') }}</label>
 
                             <div class="col-md-6">  
-                                <input type="date" id="dob" class="form-control{{ $errors->has('dob') ? ' is-invalid' : '' }}" name="dob" min="1900-01-01" required autofocus value="{{ $u->dob }}">
+                                <input type="date" id="dob" class="form-control{{ $errors->has('dob') ? ' is-invalid' : '' }}" name="dob" min="1900-01-01" readonly autofocus value="{{ $u->dob }}">
                                     
                                 @if ($errors->has('dob'))
                                     <span class="invalid-feedback" role="alert">

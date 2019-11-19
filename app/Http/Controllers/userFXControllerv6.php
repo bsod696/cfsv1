@@ -148,10 +148,10 @@ use AuthenticatesUsers;
 	}
    	public function editstudentProc(Request $request){
    		$id = $request->id;
-   		$studentid = $request->studentid;
-   		$fullname = $request->fullname;
-   		$gender = $request->gender;
-   		$dob = $request->dob;
+   		// $studentid = $request->studentid;
+   		// $fullname = $request->fullname;
+   		// $gender = $request->gender;
+   		// $dob = $request->dob;
    		$class = $request->class;
    		$school_session = $request->school_session;
    		$height = $request->height;
