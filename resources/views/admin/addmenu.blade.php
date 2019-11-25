@@ -89,7 +89,7 @@
                             <label for="foodpic" class="col-md-4 col-form-label text-md-right">{{ __('Menu Picture') }}</label>
 
                             <div class="col-md-6">
-                                <input id="foodpic" type="file" class="form-control @error('foodpic') is-invalid @enderror" name="foodpic" value="{{ old('foodpic') }}" required autocomplete="foodpic" autofocus onchange="readURLfoodpic(this);">
+                                <input id="foodpic" type="file" class="form-control{{ $errors->has('foodpic') ? ' is-invalid' : '' }}" name="foodpic" value="{{ old('foodpic') }}" required autocomplete="foodpic" autofocus onchange="readURLfoodpic(this);">
                                 <img id="foodp" src="#" alt="your image" />
 
                                 @if ($errors->has('foodpic'))
