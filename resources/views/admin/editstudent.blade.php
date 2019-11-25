@@ -1,4 +1,4 @@
-@extends('layouts.user-app')
+@extends('layouts.admin-app')
 
 @section('content')
 <div class="container">
@@ -15,7 +15,12 @@
                     @endif
                     
                     @foreach( $updata as $u)
-                    
+                    <form action="{{ route('admin.submit.deletestudent') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <input id="id" type="text" class="form-control{{ $errors->has('id') ? ' is-invalid' : '' }}" name="id"  value="{{ $u->id }}" hidden />
+                        <button type="submit" name="submit" class="btn btn-primary">{{ __('Delete Student') }}</button>
+                    </form>
+
                     <form method="POST" action="{{ route('user.submit.editstudent') }}">
                         @csrf
 
@@ -266,7 +271,7 @@
                                 @endif
                             </div>
                         </div>
-                        <input id="parentid" type="text" class="form-control @error('parentid') is-invalid @enderror" name="parentid" value="{{ Auth::user()->id }}" readonly hidden>
+                        <input id="parentid" type="text" class="form-control @error('parentid') is-invalid @enderror" name="parentid" value="ADMIN_{{ Auth::guard('admin')->user()->id }}" readonly hidden>
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">

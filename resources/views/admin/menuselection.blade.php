@@ -1,4 +1,4 @@
-@extends('layouts.user-app')
+@extends('layouts.admin-app')
 
 @section('content')
 <div class="container">
@@ -39,7 +39,7 @@
                                             <p>
                                                 <b>Quantity :</b>
 
-                                                <form action="{{ route('user.submit.menuselect') }}" method="POST" enctype="multipart/form-data">
+                                                <form action="{{ route('admin.submit.menuselect') }}" method="POST" enctype="multipart/form-data">
                                                     @csrf
                                                     <input id="id" type="text" class="form-control{{ $errors->has('id') ? ' is-invalid' : '' }}" name="id"  value="{{ $m->id }}" hidden />
                                                     <input id="foodqty" type="number" min="1" max="999" size="2" class="form-control{{ $errors->has('id') ? ' is-invalid' : '' }}" name="foodqty" value="{{ old('foodqty') }}" required autocomplete="foodqty" autofocus>
@@ -65,7 +65,7 @@
                                                         </span>
                                                     @endif
                                             </p>
-                                                    <input id="parentid" type="text" class="form-control @error('parentid') is-invalid @enderror" name="parentid" value="{{ Auth::user()->id }}" readonly hidden>
+                                                    <input id="parentid" type="text" class="form-control @error('parentid') is-invalid @enderror" name="parentid" value="ADMIN_{{ Auth::guard('admin')->user()->id }}" readonly hidden>
                                             <p align="right"><button type="submit" name="submit" class="btn btn-primary">{{ __('Add to Cart') }}</button></p>
                                         </td>
                                     </form>

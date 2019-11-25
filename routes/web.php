@@ -28,20 +28,27 @@ Route::prefix('user')->group(function() {
 	Route::post('/submit/storestudent','userFXControllerv6@storestudentProc')->name('user.submit.storestudent');
 
 	Route::get('/viewstudent','userFXControllerv6@viewstudent');
-	//Route::post('/submit/viewstudent','userFXControllerv6@viewstudentProc')->name('user.submit.vewstudent');
 
 	Route::post('/editstudent','userFXControllerv6@editstudentinit')->name('user.editstudent');
 	Route::post('/submit/editstudent','userFXControllerv6@editstudentProc')->name('user.submit.editstudent');
 
-	//Route::get('/deletestudent','userFXControllerv6@deletestudentinit');
 	Route::post('/submit/deletestudent','userFXControllerv6@deletestudentProc')->name('user.submit.deletestudent');
 
+	//PAYMENT
+	Route::get('/storepayment','userFXControllerv6@storepaymentinit')->name('user.storepayment');
+	Route::post('/submit/storepayment','userFXControllerv6@storepaymentProc')->name('user.submit.storepayment');
+
+	Route::get('/viewpayment','userFXControllerv6@viewpayment');
+
+	Route::post('/editpayment','userFXControllerv6@editpaymentinit')->name('user.editpayment');
+	Route::post('/submit/editpayment','userFXControllerv6@editpaymentProc')->name('user.submit.editpayment');
+
+
 	//MENU
-	Route::get('/orderfood','userFXControllerv6@orderfoodinit');
-	Route::post('/submit/orderfood','userFXControllerv6@orderfoodProc')->name('user.submit.orderfood');
+	Route::get('/menuselect','userFXControllerv6@menuselectinit');
+	Route::post('/submit/menuselect','userFXControllerv6@menuselectProc')->name('user.submit.menuselect');
 
 	Route::get('/vieworder','userFXControllerv6@vieworderinit');
-	//Route::post('/submit/vieworder','userFXControllerv6@vieworderProc')->name('user.submit.vieworder');
 
 	Route::get('/editorder','userFXControllerv6@editorderinit');
 	Route::post('/submit/editorder','userFXControllerv6@editorderProc')->name('user.submit.editorder');
@@ -67,6 +74,52 @@ Route::prefix('admin')->group(function() {
    	Route::post('/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
 	Route::get('/dashboard', 'adminFXControllerv6@index')->name('admin.dashboard');
 	Route::post('/logout', 'Auth\AdminLoginController@logout')->name('admin.logout');
+
+	//STUDENT
+	Route::get('/storestudent','adminFXControllerv6@storestudentinit');
+	Route::post('/submit/storestudent','adminFXControllerv6@storestudentProc')->name('admin.submit.storestudent');
+
+	Route::get('/viewstudent','adminFXControllerv6@viewstudent');
+
+	Route::post('/editstudent','adminFXControllerv6@editstudentinit')->name('admin.editstudent');
+	Route::post('/submit/editstudent','adminFXControllerv6@editstudentProc')->name('admin.submit.editstudent');
+
+	Route::post('/submit/deletestudent','adminFXControllerv6@deletestudentProc')->name('admin.submit.deletestudent');
+
+	//PAYMENT
+	Route::get('/storepayment','adminFXControllerv6@storepaymentinit')->name('admin.storepayment');
+	Route::post('/submit/storepayment','adminFXControllerv6@storepaymentProc')->name('admin.submit.storepayment');
+
+	Route::get('/viewpayment','adminFXControllerv6@viewpayment');
+
+	Route::post('/editpayment','adminFXControllerv6@editpaymentinit')->name('admin.editpayment');
+	Route::post('/submit/editpayment','adminFXControllerv6@editpaymentProc')->name('admin.submit.editpayment');
+
+	Route::post('/submit/deletepayment','adminFXControllerv6@deletepaymentProc')->name('admin.submit.deletepayment');
+
+
+	//MENU
+	Route::get('/storemenu','adminFXControllerv6@storemenuinit');
+	Route::post('/submit/storemenu','adminFXControllerv6@storemenuProc')->name('admin.submit.storemenu');
+
+	Route::get('/menuselect','adminFXControllerv6@menuselectinit');
+	Route::post('/submit/menuselect','adminFXControllerv6@menuselectProc')->name('admin.submit.menuselect');
+
+	Route::get('/vieworder','adminFXControllerv6@vieworderinit');
+
+	Route::get('/editorder','adminFXControllerv6@editorderinit');
+	Route::post('/submit/editorder','adminFXControllerv6@editorderProc')->name('admin.submit.editorder');
+
+	Route::get('/deleteorder','adminFXControllerv6@deleteorderinit');
+	Route::post('/submit/deleteorder','adminFXControllerv6@deleteorderProc')->name('admin.submit.deleteorder');
+
+	Route::get('/payorder','adminFXControllerv6@payorderinit')->name('admin.payorder');
+	Route::post('/submit/payorder','adminFXControllerv6@payorderProc')->name('admin.submit.payorder');
+
+	Route::get('/listtrans','adminFXControllerv6@listtransinit');
+	Route::post('/viewtrans','adminFXControllerv6@viewtransinit')->name('admin.submit.viewtrans');
+
+	Route::post('/submit/deleteorder','adminFXControllerv6@deleteorderProc')->name('admin.submit.deleteorder');
 
 });
 

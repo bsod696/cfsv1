@@ -1,4 +1,4 @@
-@extends('layouts.user-app')
+@extends('layouts.admin-app')
 
 @section('content')
 <div class="container">
@@ -36,9 +36,9 @@
                                 <td><center>{{$t->txreference}}</center></td>
                                 <td><center>{{ strtoupper($t->txstatus) }}</center></td>
                                 <td><center>
-                                    <form action="{{ route('user.submit.viewtrans') }}" method="POST" enctype="multipart/form-data">
+                                    <form action="{{ route('admin.submit.viewtrans') }}" method="POST" enctype="multipart/form-data">
                                          @csrf
-                                        <input id="parentid" type="text" class="form-control @error('parentid') is-invalid @enderror" name="parentid" value="{{ Auth::user()->id }}" readonly hidden>
+                                        <input id="parentid" type="text" class="form-control @error('parentid') is-invalid @enderror" name="parentid" value="ADMIN_{{ Auth::guard('admin')->user()->id }}" readonly hidden>
                                         <input id="txid" type="text" class="form-control{{ $errors->has('txid') ? ' is-invalid' : '' }}" name="txid"  value="{{ $t->txid }}" hidden />
                                         <button type="submit" name="submit" class="btn btn-primary">{{ __('View') }}</button>
                                     </form>
@@ -46,7 +46,7 @@
                             </tr>
                         @endforeach
                                 @else
-                                <p>No Transaction data found.</p>
+                                <p>No Student data found.</p>
                                 @endif
                             </table>
                             </div>

@@ -35,6 +35,10 @@ use AuthenticatesUsers;
      * @return \Illuminate\Http\Response
      */
     public function index(){return view('staff.dashboard');}
+
+
+
+
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 	 //Store student data in database
 	public function storeaccountinit(){
@@ -75,6 +79,10 @@ use AuthenticatesUsers;
 		$message = "New Account Details added";
 		return view('staff.dashboard', compact('message'));
 	}
+
+
+
+
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 	public function viewmenusinit(){
 		if (!Auth::guard('staff')) {
@@ -127,34 +135,9 @@ use AuthenticatesUsers;
 			return view('staff.dashboard', compact('message'));
 		}
 	}
-//---------------------------------------------------------------------------------------------------------------------------------------------//
-	 //Store student data in database
-	public function redeeminit(){
-		if (!Auth::guard('admin')) {
-			Session::flash('message', trans('errors.session_label'));
-		  	Session::flash('type', 'warning');
-		  	return redirect()->route('');
-		}
-		else {return view('staff.redeem');}
-	}
-//---------------------------------------------------------------------------------------------------------------------------------------------//
-   	public function redeemProc(Request $request){
-   		$studentid = $request->studentid;
 
-   		$ordersdet = Orders::where('studentid', $studentid)->get();
 
-   		foreach ($ordersdet as $orders) {
-   			$menusdet  = Menus::where('id', $orders['menuid'])->first();
-   			if($menusdet->staffid == Auth::guard('staff')->user()->id){
-   				$ordersd = Orders::where('id', $ordersdet['id'])->update([
-   					'redeemstatus'=>'REDEEMED',
-   					'redeemdate'=>Carbon::now(),
-   				]);
-   			}
-   		}
-		$message = "Orders Redeemed";
-		return view('staff.dashboard', compact('message'));
-	}
+
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 	public function listordersinit(){
 		if (!Auth::guard('staff')) {
@@ -186,8 +169,40 @@ use AuthenticatesUsers;
 	      	return view('user.viewtrans', compact('trans'));
 	    }
 	}
-//---------------------------------------------------------------------------------------------------------------------------------------------//
 
+
+
+
+//---------------------------------------------------------------------------------------------------------------------------------------------//
+	 //Store student data in database
+	public function redeeminit(){
+		if (!Auth::guard('admin')) {
+			Session::flash('message', trans('errors.session_label'));
+		  	Session::flash('type', 'warning');
+		  	return redirect()->route('');
+		}
+		else {return view('staff.redeem');}
+	}
+//---------------------------------------------------------------------------------------------------------------------------------------------//
+   	public function redeemProc(Request $request){
+   		$studentid = $request->studentid;
+
+   		$ordersdet = Orders::where('studentid', $studentid)->get();
+
+   		foreach ($ordersdet as $orders) {
+   			$menusdet  = Menus::where('id', $orders['menuid'])->first();
+   			if($menusdet->staffid == Auth::guard('staff')->user()->id){
+   				$ordersd = Orders::where('id', $ordersdet['id'])->update([
+   					'redeemstatus'=>'REDEEMED',
+   					'redeemdate'=>Carbon::now(),
+   				]);
+   			}
+   		}
+		$message = "Orders Redeemed";
+		return view('staff.dashboard', compact('message'));
+	}
+
+//---------------------------------------------------------------------------------------------------------------------------------------------//
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 }

@@ -14,7 +14,35 @@
                         </div>
                     @endif
 
-                    You are logged in!
+                    <p>Student Management</p>
+                    <!-- <a href="{{url('/admin/storestudent')}}">Add Student</a>
+                    <br> -->
+                    <a href="{{url('/admin/viewstudent')}}">List Student</a>
+                    <br>
+                    <br>
+
+                    <p>Payment Management</p>
+                    <!-- <a href="{{url('/admin/storepayment')}}">Add Payment</a>
+                    <br> -->
+                    <a href="{{url('/admin/viewpayment')}}">View Payment Details</a>
+                    <br>
+                    <br>
+
+                    <p>Menu Management</p>
+                    <a href="{{url('/admin/storemenu')}}">Add Menu</a>
+                    <br>
+                    <a href="{{url('/admin/menuselect')}}">List Menu</a>
+                    <br>
+                    <br>
+
+                    <p>Order Management</p>
+                    <a href="{{url('/admin/vieworder')}}">List Orders</a>
+                    <br>
+                    <br>
+
+                    <p>Transaction Management</p>
+                    <a href="{{url('/admin/listtrans')}}">List Transactions</a>
+                    <br>
                 </div>
             </div>
         </div>

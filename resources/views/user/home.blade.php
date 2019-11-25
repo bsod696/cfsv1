@@ -20,8 +20,15 @@
                     <br>
                     <br>
 
+                    <p>Payment Management</p>
+                    <a href="{{url('/user/storepayment')}}">Add Payment</a>
+                    <br>
+                    <a href="{{url('/user/viewpayment')}}">View Payment Details</a>
+                    <br>
+                    <br>
+
                     <p>Menu Management</p>
-                    <a href="{{url('/user/orderfood')}}">Menu Selection</a>
+                    <a href="{{url('/user/menuselect')}}">Menu Selection</a>
                     <br>
                     <a href="{{url('/user/vieworder')}}">List Orders</a>
                     <br>

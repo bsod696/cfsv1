@@ -1,4 +1,4 @@
-@extends('layouts.user-app')
+@extends('layouts.admin-app')
 
 @section('content')
 <div class="container">
@@ -48,16 +48,16 @@
                                 @endif
                                 <td><center>
                                     @if ($o->txid == '')
-                                        <form action="{{ route('user.submit.payorder') }}" method="POST" enctype="multipart/form-data">
+                                        <form action="{{ route('admin.submit.payorder') }}" method="POST" enctype="multipart/form-data">
                                             @csrf
-                                            <input id="parentid" type="text" class="form-control @error('parentid') is-invalid @enderror" name="parentid" value="{{ Auth::user()->id }}" readonly hidden>
+                                            <input id="parentid" type="text" class="form-control @error('parentid') is-invalid @enderror" name="parentid" value="ADMIN_{{ Auth::guard('admin')->user()->id}}" readonly hidden>
                                             <input id="id" type="text" class="form-control{{ $errors->has('id') ? ' is-invalid' : '' }}" name="id"  value="{{ $o->id }}" hidden />
                                             <button type="submit" name="submit" class="btn btn-primary">{{ __('Pay') }}</button>
                                         </form>
                                     @else
-                                        <form action="{{ route('user.submit.viewtrans') }}" method="POST" enctype="multipart/form-data">
+                                        <form action="{{ route('admin.submit.viewtrans') }}" method="POST" enctype="multipart/form-data">
                                             @csrf
-                                            <input id="parentid" type="text" class="form-control @error('parentid') is-invalid @enderror" name="parentid" value="{{ Auth::user()->id }}" readonly hidden>
+                                            <input id="parentid" type="text" class="form-control @error('parentid') is-invalid @enderror" name="parentid" value="ADMIN_{{ Auth::guard('admin')->user()->id }}" readonly hidden>
                                             <input id="txid" type="text" class="form-control{{ $errors->has('txid') ? ' is-invalid' : '' }}" name="txid"  value="{{ $o->txid }}" hidden />
                                             <button type="submit" name="submit" class="btn btn-primary">{{ __('View') }}</button>
                                         </form>
@@ -65,7 +65,7 @@
                                 </center></td>
                                 @if ($o->txid == '')
                                     <td><center>
-                                        <form action="{{ route('user.submit.deleteorder') }}" method="POST" enctype="multipart/form-data">
+                                        <form action="{{ route('admin.submit.deleteorder') }}" method="POST" enctype="multipart/form-data">
                                             @csrf
                                             <input id="id" type="text" class="form-control{{ $errors->has('id') ? ' is-invalid' : '' }}" name="id"  value="{{ $o->id }}" hidden />
                                             <button type="submit" name="submit" class="btn btn-primary">{{ __('x') }}</button>

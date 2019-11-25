@@ -119,7 +119,7 @@
 
                                 @error('height')
                                     <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $height }}</strong>
+                                        <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
                             </div>
