@@ -17,6 +17,7 @@ use App\Allergy;
 use App\Menus;
 use App\Orders;
 use App\Transaction;
+use App\AccountDet;
 
 class staffFXControllerv6 extends Controller
 {
@@ -34,144 +35,159 @@ use AuthenticatesUsers;
      * @return \Illuminate\Http\Response
      */
     public function index(){return view('staff.dashboard');}
- //---------------------------------------------------------------------------------------------------------------------------------------------//
+//---------------------------------------------------------------------------------------------------------------------------------------------//
 	 //Store student data in database
-	public function storestudentinit(){
-		if (!Auth::guard('staff')) {
+	public function storeaccountinit(){
+		if (!Auth::guard('admin')) {
 			Session::flash('message', trans('errors.session_label'));
 		  	Session::flash('type', 'warning');
 		  	return redirect()->route('');
 		}
-		else {return view('user.addstudent');}
+		else {return view('staff.addpayment');}
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
-   	public function storestudentProc(Request $request){
-   		$studentid = $request->studentid;
+   	public function storeaccountProc(Request $request){
+   		$staffid = $request->staffid;
    		$fullname = $request->fullname;
-   		$gender = $request->gender;
-   		$dob = $request->dob;
-   		$class = $request->class;
-   		$school_session = $request->school_session;
-   		$height = $request->height;
-   		$weight = $request->weight;
-   		$bmi = $request->bmi;
-   		$target_calories = $request->target_calories;
-   		$primary = $request->primary;
+   		$billaddr1 = $request->billaddr1;
+   		$billaddr2 = $request->billaddr2;
+   		$city = $request->city;
+   		$zipcode = $request->zipcode;
+   		$state = $request->state;
+   		$country = $request->country;
+   		$bankname = $request->bankname;
+   		$banknum = $request->banknum;
+   		$defaultpay = $request->defaultpay;
 
-   		if($primary == 'true'){
-   			$primary_parentid = $request->parentid;
-   			$secondary_parentid = '';
-   		}
-   		else{
-   			$primary_parentid = '';
-   			$secondary_parentid = $request->parentid;}
-   		
-   		$age = Carbon::parse($dob)->age;
-
-   		Student::create([
-			'studentid'=>$studentid,
+   		AccountDet::create([
+			'staffid'=>$staffid,
 			'fullname'=>$fullname,
-			'gender'=>$gender,
-			'dob'=>$dob,
-			'age'=>$age	,
-			'class'=>$class,
-			'school_session'=>$school_session,
-			'height'=>$height,
-			'weight'=>$weight,
-			'bmi'=>$bmi,
-			'target_calories'=>$target_calories,
-			'primary_parentid'=>$primary_parentid,
-			'secondary_parentid'=>$secondary_parentid,
+			'billaddr1'=>$billaddr1,
+			'billaddr2'=>$billaddr2,
+			'city'=>$city,
+			'zipcode'=>$zipcode,
+			'state'=>$state,
+			'country'=>$country,
+			'bankname'=>$cardtype,
+			'banknum'=>$cardnum,
+			'defaultpay'=>$defaultpay,
 		]);
-		$message = "New Student added";
-		return view('user.home', compact('message'));
+		$message = "New Account Details added";
+		return view('staff.dashboard', compact('message'));
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
-	public function viewstudent(){
+	public function viewmenusinit(){
 		if (!Auth::guard('staff')) {
 			Session::flash('message', trans('errors.session_label'));
 		  	Session::flash('type', 'warning');
 		  	return redirect()->route('');
 		}
 		else {
-			$stud = Student::where('primary_parentid', Auth::user()->id)->orwhere('secondary_parentid', Auth::user()->id)->get();
-			//dd($stud, empty($stud), compact('stud'));
-	      	return view('user.viewstudent', compact('stud'));
+			$menu = Menus::whereNotNull('staffid')->get();
+	      	return view('staff.viewmenus', compact('menu'));
 	    }
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
-	//Update Student data in database
-	public function editstudentinit(Request $request){
+	public function takemenusinit(){
 		if (!Auth::guard('staff')) {
 			Session::flash('message', trans('errors.session_label'));
 		  	Session::flash('type', 'warning');
 		  	return redirect()->route('');
 		}
 		else {
-			$id = $request->id;
-			$updata = array('updata'=>Student::where('id', $id)->first());
-			//dd($updata);
-      		return view('user.editstudent', compact('updata'));
-      	}
-	}
-   	public function editstudentProc(Request $request){
-   		$id = $request->id;
-   		$studentid = $request->studentid;
-   		$fullname = $request->fullname;
-   		$gender = $request->gender;
-   		$dob = $request->dob;
-   		$class = $request->class;
-   		$school_session = $request->school_session;
-   		$height = $request->height;
-   		$weight = $request->weight;
-   		$bmi = $request->bmi;
-   		$target_calories = $request->target_calories;
-   		$primary = $request->primary;
-
-   		if($primary == 'true'){
-   			$primary_parentid = $request->parentid;
-   			$secondary_parentid = '';
-   		}
-   		else{
-   			$primary_parentid = '';
-   			$secondary_parentid = $request->parentid;}
-   		
-   		$age = Carbon::parse($dob)->age;
-
-   		Student::where('id', $id)->update([
-			'studentid'=>$studentid,
-			'fullname'=>$fullname,
-			'gender'=>$gender,
-			'dob'=>$dob,
-			'age'=>$age	,
-			'class'=>$class,
-			'school_session'=>$school_session,
-			'height'=>$height,
-			'weight'=>$weight,
-			'bmi'=>$bmi,
-			'target_calories'=>$target_calories,
-			'primary_parentid'=>$primary_parentid,
-			'secondary_parentid'=>$secondary_parentid,
-		]);
-		
-		$message = "Student Data Updated";
-		return view('user.home', compact('message'));
+			$menuid = $request->menuid;
+			$menu = Menus::find($id)->first();
+	      	return view('staff.confirmmenus', compact('menu', 'menu'));
+	    }
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
-	//Delete Student data in database
-	public function deletestudentProc(Request $request){
+   	public function takemenusProc(Request $request){
+   		$menuid = $request->menuid;
+   		$staffid = $request->staffid;
+
+   		$menusdet = Menus::where('', $menuid)->update([
+   			'staffid' => $staffid
+   		]);
+   		$message = "Menus Successfully Updated";
+			return view('staff.dashboard', compact('message'));
+	}
+//---------------------------------------------------------------------------------------------------------------------------------------------//
+	public function cancelmenusProc(Request $request){
 		if (!Auth::guard('staff')) {
 			Session::flash('message', trans('errors.session_label'));
 		  	Session::flash('type', 'warning');
 		  	return redirect()->route('');
 		}
 		else {
-			$id = $request->id;
-			Student::find($id)->delete();
-			$message = "Student Data Deleted";
-			return view('user.home', compact('message'));
+			$menuid = $request->menuid;
+			$menusdet = Menus::where('id', $menuid)->update([
+	   			'staffid' => ''
+	   		]);
+			$message = "Orders Cancelled";
+			return view('staff.dashboard', compact('message'));
 		}
 	}
+//---------------------------------------------------------------------------------------------------------------------------------------------//
+	 //Store student data in database
+	public function redeeminit(){
+		if (!Auth::guard('admin')) {
+			Session::flash('message', trans('errors.session_label'));
+		  	Session::flash('type', 'warning');
+		  	return redirect()->route('');
+		}
+		else {return view('staff.redeem');}
+	}
+//---------------------------------------------------------------------------------------------------------------------------------------------//
+   	public function redeemProc(Request $request){
+   		$studentid = $request->studentid;
+
+   		$ordersdet = Orders::where('studentid', $studentid)->get();
+
+   		foreach ($ordersdet as $orders) {
+   			$menusdet  = Menus::where('id', $orders['menuid'])->first();
+   			if($menusdet->staffid == Auth::guard('staff')->user()->id){
+   				$ordersd = Orders::where('id', $ordersdet['id'])->update([
+   					'redeemstatus'=>'REDEEMED',
+   					'redeemdate'=>Carbon::now(),
+   				]);
+   			}
+   		}
+		$message = "Orders Redeemed";
+		return view('staff.dashboard', compact('message'));
+	}
+//---------------------------------------------------------------------------------------------------------------------------------------------//
+	public function listordersinit(){
+		if (!Auth::guard('staff')) {
+			Session::flash('message', trans('errors.session_label'));
+		  	Session::flash('type', 'warning');
+		  	return redirect()->route('');
+		}
+		else {
+			$menus = Menus::where('staffid', Auth::guard('staff')->user()->id)->get();
+
+			foreach ($menus as $menu) {
+				$orders[] = Orders::where('menuid', $menu['id'])->get();
+				$totalqty = array_sum($orders['menuqty']);
+			}
+
+	      	return view('user.listorders', compact('orders'));
+	    }
+	}
+//---------------------------------------------------------------------------------------------------------------------------------------------//
+	public function viewordersinit(Request $request){
+		if (!Auth::guard('staff')) {
+			Session::flash('message', trans('errors.session_label'));
+		  	Session::flash('type', 'warning');
+		  	return redirect()->route('');
+		}
+		else {
+			$orderid = $request->orderid;
+			$orders = Transaction::where('orderid', $orderid)->get();
+	      	return view('user.viewtrans', compact('trans'));
+	    }
+	}
+//---------------------------------------------------------------------------------------------------------------------------------------------//
+
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 }

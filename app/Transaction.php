@@ -8,12 +8,12 @@ class Transaction extends Model
 {
     protected $table = 'transaction';
 	protected $fillable = [
-		'menu_id',
-		'parentuid',
-		'order_id', 
-		'tx_status', 
-		'tx_reference', 
-		'tx_amount',
+		'menuid',
+		'parentid',
+		'orderid', 
+		'txstatus', 
+		'txreference', 
+		'txamount',
 		'txid', 
 		];
 }

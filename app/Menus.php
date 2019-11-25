@@ -8,13 +8,14 @@ class Menus extends Model
 {
     protected $table = 'menus';
 	protected $fillable = [
-		'name',
-		'desc',
-		'type', 
-		'allergy_id', 
+		'menuname',
+		'menudesc',
+		'menutype', 
+		'allergyid', 
 		'stock', 
-		'price', 
-		'calories',
-		'staffuid',
+		'menuprice', 
+		'menucalories',
+		'menupic',
+		'staffid',
 		];
 }

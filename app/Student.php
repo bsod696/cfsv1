@@ -20,7 +20,7 @@ class Student extends Model
 		'height',
 		'weight',
 		'bmi',
-		'target_calories',
+		'targetcalories',
 		'allergies',
 		];
 }

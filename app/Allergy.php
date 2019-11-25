@@ -9,6 +9,6 @@ class Allergy extends Model
     protected $table = 'allergy';
 	protected $fillable = [
 		'allergies',
-		'childuid',
+		'studentid',
 		];
 }
