@@ -61,7 +61,7 @@
 
                                 @if ($errors->has('phonenum'))
                                     <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('phonenum') }}</strong>
+                                        <strong>The mobile number must be more than 10 characters long, should only contain numeric character</strong>
                                     </span>
                                 @endif
                             </div>
@@ -75,7 +75,7 @@
 
                                 @if ($errors->has('password'))
                                     <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('password') }}</strong>
+                                        <strong>The password must be more than 8 characters long, should contain at-least 1 Uppercase, 1 Lowercase, 1 Numeric</strong>
                                     </span>
                                 @endif
                             </div>

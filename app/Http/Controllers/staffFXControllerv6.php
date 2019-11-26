@@ -77,7 +77,7 @@ use AuthenticatesUsers;
 			'defaultpay'=>$defaultpay,
 		]);
 		$message = "New Account Details added";
-		return view('staff.dashboard', compact('message'));
+		return redirect('staff/dashboard')->with('status', $message);
 	}
 
 
@@ -117,7 +117,7 @@ use AuthenticatesUsers;
    			'staffid' => $staffid
    		]);
    		$message = "Menus Successfully Updated";
-			return view('staff.dashboard', compact('message'));
+		return redirect('staff/dashboard')->with('status', $message);
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 	public function cancelmenusProc(Request $request){
@@ -132,7 +132,7 @@ use AuthenticatesUsers;
 	   			'staffid' => ''
 	   		]);
 			$message = "Orders Cancelled";
-			return view('staff.dashboard', compact('message'));
+			return redirect('staff/dashboard')->with('status', $message);
 		}
 	}
 
@@ -199,7 +199,7 @@ use AuthenticatesUsers;
    			}
    		}
 		$message = "Orders Redeemed";
-		return view('staff.dashboard', compact('message'));
+		return redirect('staff/dashboard')->with('status', $message);
 	}
 
 //---------------------------------------------------------------------------------------------------------------------------------------------//

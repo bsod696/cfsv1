@@ -92,7 +92,7 @@ use AuthenticatesUsers;
 			'secondary_parentid'=>$secondary_parentid,
 		]);
 		$message = "New Student added";
-		return view('admin.dashboard', compact('message'));
+		return redirect('admin/dashboard')->with('status', $message);
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 	public function viewstudent(){
@@ -161,7 +161,7 @@ use AuthenticatesUsers;
 		]);
 		
 		$message = "Student Data Updated";
-		return view('admin.dashboard', compact('message'));
+		return redirect('admin/dashboard')->with('status', $message);
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 	//Delete Student data in database
@@ -175,7 +175,7 @@ use AuthenticatesUsers;
 			$id = $request->id;
 			Student::find($id)->delete();
 			$message = "Student Data Deleted";
-			return view('admin.dashboard', compact('message'));
+			return redirect('admin/dashboard')->with('status', $message);
 		}
 	}
 
@@ -229,7 +229,7 @@ use AuthenticatesUsers;
 			'defaultpay'=>$payflag,
 		]);
 		$message = "Payment Details added";
-		return view('admin.dashboard', compact('message'));
+		return redirect('admin/dashboard')->with('status', $message);
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 	public function viewpayment(){
@@ -293,7 +293,7 @@ use AuthenticatesUsers;
 			'defaultpay'=>$payflag,
 		]);
 		$message = "Payment Details Updated";
-		return view('admin.dashboard', compact('message'));
+		return redirect('admin/dashboard')->with('status', $message);
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 	//Delete Payment data in database
@@ -307,7 +307,7 @@ use AuthenticatesUsers;
 			$id = $request->id;
 			PaymentDet::find($id)->delete();
 			$message = "Payment Data Deleted";
-			return view('admin.dashboard', compact('message'));
+			return redirect('admin/dashboard')->with('status', $message);
 		}
 	}
 
@@ -357,7 +357,7 @@ use AuthenticatesUsers;
 		]);
 
 		$message = "Orders added";
-		return view('admin.dashboard', compact('message'));
+		return redirect('admin/dashboard')->with('status', $message);
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 	public function vieworderinit(){
@@ -400,7 +400,7 @@ use AuthenticatesUsers;
 		]);
 		
 		$message = "Orders Updated";
-		return view('admin.dashboard', compact('message'));
+		return redirect('admin/dashboard')->with('status', $message);
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 	public function payorderinit(){
@@ -445,11 +445,11 @@ use AuthenticatesUsers;
 			]);
 
 			$message = "Orders Successfully Paid";
-			return view('admin.dashboard', compact('message'));
+			return redirect('admin/dashboard')->with('status', $message);
    		}
    		else {
    			$message = "No Default Payment Added";
-			return view('admin.dashboard', compact('message'));
+			return redirect('admin/dashboard')->with('status', $message);
    		}
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
@@ -463,7 +463,7 @@ use AuthenticatesUsers;
 			$id = $request->id;
 			Orders::find($id)->delete();
 			$message = "Orders Data Deleted";
-			return view('admin.dashboard', compact('message'));
+			return redirect('admin/dashboard')->with('status', $message);
 		}
 	}
 
@@ -569,7 +569,7 @@ use AuthenticatesUsers;
 	            'allergyid'=>serialize($allcomp),
 	        ]);
 	        $message = "New Menu added";
-	        return view('admin.dashboard', compact('message'));
+	        return redirect('admin/dashboard')->with('status', $message);
 
         }
         else{
@@ -578,7 +578,7 @@ use AuthenticatesUsers;
 			    		Food Picture File Name: ".$foodpic->getClientOriginalName().". 
 			    		Expected: image.
 			    	";
-			return view('admin.dashboard', compact('message'));
+			return redirect('admin/dashboard')->with('status', $message);
         }
     }
 //---------------------------------------------------------------------------------------------------------------------------------------------//
@@ -647,7 +647,7 @@ use AuthenticatesUsers;
 	            'allergyid'=>serialize($allcomp),
 	        ]);
 	        $message = "Menu Updated";
-	        return view('admin.dashboard', compact('message'));
+	        return redirect('admin/dashboard')->with('status', $message);
 
         }
         else{
@@ -656,7 +656,7 @@ use AuthenticatesUsers;
 			    		Food Picture File Name: ".$foodpic->getClientOriginalName().". 
 			    		Expected: image.
 			    	";
-			return view('admin.dashboard', compact('message'));
+			return redirect('admin/dashboard')->with('status', $message);
         }
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
@@ -671,7 +671,7 @@ use AuthenticatesUsers;
 			$id = $request->id;
 			Menus::find($id)->delete();
 			$message = "Menu Data Deleted";
-			return view('admin.dashboard', compact('message'));
+			return redirect('admin/dashboard')->with('status', $message);
 		}
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//

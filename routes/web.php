@@ -22,6 +22,11 @@ Route::prefix('user')->group(function() {
    	Route::post('/login', 'Auth\LoginController@login')->name('user.login.submit');
 	Route::get('/home', 'userFXControllerv6@index')->name('user.home');
 	Route::post('/logout', 'Auth\LoginController@logout')->name('user.logout');
+	
+	Route::post('/password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+    Route::get('/password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+    Route::post('/password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
+    Route::get('/password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 
 	//STUDENT
 	Route::get('/storestudent','userFXControllerv6@storestudentinit');
@@ -74,6 +79,11 @@ Route::prefix('admin')->group(function() {
    	Route::post('/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
 	Route::get('/dashboard', 'adminFXControllerv6@index')->name('admin.dashboard');
 	Route::post('/logout', 'Auth\AdminLoginController@logout')->name('admin.logout');
+
+	Route::post('/password/email', 'Auth\AdminForgotPasswordController@sendResetLinkEmail')->name('password.email');
+    Route::get('/password/reset', 'Auth\AdminForgotPasswordController@showLinkRequestForm')->name('password.request');
+    Route::post('/password/reset', 'Auth\AdminResetPasswordController@reset')->name('password.update');
+    Route::get('/password/reset/{token}', 'Auth\AdminResetPasswordController@showResetForm')->name('password.reset');
 
 	//STUDENT
 	Route::get('/storestudent','adminFXControllerv6@storestudentinit');
@@ -131,4 +141,9 @@ Route::prefix('staff')->group(function() {
    	Route::post('/login', 'Auth\StaffLoginController@login')->name('staff.login.submit');
 	Route::get('/dashboard', 'staffFXControllerv6@index')->name('staff.dashboard');
 	Route::post('/logout', 'Auth\StaffLoginController@logout')->name('staff.logout');
+
+	Route::post('/password/email', 'Auth\StaffForgotPasswordController@sendResetLinkEmail')->name('password.email');
+    Route::get('/password/reset', 'Auth\StaffForgotPasswordController@showLinkRequestForm')->name('password.request');
+    Route::post('/password/reset', 'Auth\StaffResetPasswordController@reset')->name('password.update');
+    Route::get('/password/reset/{token}', 'Auth\StaffResetPasswordController@showResetForm')->name('password.reset');
 });

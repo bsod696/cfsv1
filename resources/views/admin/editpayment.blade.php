@@ -57,7 +57,7 @@
                             <label for="cvvnum" class="col-md-4 col-form-label text-md-right">{{ __('CVV Number') }}</label>
 
                             <div class="col-md-6">
-                                <input id="cvvnum" type="text" class="form-control @error('cvvnum') is-invalid @enderror" name="cvvnum" value="{{ $u->cvvnum }}" required autocomplete="cvvnum" autofocus>
+                                <input id="cvvnum" type="text" maxlength="3" class="form-control @error('cvvnum') is-invalid @enderror" name="cvvnum" value="{{ $u->cvvnum }}" required autocomplete="cvvnum" autofocus>
 
                                 @error('cvvnum')
                                     <span class="invalid-feedback" role="alert">
@@ -156,7 +156,7 @@
                             <label for="zipcode" class="col-md-4 col-form-label text-md-right">{{ __('Zipcode') }}</label>
 
                             <div class="col-md-6">
-                                <input id="zipcode" type="text" class="form-control @error('zipcode') is-invalid @enderror" name="zipcode" value="{{ $u->zipcode }}" required autocomplete="zipcode" autofocus>
+                                <input id="zipcode" type="text" maxlength="5" class="form-control @error('zipcode') is-invalid @enderror" name="zipcode" value="{{ $u->zipcode }}" required autocomplete="zipcode" autofocus>
 
                                 @error('zipcode')
                                     <span class="invalid-feedback" role="alert">

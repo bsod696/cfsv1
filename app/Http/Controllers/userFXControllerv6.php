@@ -152,15 +152,8 @@ use AuthenticatesUsers;
    		else{
    			$primary_parentid = '';
    			$secondary_parentid = $request->parentid;}
-   		
-   		$age = Carbon::parse($dob)->age;
 
    		Student::where('id', $id)->update([
-			'studentid'=>$studentid,
-			'fullname'=>$fullname,
-			'gender'=>$gender,
-			'dob'=>$dob,
-			'age'=>$age	,
 			'class'=>$class,
 			'school_session'=>$school_session,
 			'height'=>$height,
@@ -173,7 +166,7 @@ use AuthenticatesUsers;
 		]);
 		
 		$message = "Student Updated";
-		return view('user.home', compact('message'));
+		return redirect('user/home')->with('status', $message);
 	}
 
 
@@ -227,7 +220,7 @@ use AuthenticatesUsers;
 			'defaultpay'=>$payflag,
 		]);
 		$message = "Payment Details added";
-		return view('user.home', compact('message'));
+		return redirect('user/home')->with('status', $message);
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 	public function viewpayment(){
@@ -291,7 +284,7 @@ use AuthenticatesUsers;
 			'defaultpay'=>$payflag,
 		]);
 		$message = "Payment Details Updated";
-		return view('user.home', compact('message'));
+		return redirect('user/home')->with('status', $message);
 	}
 
 
@@ -340,7 +333,7 @@ use AuthenticatesUsers;
 		]);
 
 		$message = "Orders added";
-		return view('user.home', compact('message'));
+		return redirect('user/home')->with('status', $message);
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 	public function vieworderinit(){
@@ -383,7 +376,7 @@ use AuthenticatesUsers;
 		]);
 		
 		$message = "Orders Updated";
-		return view('user.home', compact('message'));
+		return redirect('user/home')->with('status', $message);
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 	public function payorderinit(){
@@ -428,11 +421,11 @@ use AuthenticatesUsers;
 			]);
 
 			$message = "Orders Successfully Paid";
-			return view('user.home', compact('message'));
+			return redirect('user/home')->with('status', $message);
    		}
    		else {
    			$message = "No Default Payment Added";
-			return view('user.home', compact('message'));
+			return redirect('user/home')->with('status', $message);
    		}
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
@@ -446,7 +439,7 @@ use AuthenticatesUsers;
 			$id = $request->id;
 			Orders::find($id)->delete();
 			$message = "Orders Data Deleted";
-			return view('user.home', compact('message'));
+			return redirect('user/home')->with('status', $message);
 		}
 	}
 

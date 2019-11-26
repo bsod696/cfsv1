@@ -90,8 +90,8 @@ class StaffRegisterController extends Controller
             'username' => ['required', 'string', 'max:255', 'unique:staffs'],
             'fullname' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:staffs'],
-            'password' => ['required', 'string', 'min:6', 'confirmed'],
-            'phonenum' => ['required', 'string', 'min:10']
+            'password' => ['required', 'min:8', 'regex:/[a-z]/', 'regex:/[A-Z]/', 'regex:/[0-9]/', 'confirmed'],
+            'phonenum' => ['required', 'min:10', 'regex:/(01)[0-9]/']
         ]);
     }
 

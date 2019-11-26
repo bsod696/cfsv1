@@ -13,6 +13,11 @@
                             {{ session('status') }}
                         </div>
                     @endif
+                    @if (!empty($message))
+                        <div class="alert alert-success" role="alert">
+                            {{ $message }}
+                        </div>
+                    @endif
                     <p>Student Management</p>
                     <a href="{{url('/user/storestudent')}}">Add Student</a>
                     <br>

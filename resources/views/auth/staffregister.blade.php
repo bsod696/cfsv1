@@ -57,13 +57,13 @@
                             <label for="phonenum" class="col-md-4 col-form-label text-md-right">{{ __('Mobile Number') }}</label>
 
                             <div class="col-md-6">
-                                <input id="phonenum" type="text" class="form-control @error('phonenum') is-invalid @enderror" name="phonenum" value="{{ old('phonenum') }}" required autocomplete="phonenum" autofocus>
+                                <input id="phonenum" type="text" class="form-control{{ $errors->has('phonenum') ? ' is-invalid' : '' }}" name="phonenum" value="{{ old('phonenum') }}" required autofocus>
 
-                                @error('phonenum')
+                                @if ($errors->has('phonenum'))
                                     <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
+                                        <strong>The mobile number must be more than 10 characters long, should only contain numeric character</strong>
                                     </span>
-                                @enderror
+                                @endif
                             </div>
                         </div>
 
@@ -71,13 +71,13 @@
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+                                <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
 
-                                @error('password')
+                                @if ($errors->has('password'))
                                     <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
+                                        <strong>The password must be more than 8 characters long, should contain at-least 1 Uppercase, 1 Lowercase, 1 Numeric</strong>
                                     </span>
-                                @enderror
+                                @endif
                             </div>
                         </div>
 
