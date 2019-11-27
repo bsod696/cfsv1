@@ -17,6 +17,8 @@ use App\Menus;
 use App\Orders;
 use App\Transaction;
 use App\PaymentDet;
+use App\Years;
+use App\Months;
 
 class userFXControllerv6 extends Controller
 {
@@ -204,23 +206,51 @@ use AuthenticatesUsers;
    		if($defaultpay == 'on'){$payflag = 'Y';}
    		else{$payflag = 'N';}
 
-   		PaymentDet::create([
-			'parentid'=>$parentid,
-			'fullname'=>$fullname,
-			'billaddr1'=>$billaddr1,
-			'billaddr2'=>$billaddr2,
-			'city'=>$city,
-			'zipcode'=>$zipcode,
-			'state'=>$state,
-			'country'=>$country,
-			'cardtype'=>$cardtype,
-			'cardnum'=>$cardnum,
-			'cvvnum'=>$cvvnum,
-			'expdate'=>$expdate,
-			'defaultpay'=>$payflag,
-		]);
-		$message = "Payment Details added";
-		return redirect('user/home')->with('status', $message);
+   		if($payflag == 'Y'){
+   			$parentpaycheck = PaymentDet::where('parentid', $parentid)->where('defaultpay', 'Y')->count();
+   			if($parentpaycheck < 1){
+   				PaymentDet::create([
+					'parentid'=>$parentid,
+					'fullname'=>$fullname,
+					'billaddr1'=>$billaddr1,
+					'billaddr2'=>$billaddr2,
+					'city'=>$city,
+					'zipcode'=>$zipcode,
+					'state'=>$state,
+					'country'=>$country,
+					'cardtype'=>$cardtype,
+					'cardnum'=>$cardnum,
+					'cvvnum'=>$cvvnum,
+					'expdate'=>$expdate,
+					'defaultpay'=>$payflag,
+				]);
+				$message = "Payment Details Added";
+				return redirect('user/home')->with('status', $message);
+   			}
+   			else {
+	   			$message = "Only ONE card can be default at a time";
+				return redirect('user/home')->with('status', $message);
+	   		}	
+   		}
+   		else {
+   			PaymentDet::create([
+				'parentid'=>$parentid,
+				'fullname'=>$fullname,
+				'billaddr1'=>$billaddr1,
+				'billaddr2'=>$billaddr2,
+				'city'=>$city,
+				'zipcode'=>$zipcode,
+				'state'=>$state,
+				'country'=>$country,
+				'cardtype'=>$cardtype,
+				'cardnum'=>$cardnum,
+				'cvvnum'=>$cvvnum,
+				'expdate'=>$expdate,
+				'defaultpay'=>$payflag,
+			]);
+			$message = "Payment Details Added";
+			return redirect('user/home')->with('status', $message);
+   		}
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 	public function viewpayment(){
@@ -244,7 +274,11 @@ use AuthenticatesUsers;
 		}
 		else {
 			$id = $request->id;
-			$updata = array('updata'=>PaymentDet::where('id', $id)->first());
+			// $years = Years::all();
+			// $months = Months::all();
+			// $updata = array('updata'=>PaymentDet::where('id', $id)->first());
+   //    		return view('user.editpayment', compact('years', 'months', 'updata'));
+      		$updata = array('updata'=>PaymentDet::where('id', $id)->first());
       		return view('user.editpayment', compact('updata'));
 		}
 	}
@@ -268,23 +302,53 @@ use AuthenticatesUsers;
    		if($defaultpay == 'defaultpay'){$payflag = 'Y';}
    		else{$payflag = 'N';}
 
-   		PaymentDet::where('id', $id)->update([
-			'parentid'=>$parentid,
-			'fullname'=>$fullname,
-			'billaddr1'=>$billaddr1,
-			'billaddr2'=>$billaddr2,
-			'city'=>$city,
-			'zipcode'=>$zipcode,
-			'state'=>$state,
-			'country'=>$country,
-			'cardtype'=>$cardtype,
-			'cardnum'=>$cardnum,
-			'cvvnum'=>$cvvnum,
-			'expdate'=>$expdate,
-			'defaultpay'=>$payflag,
-		]);
-		$message = "Payment Details Updated";
-		return redirect('user/home')->with('status', $message);
+   		
+
+   		if($payflag == 'Y'){
+   			$parentpaycheck = PaymentDet::where('parentid', $parentid)->where('defaultpay', 'Y')->count();
+   			if($parentpaycheck < 1){
+   				PaymentDet::where('id', $id)->update([
+					'parentid'=>$parentid,
+					'fullname'=>$fullname,
+					'billaddr1'=>$billaddr1,
+					'billaddr2'=>$billaddr2,
+					'city'=>$city,
+					'zipcode'=>$zipcode,
+					'state'=>$state,
+					'country'=>$country,
+					'cardtype'=>$cardtype,
+					'cardnum'=>$cardnum,
+					'cvvnum'=>$cvvnum,
+					'expdate'=>$expdate,
+					'defaultpay'=>$payflag,
+				]);
+				$message = "Payment Details Updated";
+				return redirect('user/home')->with('status', $message);
+   			}
+   			else {
+	   			$message = "Only ONE card can be default at a time";
+				return redirect('user/home')->with('status', $message);
+	   		}	
+   		}
+   		else {
+   			PaymentDet::where('id', $id)->update([
+				'parentid'=>$parentid,
+				'fullname'=>$fullname,
+				'billaddr1'=>$billaddr1,
+				'billaddr2'=>$billaddr2,
+				'city'=>$city,
+				'zipcode'=>$zipcode,
+				'state'=>$state,
+				'country'=>$country,
+				'cardtype'=>$cardtype,
+				'cardnum'=>$cardnum,
+				'cvvnum'=>$cvvnum,
+				'expdate'=>$expdate,
+				'defaultpay'=>$payflag,
+			]);
+			$message = "Payment Details Updated";
+			return redirect('user/home')->with('status', $message);
+   		}	
 	}
 
 

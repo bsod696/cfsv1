@@ -24,6 +24,7 @@
                                 <tr>
                                 @if(!empty($trans))
                                 <th><center>Transaction ID</center></th>
+                                <th><center>Parent ID</center></th>
                                 <th><center>Amount</center></th>
                                 <th><center>Reference</center></th>
                                 <th><center>Status</center></th>
@@ -32,6 +33,7 @@
                         @foreach($trans as $t)
                                 <tr>
                                 <td><center>{{$t->txid}}</center></td>
+                                <td><center>{{$t->parentid}}</center></td>
                                 <td><center>RM {{$t->txamount}}</center></td>
                                 <td><center>{{$t->txreference}}</center></td>
                                 <td><center>{{ strtoupper($t->txstatus) }}</center></td>

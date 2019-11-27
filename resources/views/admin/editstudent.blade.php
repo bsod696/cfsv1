@@ -21,7 +21,7 @@
                         <button type="submit" name="submit" class="btn btn-primary">{{ __('Delete Student') }}</button>
                     </form>
 
-                    <form method="POST" action="{{ route('user.submit.editstudent') }}">
+                    <form method="POST" action="{{ route('admin.submit.editstudent') }}">
                         @csrf
 
                         <div class="form-group row">
@@ -208,7 +208,7 @@
                                 </div>
 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ unserialize($u->allergies)['tree nuts'] == true ? 'checked' : '' }} value="treenuts">
+                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ unserialize($u->allergies)['treenuts'] == true ? 'checked' : '' }} value="treenuts">
 
                                     <label class="form-check-label" for="treenuts">
                                         {{ __('Tree Nuts') }}
@@ -247,6 +247,14 @@
                                     </label>
                                 </div>
 
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ unserialize($u->allergies)['noallergy'] == true ? 'checked' : '' }} value="noallergy">
+
+                                    <label class="form-check-label" for="noallergy">
+                                        {{ __('No Allergies') }}
+                                    </label>
+                                </div>
+
                             </div>
                         </div>
 
@@ -271,7 +279,8 @@
                                 @endif
                             </div>
                         </div>
-                        <input id="parentid" type="text" class="form-control @error('parentid') is-invalid @enderror" name="parentid" value="ADMIN_{{ Auth::guard('admin')->user()->id }}" readonly hidden>
+                        <input id="primary_parentid" type="text" class="form-control @error('primary_parentid') is-invalid @enderror" name="primary_parentid" value="{{ $u->primary_parentid }}" readonly hidden>
+                        <input id="secondary_parentid" type="text" class="form-control @error('secondary_parentid') is-invalid @enderror" name="secondary_parentid" value="{{ $u->secondary_parentid }}" readonly hidden>
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">

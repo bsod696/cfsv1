@@ -18,9 +18,22 @@
                         @csrf
                         <input id="id" type="text" class="form-control{{ $errors->has('id') ? ' is-invalid' : '' }}" name="id"  value="{{ $u->id }}" hidden />
                         <input id="parentid" type="text" class="form-control @error('parentid') is-invalid @enderror" name="parentid" value="{{ $u->parentid }}" readonly hidden>
-                        <input id="fullname" type="text" class="form-control @error('fullname') is-invalid @enderror" name="fullname" value="{{ $u->fullname }}" readonly hidden>
 
                         <p><b>Credit Card Info</b></p>
+                        <div class="form-group row">
+                            <label for="fullname" class="col-md-4 col-form-label text-md-right">{{ __('Full Name') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="fullname" type="text" class="form-control @error('fullname') is-invalid @enderror" name="fullname" value="{{ $u->fullname }}" required autocomplete="fullname" autofocus>
+
+                                @error('fullname')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
                         <div class="form-group row">
                             <label for="cardtype" class="col-md-4 col-form-label text-md-right">{{ __('Credit Card Type') }}</label>
 

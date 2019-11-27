@@ -18,6 +18,7 @@
                         <div class="form-group row mb-0">
                             <div class="col-md-12 offset-md-0">
                                 @foreach($trans as $t)
+                                    <p> Parent Reference: {{ $t->parentid }} </p>
                                     <p> Menu Reference: {{ $t->menuid }} </p>
                                     <p> Order Reference : {{ $t->orderid }}  </p>
                                     <p> Transaction Status : {{ strtoupper($t->txstatus) }}  </p>

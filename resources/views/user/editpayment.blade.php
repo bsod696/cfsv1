@@ -13,9 +13,23 @@
                         @csrf
                         <input id="id" type="text" class="form-control{{ $errors->has('id') ? ' is-invalid' : '' }}" name="id"  value="{{ $u->id }}" hidden />
                         <input id="parentid" type="text" class="form-control @error('parentid') is-invalid @enderror" name="parentid" value="{{ $u->parentid }}" readonly hidden>
-                        <input id="fullname" type="text" class="form-control @error('fullname') is-invalid @enderror" name="fullname" value="{{ $u->fullname }}" readonly hidden>
+                        <input id="parentid" type="text" class="form-control @error('parentid') is-invalid @enderror" name="parentid" value="{{ $u->parentid }}" readonly hidden>
 
                         <p><b>Credit Card Info</b></p>
+                        <div class="form-group row">
+                            <label for="fullname" class="col-md-4 col-form-label text-md-right">{{ __('Full Name') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="fullname" type="text" class="form-control @error('fullname') is-invalid @enderror" name="fullname" value="{{ $u->fullname }}" required autocomplete="fullname" autofocus>
+
+                                @error('fullname')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                        
                         <div class="form-group row">
                             <label for="cardtype" class="col-md-4 col-form-label text-md-right">{{ __('Credit Card Type') }}</label>
 
@@ -67,7 +81,7 @@
 
                             <div class="col-md-6">  
                                 <select name='expireMM' id='expireMM' class="form-control{{ $errors->has('cardtype') ? ' is-invalid' : '' }}" required autofocus>
-                                    <!-- <option value='{{ explode("/",$u->expdate)[0] }}'>{{ explode("/",$u->expdate)[0] }}</option> -->
+                                    
                                     <option value=''>Month</option>
                                     <option value='01'>January</option>
                                     <option value='02'>February</option>
@@ -83,7 +97,7 @@
                                     <option value='12'>December</option>
                                 </select> 
                                 <select name='expireYY' id='expireYY' class="form-control{{ $errors->has('cardtype') ? ' is-invalid' : '' }}" required autofocus onchange="showEXP()">
-                                    <!-- <option value='{{ explode("/",$u->expdate)[1] }}'>{{ explode("/",$u->expdate)[1] }}</option> -->
+                                    
                                     <option value=''>Year</option>
                                     <option value='19'>2019</option>
                                     <option value='20'>2020</option>

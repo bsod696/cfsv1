@@ -65,6 +65,17 @@ use AuthenticatesUsers;
    		$bmi = $request->bmi;
    		$target_calories = $request->target_calories;
    		$primary = $request->primary;
+   		$allergy = $request->allergy;
+
+   		$allallergy = Allergy::all();
+   		foreach ($allallergy as $allall) {
+   			$allergytype[] = $allall['allergies'];
+   		}
+   		foreach ($allergytype as $type) {
+   			if(in_array($type, $allergy)){$value = true;}
+   			else{$value = false;}
+			$allcomp[$type]=$value;
+   		}
 
    		if($primary == 'true'){
    			$primary_parentid = $request->parentid;
@@ -88,6 +99,7 @@ use AuthenticatesUsers;
 			'weight'=>$weight,
 			'bmi'=>$bmi,
 			'target_calories'=>$target_calories,
+			'allergies'=>serialize($allcomp), //unserialize  = string array to array
 			'primary_parentid'=>$primary_parentid,
 			'secondary_parentid'=>$secondary_parentid,
 		]);
@@ -133,14 +145,20 @@ use AuthenticatesUsers;
    		$bmi = $request->bmi;
    		$target_calories = $request->target_calories;
    		$primary = $request->primary;
+   		$allergy = $request->allergy;
 
-   		if($primary == 'true'){
-   			$primary_parentid = $request->parentid;
-   			$secondary_parentid = '';
+   		$allallergy = Allergy::all();
+   		foreach ($allallergy as $allall) {
+   			$allergytype[] = $allall['allergies'];
    		}
-   		else{
-   			$primary_parentid = '';
-   			$secondary_parentid = $request->parentid;}
+   		foreach ($allergytype as $type) {
+   			if(in_array($type, $allergy)){$value = true;}
+   			else{$value = false;}
+			$allcomp[$type]=$value;
+   		}
+
+   		$primary_parentid = $request->primary_parentid;
+   		$secondary_parentid = $request->secondary_parentid;
    		
    		$age = Carbon::parse($dob)->age;
 
@@ -156,6 +174,7 @@ use AuthenticatesUsers;
 			'weight'=>$weight,
 			'bmi'=>$bmi,
 			'target_calories'=>$target_calories,
+			'allergies'=>serialize($allcomp), //unserialize  = string array to array
 			'primary_parentid'=>$primary_parentid,
 			'secondary_parentid'=>$secondary_parentid,
 		]);
@@ -213,23 +232,51 @@ use AuthenticatesUsers;
    		if($defaultpay == 'on'){$payflag = 'Y';}
    		else{$payflag = 'N';}
 
-   		PaymentDet::create([
-			'parentid'=>$parentid,
-			'fullname'=>$fullname,
-			'billaddr1'=>$billaddr1,
-			'billaddr2'=>$billaddr2,
-			'city'=>$city,
-			'zipcode'=>$zipcode,
-			'state'=>$state,
-			'country'=>$country,
-			'cardtype'=>$cardtype,
-			'cardnum'=>$cardnum,
-			'cvvnum'=>$cvvnum,
-			'expdate'=>$expdate,
-			'defaultpay'=>$payflag,
-		]);
-		$message = "Payment Details added";
-		return redirect('admin/dashboard')->with('status', $message);
+   		if($payflag == 'Y'){
+   			$parentpaycheck = PaymentDet::where('parentid', $parentid)->where('defaultpay', 'Y')->count();
+   			if($parentpaycheck < 1){
+   				PaymentDet::create([
+					'parentid'=>$parentid,
+					'fullname'=>$fullname,
+					'billaddr1'=>$billaddr1,
+					'billaddr2'=>$billaddr2,
+					'city'=>$city,
+					'zipcode'=>$zipcode,
+					'state'=>$state,
+					'country'=>$country,
+					'cardtype'=>$cardtype,
+					'cardnum'=>$cardnum,
+					'cvvnum'=>$cvvnum,
+					'expdate'=>$expdate,
+					'defaultpay'=>$payflag,
+				]);
+				$message = "Payment Details Added";
+				return redirect('admin/dashboard')->with('status', $message);
+   			}
+   			else {
+	   			$message = "Only ONE card can be default at a time";
+				return redirect('admin/dashboard')->with('status', $message);
+	   		}	
+   		}
+   		else {
+   			PaymentDet::create([
+				'parentid'=>$parentid,
+				'fullname'=>$fullname,
+				'billaddr1'=>$billaddr1,
+				'billaddr2'=>$billaddr2,
+				'city'=>$city,
+				'zipcode'=>$zipcode,
+				'state'=>$state,
+				'country'=>$country,
+				'cardtype'=>$cardtype,
+				'cardnum'=>$cardnum,
+				'cvvnum'=>$cvvnum,
+				'expdate'=>$expdate,
+				'defaultpay'=>$payflag,
+			]);
+			$message = "Payment Details Added";
+			return redirect('admin/dashboard')->with('status', $message);
+   		}	
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 	public function viewpayment(){
@@ -277,23 +324,51 @@ use AuthenticatesUsers;
    		if($defaultpay == 'defaultpay'){$payflag = 'Y';}
    		else{$payflag = 'N';}
 
-   		PaymentDet::where('id', $id)->update([
-			'parentid'=>$parentid,
-			'fullname'=>$fullname,
-			'billaddr1'=>$billaddr1,
-			'billaddr2'=>$billaddr2,
-			'city'=>$city,
-			'zipcode'=>$zipcode,
-			'state'=>$state,
-			'country'=>$country,
-			'cardtype'=>$cardtype,
-			'cardnum'=>$cardnum,
-			'cvvnum'=>$cvvnum,
-			'expdate'=>$expdate,
-			'defaultpay'=>$payflag,
-		]);
-		$message = "Payment Details Updated";
-		return redirect('admin/dashboard')->with('status', $message);
+   		if($payflag == 'Y'){
+   			$parentpaycheck = PaymentDet::where('parentid', $parentid)->where('defaultpay', 'Y')->count();
+   			if($parentpaycheck < 1){
+   				PaymentDet::where('id', $id)->update([
+					'parentid'=>$parentid,
+					'fullname'=>$fullname,
+					'billaddr1'=>$billaddr1,
+					'billaddr2'=>$billaddr2,
+					'city'=>$city,
+					'zipcode'=>$zipcode,
+					'state'=>$state,
+					'country'=>$country,
+					'cardtype'=>$cardtype,
+					'cardnum'=>$cardnum,
+					'cvvnum'=>$cvvnum,
+					'expdate'=>$expdate,
+					'defaultpay'=>$payflag,
+				]);
+				$message = "Payment Details Updated";
+				return redirect('admin/dashboard')->with('status', $message);
+   			}
+   			else {
+	   			$message = "Only ONE card can be default at a time";
+				return redirect('admin/dashboard')->with('status', $message);
+	   		}	
+   		}
+   		else {
+   			PaymentDet::where('id', $id)->update([
+				'parentid'=>$parentid,
+				'fullname'=>$fullname,
+				'billaddr1'=>$billaddr1,
+				'billaddr2'=>$billaddr2,
+				'city'=>$city,
+				'zipcode'=>$zipcode,
+				'state'=>$state,
+				'country'=>$country,
+				'cardtype'=>$cardtype,
+				'cardnum'=>$cardnum,
+				'cvvnum'=>$cvvnum,
+				'expdate'=>$expdate,
+				'defaultpay'=>$payflag,
+			]);
+			$message = "Payment Details Updated";
+			return redirect('admin/dashboard')->with('status', $message);
+   		}	
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 	//Delete Payment data in database
@@ -537,6 +612,12 @@ use AuthenticatesUsers;
         //$request->foodpic->move(public_path('images/admin_storage'), $imageName);
         
         //$extensionfp1 = strtolower($foodpic->getClientOriginalExtension());
+
+        $request->validate(['foodpic' => 'required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048']);
+        $imageName = file_get_contents($request->foodpic); //time().'.'.file_get_contents($request->foodpic)->extension();
+        dd($imageName);
+        $request->foodpic->move(public_path('images'), $imageName);
+        //return back()->with('success','You have successfully upload image.')->with('image',$imageName);
 
         dd(
         	//$file_name,

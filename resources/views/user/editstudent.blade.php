@@ -203,7 +203,7 @@
                                 </div>
 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ unserialize($u->allergies)['tree nuts'] == true ? 'checked' : '' }} value="treenuts">
+                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ unserialize($u->allergies)['treenuts'] == true ? 'checked' : '' }} value="treenuts">
 
                                     <label class="form-check-label" for="treenuts">
                                         {{ __('Tree Nuts') }}
@@ -239,6 +239,14 @@
 
                                     <label class="form-check-label" for="fish">
                                         {{ __('Fish') }}
+                                    </label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ unserialize($u->allergies)['noallergy'] == true ? 'checked' : '' }} value="noallergy">
+
+                                    <label class="form-check-label" for="noallergy">
+                                        {{ __('No Allergies') }}
                                     </label>
                                 </div>
 

@@ -26,6 +26,8 @@
                         @foreach($pay as $s)
                                 <tr>
                                 <td>
+                                        <b>Full Name : </b>{{$s->fullname}}
+                                        <br>
                                         <b>Card Number : </b>{{$s->cardnum}}
                                         <br>
                                         <b>Card Type : </b>{{strtoupper($s->cardtype)}}

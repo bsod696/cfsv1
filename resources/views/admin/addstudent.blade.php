@@ -237,6 +237,14 @@
                                     </label>
                                 </div>
 
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ old('allergy') ? 'checked' : '' }} value="noallergy">
+
+                                    <label class="form-check-label" for="noallergy">
+                                        {{ __('No Allergies') }}
+                                    </label>
+                                </div>
+
                             </div>
                         </div>
 
