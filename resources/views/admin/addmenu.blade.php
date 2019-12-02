@@ -8,7 +8,7 @@
                 <div class="card-header">{{ __('Add Menu') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('admin.submit.storemenu') }}">
+                    <form method="POST" action="{{ route('admin.submit.storemenu') }}" enctype="multipart/form-data">
                         @csrf
 
                         <div class="form-group row">

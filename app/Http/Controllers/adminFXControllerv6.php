@@ -67,7 +67,7 @@ use AuthenticatesUsers;
    		$primary = $request->primary;
    		$allergy = $request->allergy;
 
-   		$allallergy = Allergy::all();
+   		$allallergy = Allergy::all(); //stored procedures: select *. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:521
    		foreach ($allallergy as $allall) {
    			$allergytype[] = $allall['allergies'];
    		}
@@ -87,7 +87,7 @@ use AuthenticatesUsers;
    		
    		$age = Carbon::parse($dob)->age;
 
-   		Student::create([
+   		Student::create([ //stored procedures: create new row. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:746
 			'studentid'=>$studentid,
 			'fullname'=>$fullname,
 			'gender'=>$gender,
@@ -114,7 +114,7 @@ use AuthenticatesUsers;
 		  	return redirect()->route('');
 		}
 		else {
-			$stud = Student::all();
+			$stud = Student::all(); //stored procedures: select *. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:521
 	      	return view('admin.viewstudent', compact('stud'));
 	    }
 	}
@@ -128,7 +128,7 @@ use AuthenticatesUsers;
 		}
 		else {
 			$id = $request->id;
-			$updata = array('updata'=>Student::where('id', $id)->first());
+			$updata = array('updata'=>Student::where('id', $id)->first()); //stored procedures: select * with specific arguments. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:329
       		return view('admin.editstudent', compact('updata'));
       	}
 	}
@@ -147,7 +147,7 @@ use AuthenticatesUsers;
    		$primary = $request->primary;
    		$allergy = $request->allergy;
 
-   		$allallergy = Allergy::all();
+   		$allallergy = Allergy::all(); //stored procedures: select *. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:521
    		foreach ($allallergy as $allall) {
    			$allergytype[] = $allall['allergies'];
    		}
@@ -162,7 +162,7 @@ use AuthenticatesUsers;
    		
    		$age = Carbon::parse($dob)->age;
 
-   		Student::where('id', $id)->update([
+   		Student::where('id', $id)->update([ //stored procedures: update rows. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:772
 			'studentid'=>$studentid,
 			'fullname'=>$fullname,
 			'gender'=>$gender,
@@ -192,7 +192,7 @@ use AuthenticatesUsers;
 		}
 		else {
 			$id = $request->id;
-			Student::find($id)->delete();
+			Student::find($id)->delete(); //stored procedures: delete row. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:843
 			$message = "Student Data Deleted";
 			return redirect('admin/dashboard')->with('status', $message);
 		}
@@ -209,7 +209,7 @@ use AuthenticatesUsers;
 		  	return redirect()->route('');
 		}
 		else {
-			$updata = array('updata'=>Admin::where('id', Auth::guard('admin')->user()->id)->first());
+			$updata = array('updata'=>Admin::where('id', Auth::guard('admin')->user()->id)->first()); //stored procedures: select * with specific arguments. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:329
 			return view('admin.addpayment', compact('updata'));
 		}
 	}
@@ -235,7 +235,7 @@ use AuthenticatesUsers;
    		if($payflag == 'Y'){
    			$parentpaycheck = PaymentDet::where('parentid', $parentid)->where('defaultpay', 'Y')->count();
    			if($parentpaycheck < 1){
-   				PaymentDet::create([
+   				PaymentDet::create([  //stored procedures: create new row. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:746
 					'parentid'=>$parentid,
 					'fullname'=>$fullname,
 					'billaddr1'=>$billaddr1,
@@ -259,7 +259,7 @@ use AuthenticatesUsers;
 	   		}	
    		}
    		else {
-   			PaymentDet::create([
+   			PaymentDet::create([ //stored procedures: create new row. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:746
 				'parentid'=>$parentid,
 				'fullname'=>$fullname,
 				'billaddr1'=>$billaddr1,
@@ -286,7 +286,7 @@ use AuthenticatesUsers;
 		  	return redirect()->route('');
 		}
 		else {
-			$pay = PaymentDet::all();
+			$pay = PaymentDet::all(); //stored procedures: select *. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:521
 	      	return view('admin.viewpayment', compact('pay'));
 	    }
 	}
@@ -300,7 +300,7 @@ use AuthenticatesUsers;
 		}
 		else {
 			$id = $request->id;
-			$updata = array('updata'=>PaymentDet::where('id', $id)->first());
+			$updata = array('updata'=>PaymentDet::where('id', $id)->first()); //stored procedures: select * with specific arguments. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:329
       		return view('admin.editpayment', compact('updata'));
 		}
 	}
@@ -327,7 +327,7 @@ use AuthenticatesUsers;
    		if($payflag == 'Y'){
    			$parentpaycheck = PaymentDet::where('parentid', $parentid)->where('defaultpay', 'Y')->count();
    			if($parentpaycheck < 1){
-   				PaymentDet::where('id', $id)->update([
+   				PaymentDet::where('id', $id)->update([ //stored procedures: update rows. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:772
 					'parentid'=>$parentid,
 					'fullname'=>$fullname,
 					'billaddr1'=>$billaddr1,
@@ -351,7 +351,7 @@ use AuthenticatesUsers;
 	   		}	
    		}
    		else {
-   			PaymentDet::where('id', $id)->update([
+   			PaymentDet::where('id', $id)->update([ //stored procedures: update rows. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:772
 				'parentid'=>$parentid,
 				'fullname'=>$fullname,
 				'billaddr1'=>$billaddr1,
@@ -380,7 +380,7 @@ use AuthenticatesUsers;
 		}
 		else {
 			$id = $request->id;
-			PaymentDet::find($id)->delete();
+			PaymentDet::find($id)->delete(); //stored procedures: delete row. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:843
 			$message = "Payment Data Deleted";
 			return redirect('admin/dashboard')->with('status', $message);
 		}
@@ -397,8 +397,8 @@ use AuthenticatesUsers;
 		  	return redirect()->route('');
 		}
 		else {
-			$menu = Menus::all();
-			$stud = Student::all();
+			$menu = Menus::all(); //stored procedures: select *. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:521
+			$stud = Student::all(); //stored procedures: select *. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:521
 	      	return view('admin.menuselection', compact('menu', 'stud'));
 		}
 	}
@@ -408,15 +408,15 @@ use AuthenticatesUsers;
    		$parent_id = $request->parentid;
    		$student_id = $request->studentid;
 
-   		$stud = Student::where('studentid', $student_id)->first();
+   		$stud = Student::where('studentid', $student_id)->first(); //stored procedures: select * with specific arguments. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:329
    		$student_name = $stud->fullname;
-   		$menuselect = Menus::where('id', $menu_id)->first();
+   		$menuselect = Menus::where('id', $menu_id)->first(); //stored procedures: select * with specific arguments. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:329
    		$menuname = $menuselect->menuname;
    		$foodqty = $request->foodqty;
    		$menudate = $menuselect->created_at;
    		$price = $menuselect->menuprice;
 
-   		Orders::create([
+   		Orders::create([ //stored procedures: create new row. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:746
    			'parentid'=>$parent_id,
 			'studentid'=>$student_id,
 			'studentname'=>$student_name,
@@ -442,7 +442,7 @@ use AuthenticatesUsers;
 		  	return redirect()->route('');
 		}
 		else {
-			$orders = Orders::all();
+			$orders = Orders::all(); //stored procedures: select *. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:521
 	      	return view('admin.vieworders', compact('orders'));
 	    }
 	}
@@ -456,7 +456,7 @@ use AuthenticatesUsers;
 		}
 		else {
 			$id = $request->id;
-			$updata = array('updata'=>Orders::where('id', $id)->first());
+			$updata = array('updata'=>Orders::where('id', $id)->first()); //stored procedures: select * with specific arguments. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:329
       		return view('admin.editorders', compact('updata'));
       	}
 	}
@@ -465,10 +465,10 @@ use AuthenticatesUsers;
    		$studentid = $request->studentid;
    		$menuqty = $request->menuqty;
 
-   		$studdet = Student::where('studentid', $studentid)->first();
+   		$studdet = Student::where('studentid', $studentid)->first(); //stored procedures: select * with specific arguments. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:329
    		$studentname = $studdet->fullname;
 
-   		Orders::where('id', $id)->update([
+   		Orders::where('id', $id)->update([ //stored procedures: update rows. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:772
 			'studentid'=>$studentid,
 			'studentname'=>$studentname,
 			'menuqty'=>$menuqty,
@@ -485,7 +485,7 @@ use AuthenticatesUsers;
 		  	return redirect()->route('');
 		}
 		else {
-			$orders = Orders::all();
+			$orders = Orders::all(); //stored procedures: select *. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:521
 	      	return view('admin.vieworders', compact('orders', 'menu'));
 	    }
 	}
@@ -494,8 +494,8 @@ use AuthenticatesUsers;
    		$order_id = $request->id;
    		$parent_id = $request->parentid;
 
-   		$ordersdet = Orders::where('id', $order_id)->first();
-   		$payflag = PaymentDet::where('parentid', $parent_id)->first();
+   		$ordersdet = Orders::where('id', $order_id)->first(); //stored procedures: select * with specific arguments. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:329
+   		$payflag = PaymentDet::where('parentid', $parent_id)->first(); //stored procedures: select * with specific arguments. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:329
    		
    		if($payflag->defaultpay =='Y'){
    			$payment_txid = strtoupper('CFSP'.$parent_id.'D'.$order_id.'H'.Carbon::now()->timestamp.'TX'.getRandomString(5));
@@ -505,11 +505,11 @@ use AuthenticatesUsers;
 
 	   		$total = number_format($ordersdet->menu_price*$ordersdet->menu_qty, 2, '.', '');
 
-	   		Orders::where('id', $order_id)->update([
+	   		Orders::where('id', $order_id)->update([ //stored procedures: update rows. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:772
 	   			'txid'=>$payment_txid,
 			]);
 
-			Transaction::create([
+			Transaction::create([ //stored procedures: create new row. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:746
 				'menuid'=>$ordersdet->menu_id,
 				'parentid'=>$parent_id,
 				'orderid'=>$order_id, 
@@ -536,7 +536,7 @@ use AuthenticatesUsers;
 		}
 		else {
 			$id = $request->id;
-			Orders::find($id)->delete();
+			Orders::find($id)->delete(); //stored procedures: delete row. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:843
 			$message = "Orders Data Deleted";
 			return redirect('admin/dashboard')->with('status', $message);
 		}
@@ -552,7 +552,7 @@ use AuthenticatesUsers;
 		  	return redirect()->route('');
 		}
 		else {
-			$trans = Transaction::all();
+			$trans = Transaction::all(); //stored procedures: select *. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:521
 	      	return view('admin.listtrans', compact('trans'));
 	    }
 	}
@@ -565,7 +565,7 @@ use AuthenticatesUsers;
 		}
 		else {
 			$payment_txid = $request->txid;
-			$trans = Transaction::where('txid', $payment_txid)->get();
+			$trans = Transaction::where('txid', $payment_txid)->get(); //stored procedures: select * with specific arguments. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:329
 	      	return view('admin.viewtrans', compact('trans'));
 	    }
 	}
@@ -594,7 +594,7 @@ use AuthenticatesUsers;
        
         $allergy = $request->allergy;
 
-        $allallergy = Allergy::all();
+        $allallergy = Allergy::all(); //stored procedures: select *. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:521
         foreach ($allallergy as $allall) {
             $allergytype[] = $allall['allergies'];
         }
@@ -614,53 +614,59 @@ use AuthenticatesUsers;
         //$extensionfp1 = strtolower($foodpic->getClientOriginalExtension());
 
         $request->validate(['foodpic' => 'required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048']);
-        $imageName = file_get_contents($request->foodpic); //time().'.'.file_get_contents($request->foodpic)->extension();
-        dd($imageName);
-        $request->foodpic->move(public_path('images'), $imageName);
+        $file_name = hash('adler32',$foodname);
+        $food = $request->file('foodpic');
+        $picpath = $food->storeAs('images/admin/menup', $file_name.'/MENUP'.$file_name.'.'.$food->getClientOriginalExtension(), 'public');
+        $fp1_path = 'storage/images/admin/menup/'.$file_name.'/MENUP'.$file_name.'.'.$food->getClientOriginalExtension();
+
+        //dd($request->has('foodpic'), $request->file('foodpic'));
+        //$food = $request->file('foodpic');
+        //dd($food);
+		//$picpath = $food->storeAs('images', $food->getClientOriginalName());
+
+        //$imageName = time().'.'.file_get_contents($request->foodpic)->extension();
+        //dd($imageName);
+        //$request->foodpic->move(public_path('images'), $imageName);
         //return back()->with('success','You have successfully upload image.')->with('image',$imageName);
 
-        dd(
-        	//$file_name,
-        	//$imageName,
-        	$foodname,
-			$fooddesc,
-			$foodtype,
-			$foodprice,
-			$foodcal,
-			$foodpic,
-			$allergy,
-			serialize($allcomp)
-			//$extensionfp1	
-        );
+   //      dd(
+   //      	asset('images/admin/menup/14ba03c7/MENUP14ba03c7.jpg'),
+   //      	//$file_name,
+   //      	//$imageName,
+   //      	$foodname,
+			// $fooddesc,
+			// $foodtype,
+			// $foodprice,
+			// $foodcal,
+			// $foodpic,
+			// $picpath,
+			// $fp1_path,
+			// $allergy,
+			// serialize($allcomp)
+			// //$extensionfp1	
+   //      );
 
-        if($extensionfp1 == "jpeg" || $extensionfp1 == "jpg" || $extensionfp1 == "png"){
-        	$file_name = hash('adler32',$foodname);
-        	$base_url = "http://localhost/cfsv1/public/storage/";
+		Menus::create([  //stored procedures: create new row. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:746
+	        'menuname'=>$foodname,
+	        'menudesc'=>$fooddesc,
+	        'menutype'=>$foodtype,
+	        'menuprice'=>$foodprice,
+	        'menucalories'=>$foodcal ,
+	        'menupic'=>$fp1_path,
+	        'allergyid'=>serialize($allcomp),
+	    ]);
+	    $message = "New Menu added";
+	    return redirect('admin/dashboard')->with('status', $message);
 
-		    $request->foodpic->storeAs('admin_storage/'.$file_name,'FOODP'.$file_name.'.'.$extensionfp1);
-		    $fp1_path = public_path('storage/admin_storage/'.$file_name.'/FOODP'.$file_name.'.'.$extensionfp1);
-
-		    Menus::create([
-	            'menuname'=>$foodname,
-	            'menudesc'=>$fooddesc,
-	            'menutype'=>$foodtype,
-	            'menuprice'=>$foodprice,
-	            'menucalories'=>$foodcal ,
-	            'menupic'=>$fp1_path,
-	            'allergyid'=>serialize($allcomp),
-	        ]);
-	        $message = "New Menu added";
-	        return redirect('admin/dashboard')->with('status', $message);
-
-        }
-        else{
-        	$message = "
-			    		Invalid file for Food Picture. 
-			    		Food Picture File Name: ".$foodpic->getClientOriginalName().". 
-			    		Expected: image.
-			    	";
-			return redirect('admin/dashboard')->with('status', $message);
-        }
+   //      }
+   //      else{
+   //      	$message = "
+			//     		Invalid file for Food Picture. 
+			//     		Food Picture File Name: ".$foodpic->getClientOriginalName().". 
+			//     		Expected: image.
+			//     	";
+			// return redirect('admin/dashboard')->with('status', $message);
+   //      }
     }
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 	public function viewmenu(){
@@ -670,7 +676,7 @@ use AuthenticatesUsers;
 		  	return redirect()->route('');
 		}
 		else {
-			$menus = Menus::all();
+			$menus = Menus::all(); //stored procedures: select *. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:521
 	      	return view('admin.viewmenu', compact('menus'));
 	    }
 	}
@@ -684,7 +690,7 @@ use AuthenticatesUsers;
 		}
 		else {
 			$id = $request->id;
-			$updata = array('updata'=>Menus::where('id', $id)->first());
+			$updata = array('updata'=>Menus::where('id', $id)->first()); //stored procedures: select * with specific arguments. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:329
       		return view('admin.editmenu', compact('updata'));
       	}
 	}
@@ -699,7 +705,7 @@ use AuthenticatesUsers;
        
         $allergy = $request->allergy;
 
-        $allallergy = Allergy::all();
+        $allallergy = Allergy::all(); //stored procedures: select *. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:521
         foreach ($allallergy as $allall) {
             $allergytype[] = $allall['allergies'];
         }
@@ -709,36 +715,23 @@ use AuthenticatesUsers;
             $allcomp[$type]=$value;
         }
 
-        $extensionfp1 = strtolower($foodpic->getClientOriginalExtension());
+        $request->validate(['foodpic' => 'required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048']);
+        $file_name = hash('adler32',$foodname);
+        $food = $request->file('foodpic');
+        $picpath = $food->storeAs('images/admin/menup', $file_name.'/MENUP'.$file_name.'.'.$food->getClientOriginalExtension(), 'public');
+        $fp1_path = 'storage/images/admin/menup/'.$file_name.'/MENUP'.$file_name.'.'.$food->getClientOriginalExtension();
 
-        if($extensionfp1 == "jpeg" || $extensionfp1 == "jpg" || $extensionfp1 == "png"){
-        	$file_name = hash('adler32',$foodname);
-        	$base_url = "http://localhost/cfsv1/public/storage/";
-
-		    $request->foodpic->storeAs('admin_storage/'.$file_name,'FOODP'.$file_name.'.'.$extensionfp1);
-		    $fp1_path = public_path('storage/admin_storage/'.$file_name.'/FOODP'.$file_name.'.'.$extensionfp1);
-
-		    Menus::create([
-	            'menuname'=>$foodname,
-	            'menudesc'=>$fooddesc,
-	            'menutype'=>$foodtype,
-	            'menuprice'=>$foodprice,
-	            'menucalories'=>$foodcal ,
-	            'menupic'=>$fp1_path,
-	            'allergyid'=>serialize($allcomp),
-	        ]);
-	        $message = "Menu Updated";
-	        return redirect('admin/dashboard')->with('status', $message);
-
-        }
-        else{
-        	$message = "
-			    		Invalid file for Food Picture. 
-			    		Food Picture File Name: ".$foodpic->getClientOriginalName().". 
-			    		Expected: image.
-			    	";
-			return redirect('admin/dashboard')->with('status', $message);
-        }
+        Menus::find($id)->update([ //stored procedures: update rows. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:772
+	        'menuname'=>$foodname,
+	        'menudesc'=>$fooddesc,
+	        'menutype'=>$foodtype,
+	        'menuprice'=>$foodprice,
+	        'menucalories'=>$foodcal ,
+	        'menupic'=>$fp1_path,
+	        'allergyid'=>serialize($allcomp),
+	    ]);
+	    $message = "Menu data updated";
+	    return redirect('admin/dashboard')->with('status', $message);
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 	//Delete Student data in database
@@ -750,7 +743,7 @@ use AuthenticatesUsers;
 		}
 		else {
 			$id = $request->id;
-			Menus::find($id)->delete();
+			Menus::find($id)->delete(); //stored procedures: delete row. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:843
 			$message = "Menu Data Deleted";
 			return redirect('admin/dashboard')->with('status', $message);
 		}

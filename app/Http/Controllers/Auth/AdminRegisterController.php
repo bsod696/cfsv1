@@ -49,6 +49,7 @@ class AdminRegisterController extends Controller
      */
     protected function validator(array $data)
     {
+        //triggers before inserting data into db table
         return Validator::make($data, [
             'username' => ['required', 'string', 'max:255', 'unique:admins'],
             'fullname' => ['required', 'string', 'max:255'],
