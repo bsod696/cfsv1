@@ -107,100 +107,6 @@ use AuthenticatesUsers;
 		return redirect('admin/dashboard')->with('status', $message);
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
-	public function viewstudent(){
-		if (!Auth::guard('admin')) {
-			Session::flash('message', trans('errors.session_label'));
-		  	Session::flash('type', 'warning');
-		  	return redirect()->route('');
-		}
-		else {
-			$stud = Student::all(); //stored procedures: select *. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:521
-	      	return view('admin.viewstudent', compact('stud'));
-	    }
-	}
-//---------------------------------------------------------------------------------------------------------------------------------------------//
-	//Update Student data in database
-	public function editstudentinit(Request $request){
-		if (!Auth::guard('admin')) {
-			Session::flash('message', trans('errors.session_label'));
-		  	Session::flash('type', 'warning');
-		  	return redirect()->route('');
-		}
-		else {
-			$id = $request->id;
-			$updata = array('updata'=>Student::where('id', $id)->first()); //stored procedures: select * with specific arguments. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:329
-      		return view('admin.editstudent', compact('updata'));
-      	}
-	}
-   	public function editstudentProc(Request $request){
-   		$id = $request->id;
-   		$studentid = $request->studentid;
-   		$fullname = $request->fullname;
-   		$gender = $request->gender;
-   		$dob = $request->dob;
-   		$class = $request->class;
-   		$school_session = $request->school_session;
-   		$height = $request->height;
-   		$weight = $request->weight;
-   		$bmi = $request->bmi;
-   		$target_calories = $request->target_calories;
-   		$primary = $request->primary;
-   		$allergy = $request->allergy;
-
-   		$allallergy = Allergy::all(); //stored procedures: select *. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:521
-   		foreach ($allallergy as $allall) {
-   			$allergytype[] = $allall['allergies'];
-   		}
-   		foreach ($allergytype as $type) {
-   			if(in_array($type, $allergy)){$value = true;}
-   			else{$value = false;}
-			$allcomp[$type]=$value;
-   		}
-
-   		$primary_parentid = $request->primary_parentid;
-   		$secondary_parentid = $request->secondary_parentid;
-   		
-   		$age = Carbon::parse($dob)->age;
-
-   		Student::where('id', $id)->update([ //stored procedures: update rows. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:772
-			'studentid'=>$studentid,
-			'fullname'=>$fullname,
-			'gender'=>$gender,
-			'dob'=>$dob,
-			'age'=>$age	,
-			'class'=>$class,
-			'school_session'=>$school_session,
-			'height'=>$height,
-			'weight'=>$weight,
-			'bmi'=>$bmi,
-			'target_calories'=>$target_calories,
-			'allergies'=>serialize($allcomp), //unserialize  = string array to array
-			'primary_parentid'=>$primary_parentid,
-			'secondary_parentid'=>$secondary_parentid,
-		]);
-		
-		$message = "Student Data Updated";
-		return redirect('admin/dashboard')->with('status', $message);
-	}
-//---------------------------------------------------------------------------------------------------------------------------------------------//
-	//Delete Student data in database
-	public function deletestudentProc(Request $request){
-		if (!Auth::guard('admin')) {
-			Session::flash('message', trans('errors.session_label'));
-		  	Session::flash('type', 'warning');
-		  	return redirect()->route('');
-		}
-		else {
-			$id = $request->id;
-			Student::find($id)->delete(); //stored procedures: delete row. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:843
-			$message = "Student Data Deleted";
-			return redirect('admin/dashboard')->with('status', $message);
-		}
-	}
-
-
-
-//---------------------------------------------------------------------------------------------------------------------------------------------//
 	//Store Payment details in database
 	public function storepaymentinit(){
 		if (!Auth::guard('admin')) {
@@ -209,8 +115,8 @@ use AuthenticatesUsers;
 		  	return redirect()->route('');
 		}
 		else {
-			$updata = array('updata'=>Admin::where('id', Auth::guard('admin')->user()->id)->first()); //stored procedures: select * with specific arguments. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:329
-			return view('admin.addpayment', compact('updata'));
+			$parent = User::all(); //stored procedures: select *. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:521
+			return view('admin.addpayment', compact('parent'));
 		}
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
@@ -278,6 +184,91 @@ use AuthenticatesUsers;
 			return redirect('admin/dashboard')->with('status', $message);
    		}	
 	}
+//---------------------------------------------------------------------------------------------------------------------------------------------//
+	//Store Account details in database
+	public function storeaccountinit(){
+		if (!Auth::guard('admin')) {
+			Session::flash('message', trans('errors.session_label'));
+		  	Session::flash('type', 'warning');
+		  	return redirect()->route('');
+		}
+		else {
+			$staff = Staff::all(); //stored procedures: select *. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:521
+			return view('admin.addaccount', compact('staff'));
+		}
+	}
+//---------------------------------------------------------------------------------------------------------------------------------------------//
+   	public function storeaccountProc(Request $request){
+		$id = $request->id;
+   		$staffid = $request->staffid;
+   		$fullname = $request->fullname;
+   		$billaddr1 = $request->billaddr1;
+   		$billaddr2 = $request->billaddr2;
+   		$city = $request->city;
+   		$zipcode = $request->zipcode;
+   		$state = $request->state;
+   		$country = $request->country;
+   		$bankname = $request->bankname;
+   		$banknum = $request->banknum;
+ 		$defaultpay = $request->defaultpay;
+
+ 		//dd($defaultpay);
+
+   		if($defaultpay == 'on'){$payflag = 'Y';}
+   		else{$payflag = 'N';}
+
+   		if($payflag == 'Y'){
+   			$parentpaycheck = AccountDet::where('staffid', $staffid)->where('defaultpay', 'Y')->count();
+   			if($parentpaycheck < 1){
+   				AccountDet::create([ //stored procedures: create new row. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:746
+					'staffid'=>$staffid,
+					'fullname'=>$fullname,
+					'billaddr1'=>$billaddr1,
+					'billaddr2'=>$billaddr2,
+					'city'=>$city,
+					'zipcode'=>$zipcode,
+					'state'=>$state,
+					'country'=>$country,
+					'bankname'=>$bankname,
+					'banknum'=>$banknum,
+					'defaultpay'=>$payflag,
+				]);
+				$message = "Account Details Updated";
+				return redirect('admin/viewaccount')->with('status', $message);
+   			}
+   			else {
+	   			$message = "Only ONE account can be default at a time";
+				return redirect('admin/viewaccount')->with('status', $message);
+	   		}	
+   		}
+   		else {
+   			AccountDet::create([ //stored procedures: create new row. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:746
+				'staffid'=>$staffid,
+				'fullname'=>$fullname,
+				'billaddr1'=>$billaddr1,
+				'billaddr2'=>$billaddr2,
+				'city'=>$city,
+				'zipcode'=>$zipcode,
+				'state'=>$state,
+				'country'=>$country,
+				'bankname'=>$bankname,
+				'banknum'=>$banknum,
+				'defaultpay'=>$payflag,
+			]);
+			$message = "New Account Added";
+			return redirect('admin/viewaccount')->with('status', $message);
+   		}	
+	}
+
+
+
+
+
+
+
+
+
+
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 	public function viewpayment(){
 		if (!Auth::guard('admin')) {
@@ -385,6 +376,109 @@ use AuthenticatesUsers;
 			return redirect('admin/dashboard')->with('status', $message);
 		}
 	}
+//---------------------------------------------------------------------------------------------------------------------------------------------//
+	public function viewaccount(){
+		if (!Auth::guard('admin')) {
+			Session::flash('message', trans('errors.session_label'));
+		  	Session::flash('type', 'warning');
+		  	return redirect()->route('');
+		}
+		else {
+			$acc = AccountDet::all(); //stored procedures: select *. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:521
+	      	return view('admin.viewaccount', compact('acc'));
+	    }
+	}
+//---------------------------------------------------------------------------------------------------------------------------------------------//
+	//Update Payment details in database
+	public function editaccountinit(Request $request){
+		if (!Auth::guard('admin')) {
+			Session::flash('message', trans('errors.session_label'));
+		  	Session::flash('type', 'warning');
+		  	return redirect()->route('');
+		}
+		else {
+			$id = $request->id;
+			$updata = array('updata'=>AccountDet::where('id', $id)->first()); //stored procedures: select * with specific arguments. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:329
+      		return view('admin.editaccount', compact('updata'));
+		}
+	}
+//---------------------------------------------------------------------------------------------------------------------------------------------//
+   	public function editaccountProc(Request $request){
+   		$id = $request->id;
+   		$staffid = $request->staffid;
+   		$fullname = $request->fullname;
+   		$billaddr1 = $request->billaddr1;
+   		$billaddr2 = $request->billaddr2;
+   		$city = $request->city;
+   		$zipcode = $request->zipcode;
+   		$state = $request->state;
+   		$country = $request->country;
+   		$bankname = $request->bankname;
+   		$banknum = $request->banknum;
+ 		$defaultpay = $request->defaultpay;
+
+ 		// dd($fullname, $bankname, $banknum, $defaultpay);
+
+   		if($defaultpay == 'defaultpay'){$payflag = 'Y';}
+   		else{$payflag = 'N';}
+
+   		if($payflag == 'Y'){
+   			$parentpaycheck = AccountDet::where('staffid', $staffid)->where('defaultpay', 'Y')->count();
+   			if($parentpaycheck < 1){
+   				AccountDet::where('id', $id)->update([ //stored procedures: update rows. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:772
+					'staffid'=>$staffid,
+					'fullname'=>$fullname,
+					'billaddr1'=>$billaddr1,
+					'billaddr2'=>$billaddr2,
+					'city'=>$city,
+					'zipcode'=>$zipcode,
+					'state'=>$state,
+					'country'=>$country,
+					'bankname'=>$bankname,
+					'banknum'=>$banknum,
+					'defaultpay'=>$payflag,
+				]);
+				$message = "Account Details Updated";
+				return redirect('admin/viewaccount')->with('status', $message);
+   			}
+   			else {
+	   			$message = "Only ONE account can be default at a time";
+				return redirect('admin/viewaccount')->with('status', $message);
+	   		}	
+   		}
+   		else {
+   			AccountDet::where('id', $id)->update([ //stored procedures: update rows. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:772
+				'staffid'=>$staffid,
+				'fullname'=>$fullname,
+				'billaddr1'=>$billaddr1,
+				'billaddr2'=>$billaddr2,
+				'city'=>$city,
+				'zipcode'=>$zipcode,
+				'state'=>$state,
+				'country'=>$country,
+				'bankname'=>$bankname,
+				'banknum'=>$banknum,
+				'defaultpay'=>$payflag,
+			]);
+			$message = "Account Details Updated";
+			return redirect('admin/viewaccount')->with('status', $message);
+   		}	
+	}
+//---------------------------------------------------------------------------------------------------------------------------------------------//
+	//Delete Payment data in database
+	public function deleteaccountProc(Request $request){
+		if (!Auth::guard('admin')) {
+			Session::flash('message', trans('errors.session_label'));
+		  	Session::flash('type', 'warning');
+		  	return redirect()->route('');
+		}
+		else {
+			$id = $request->id;
+			AccountDet::find($id)->delete(); //stored procedures: delete row. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:843
+			$message = "Account Data Deleted";
+			return redirect('admin/viewaccount')->with('status', $message);
+		}
+	}	
 
 
 
@@ -604,47 +698,11 @@ use AuthenticatesUsers;
             $allcomp[$type]=$value;
         }
 
-        //$request->validate([
-        //    'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        //]);
-        //$file_name = hash('adler32',$foodname);
-        //$imageName = 'FOODP'.$file_name.time().'.'.$request->foodpic->getClientOriginalExtension();
-        //$request->foodpic->move(public_path('images/admin_storage'), $imageName);
-        
-        //$extensionfp1 = strtolower($foodpic->getClientOriginalExtension());
-
         $request->validate(['foodpic' => 'required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048']);
         $file_name = hash('adler32',$foodname);
         $food = $request->file('foodpic');
         $picpath = $food->storeAs('images/admin/menup', $file_name.'/MENUP'.$file_name.'.'.$food->getClientOriginalExtension(), 'public');
         $fp1_path = 'storage/images/admin/menup/'.$file_name.'/MENUP'.$file_name.'.'.$food->getClientOriginalExtension();
-
-        //dd($request->has('foodpic'), $request->file('foodpic'));
-        //$food = $request->file('foodpic');
-        //dd($food);
-		//$picpath = $food->storeAs('images', $food->getClientOriginalName());
-
-        //$imageName = time().'.'.file_get_contents($request->foodpic)->extension();
-        //dd($imageName);
-        //$request->foodpic->move(public_path('images'), $imageName);
-        //return back()->with('success','You have successfully upload image.')->with('image',$imageName);
-
-   //      dd(
-   //      	asset('images/admin/menup/14ba03c7/MENUP14ba03c7.jpg'),
-   //      	//$file_name,
-   //      	//$imageName,
-   //      	$foodname,
-			// $fooddesc,
-			// $foodtype,
-			// $foodprice,
-			// $foodcal,
-			// $foodpic,
-			// $picpath,
-			// $fp1_path,
-			// $allergy,
-			// serialize($allcomp)
-			// //$extensionfp1	
-   //      );
 
 		Menus::create([  //stored procedures: create new row. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:746
 	        'menuname'=>$foodname,
@@ -657,16 +715,6 @@ use AuthenticatesUsers;
 	    ]);
 	    $message = "New Menu added";
 	    return redirect('admin/dashboard')->with('status', $message);
-
-   //      }
-   //      else{
-   //      	$message = "
-			//     		Invalid file for Food Picture. 
-			//     		Food Picture File Name: ".$foodpic->getClientOriginalName().". 
-			//     		Expected: image.
-			//     	";
-			// return redirect('admin/dashboard')->with('status', $message);
-   //      }
     }
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 	public function viewmenu(){
@@ -748,6 +796,209 @@ use AuthenticatesUsers;
 			return redirect('admin/dashboard')->with('status', $message);
 		}
 	}
+//---------------------------------------------------------------------------------------------------------------------------------------------//
+	public function viewparent(){
+		if (!Auth::guard('admin')) {
+			Session::flash('message', trans('errors.session_label'));
+		  	Session::flash('type', 'warning');
+		  	return redirect()->route('');
+		}
+		else {
+			$parent = User::all(); //stored procedures: select *. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:521
+	      	return view('admin.viewparent', compact('parent'));
+	    }
+	}
+//---------------------------------------------------------------------------------------------------------------------------------------------//
+	//Update Student data in database
+	public function editparentinit(Request $request){
+		if (!Auth::guard('admin')) {
+			Session::flash('message', trans('errors.session_label'));
+		  	Session::flash('type', 'warning');
+		  	return redirect()->route('');
+		}
+		else {
+			$id = $request->id;
+			$updata = array('updata'=>User::where('id', $id)->first()); //stored procedures: select * with specific arguments. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:329
+      		return view('admin.editparent', compact('updata'));
+      	}
+	}
+   	public function editparentProc(Request $request){
+   		$id = $request->id;
+   		$fullname = $request->fullname;
+   		$email = $request->email;
+   		$phonenum = $request->phonenum;
+
+   		User::where('id', $id)->update([ //stored procedures: update rows. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:772
+			'fullname'=>$fullname,
+			'email'=>$email,
+			'phonenum'=>$phonenum,
+		]);
+		
+		$message = "Parent Data Updated";
+		return redirect('admin/viewparent')->with('status', $message);
+	}
+//---------------------------------------------------------------------------------------------------------------------------------------------//
+	//Delete Student data in database
+	public function deleteparentProc(Request $request){
+		if (!Auth::guard('admin')) {
+			Session::flash('message', trans('errors.session_label'));
+		  	Session::flash('type', 'warning');
+		  	return redirect()->route('');
+		}
+		else {
+			$id = $request->id;
+			User::find($id)->delete(); //stored procedures: delete row. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:843
+			$message = "Parent Data Deleted";
+			return redirect('admin/viewparent')->with('status', $message);
+		}
+	}
+//---------------------------------------------------------------------------------------------------------------------------------------------//
+	public function viewstudent(){
+		if (!Auth::guard('admin')) {
+			Session::flash('message', trans('errors.session_label'));
+		  	Session::flash('type', 'warning');
+		  	return redirect()->route('');
+		}
+		else {
+			$stud = Student::all(); //stored procedures: select *. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:521
+	      	return view('admin.viewstudent', compact('stud'));
+	    }
+	}
+//---------------------------------------------------------------------------------------------------------------------------------------------//
+	//Update Student data in database
+	public function editstudentinit(Request $request){
+		if (!Auth::guard('admin')) {
+			Session::flash('message', trans('errors.session_label'));
+		  	Session::flash('type', 'warning');
+		  	return redirect()->route('');
+		}
+		else {
+			$id = $request->id;
+			$updata = array('updata'=>Student::where('id', $id)->first()); //stored procedures: select * with specific arguments. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:329
+      		return view('admin.editstudent', compact('updata'));
+      	}
+	}
+   	public function editstudentProc(Request $request){
+   		$id = $request->id;
+   		$studentid = $request->studentid;
+   		$fullname = $request->fullname;
+   		$gender = $request->gender;
+   		$dob = $request->dob;
+   		$class = $request->class;
+   		$school_session = $request->school_session;
+   		$height = $request->height;
+   		$weight = $request->weight;
+   		$bmi = $request->bmi;
+   		$target_calories = $request->target_calories;
+   		$primary = $request->primary;
+   		$allergy = $request->allergy;
+
+   		$allallergy = Allergy::all(); //stored procedures: select *. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:521
+   		foreach ($allallergy as $allall) {
+   			$allergytype[] = $allall['allergies'];
+   		}
+   		foreach ($allergytype as $type) {
+   			if(in_array($type, $allergy)){$value = true;}
+   			else{$value = false;}
+			$allcomp[$type]=$value;
+   		}
+
+   		$primary_parentid = $request->primary_parentid;
+   		$secondary_parentid = $request->secondary_parentid;
+   		
+   		$age = Carbon::parse($dob)->age;
+
+   		Student::where('id', $id)->update([ //stored procedures: update rows. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:772
+			'studentid'=>$studentid,
+			'fullname'=>$fullname,
+			'gender'=>$gender,
+			'dob'=>$dob,
+			'age'=>$age	,
+			'class'=>$class,
+			'school_session'=>$school_session,
+			'height'=>$height,
+			'weight'=>$weight,
+			'bmi'=>$bmi,
+			'target_calories'=>$target_calories,
+			'allergies'=>serialize($allcomp), //unserialize  = string array to array
+			'primary_parentid'=>$primary_parentid,
+			'secondary_parentid'=>$secondary_parentid,
+		]);
+		
+		$message = "Student Data Updated";
+		return redirect('admin/viewstudent')->with('status', $message);
+	}
+//---------------------------------------------------------------------------------------------------------------------------------------------//
+	//Delete Student data in database
+	public function deletestudentProc(Request $request){
+		if (!Auth::guard('admin')) {
+			Session::flash('message', trans('errors.session_label'));
+		  	Session::flash('type', 'warning');
+		  	return redirect()->route('');
+		}
+		else {
+			$id = $request->id;
+			Student::find($id)->delete(); //stored procedures: delete row. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:843
+			$message = "Student Data Deleted";
+			return redirect('admin/viewstudent')->with('status', $message);
+		}
+	}	
+//---------------------------------------------------------------------------------------------------------------------------------------------//
+	public function viewstaff(){
+		if (!Auth::guard('admin')) {
+			Session::flash('message', trans('errors.session_label'));
+		  	Session::flash('type', 'warning');
+		  	return redirect()->route('');
+		}
+		else {
+			$staff = Staff::all(); //stored procedures: select *. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:521
+	      	return view('admin.viewstaff', compact('staff'));
+	    }
+	}
+//---------------------------------------------------------------------------------------------------------------------------------------------//
+	//Update Student data in database
+	public function editstaffinit(Request $request){
+		if (!Auth::guard('admin')) {
+			Session::flash('message', trans('errors.session_label'));
+		  	Session::flash('type', 'warning');
+		  	return redirect()->route('');
+		}
+		else {
+			$id = $request->id;
+			$updata = array('updata'=>Staff::where('id', $id)->first()); //stored procedures: select * with specific arguments. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:329
+      		return view('admin.editstaff', compact('updata'));
+      	}
+	}
+   	public function editstaffProc(Request $request){
+   		$id = $request->id;
+   		$fullname = $request->fullname;
+   		$email = $request->email;
+   		$phonenum = $request->phonenum;
+
+   		Staff::where('id', $id)->update([ //stored procedures: update rows. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:772
+			'fullname'=>$fullname,
+			'email'=>$email,
+			'phonenum'=>$phonenum,
+		]);
+		
+		$message = "Staff Data Updated";
+		return redirect('admin/viewstaff')->with('status', $message);
+	}
+//---------------------------------------------------------------------------------------------------------------------------------------------//
+	//Delete Student data in database
+	public function deletestaffProc(Request $request){
+		if (!Auth::guard('admin')) {
+			Session::flash('message', trans('errors.session_label'));
+		  	Session::flash('type', 'warning');
+		  	return redirect()->route('');
+		}
+		else {
+			$id = $request->id;
+			Staff::find($id)->delete(); //stored procedures: delete row. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:843
+			$message = "Staff Data Deleted";
+			return redirect('admin/viewstaff')->with('status', $message);
+		}
+	}		
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 }

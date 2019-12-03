@@ -1,37 +1,20 @@
-@extends('layouts.admin-app')
+@extends('layouts.staff-app')
 
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Add Payment Details') }}</div>
+                <div class="card-header">{{ __('Add Account Details') }}</div>
 
                 <div class="card-body">
 
-                    <form method="POST" action="{{ route('admin.submit.storepayment') }}">
+                    <form method="POST" action="{{ route('staff.submit.storeaccount') }}">
                         @csrf
 
-                        <div class="form-group row">
-                            <label for="parentid" class="col-md-4 col-form-label text-md-right">{{ __('Parent ID') }}</label>
+                        <input id="staffid" type="hidden" class="form-control @error('staffid') is-invalid @enderror" name="staffid" value="{{ Auth::guard('staff')->user()->id }}" readonly="" autocomplete="staffid" autofocus>
 
-                            <div class="col-md-6">
-                                <select id="parentid" class="form-control{{ $errors->has('parentid') ? ' is-invalid' : '' }}" name="parentid" required autofocus>
-                                    <option value="">--Select One--</option>
-                                        @foreach($parent as $s)
-                                            <option value="{{ $s->id }}">{{ $s->username  }} ({{ $s->id  }})</option>
-                                        @endforeach
-                                </select>
-                                    
-                                @if ($errors->has('parentid'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('parentid') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <p><b>Credit Card Info</b></p>
+                        <p><b>Account Info</b></p>
                         <div class="form-group row">
                             <label for="fullname" class="col-md-4 col-form-label text-md-right">{{ __('Full Name') }}</label>
 
@@ -45,32 +28,14 @@
                                 @enderror
                             </div>
                         </div>
-
+                      
                         <div class="form-group row">
-                            <label for="cardtype" class="col-md-4 col-form-label text-md-right">{{ __('Credit Card Type') }}</label>
+                            <label for="bankname" class="col-md-4 col-form-label text-md-right">{{ __('Bank Name') }}</label>
 
                             <div class="col-md-6">
-                                <select id="cardtype" class="form-control{{ $errors->has('cardtype') ? ' is-invalid' : '' }}" name="cardtype" required autofocus>
-                                    <option value="">--Select One--</option>
-                                    <option value="visa">Visa</option>
-                                    <option value="mastercard">Mastercard</option>
-                                </select>
-                                    
-                                @if ($errors->has('cardtype'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('cardtype') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
+                                <input id="bankname" type="text" class="form-control @error('bankname') is-invalid @enderror" name="bankname" value="{{ old('bankname') }}" required autocomplete="bankname" autofocus>
 
-                        <div class="form-group row">
-                            <label for="cardnum" class="col-md-4 col-form-label text-md-right">{{ __('Credit Card Number') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="cardnum" type="text" class="form-control @error('cardnum') is-invalid @enderror" name="cardnum" value="{{ old('cardnum') }}" required autocomplete="cardnum" autofocus>
-
-                                @error('cardnum')
+                                @error('bankname')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -79,55 +44,16 @@
                         </div>
 
                          <div class="form-group row">
-                            <label for="cvvnum" class="col-md-4 col-form-label text-md-right">{{ __('CVV Number') }}</label>
+                            <label for="banknum" class="col-md-4 col-form-label text-md-right">{{ __('Account Number') }}</label>
 
                             <div class="col-md-6">
-                                <input id="cvvnum" type="text" maxlength="3" class="form-control @error('cvvnum') is-invalid @enderror" name="cvvnum" value="{{ old('cvvnum') }}" required autocomplete="cvvnum" autofocus>
+                                <input id="banknum" type="text" class="form-control @error('banknum') is-invalid @enderror" name="banknum" value="{{ old('banknum') }}" required autocomplete="banknum" autofocus>
 
-                                @error('cvvnum')
+                                @error('banknum')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="expdate" class="col-md-4 col-form-label text-md-right">{{ __('Expiration Date') }}</label>
-
-                            <div class="col-md-6">  
-                                <select name='expireMM' id='expireMM' class="form-control{{ $errors->has('cardtype') ? ' is-invalid' : '' }}" required autofocus>
-                                    <option value=''>Month</option>
-                                    <option value='01'>January</option>
-                                    <option value='02'>February</option>
-                                    <option value='03'>March</option>
-                                    <option value='04'>April</option>
-                                    <option value='05'>May</option>
-                                    <option value='06'>June</option>
-                                    <option value='07'>July</option>
-                                    <option value='08'>August</option>
-                                    <option value='09'>September</option>
-                                    <option value='10'>October</option>
-                                    <option value='11'>November</option>
-                                    <option value='12'>December</option>
-                                </select> 
-                                <select name='expireYY' id='expireYY' class="form-control{{ $errors->has('cardtype') ? ' is-invalid' : '' }}" required autofocus onchange="showEXP()">
-                                    <option value=''>Year</option>
-                                    <option value='19'>2019</option>
-                                    <option value='20'>2020</option>
-                                    <option value='21'>2021</option>
-                                    <option value='22'>2022</option>
-                                    <option value='23'>2023</option>
-                                    <option value='24'>2024</option>
-                                    <option value='25'>2025</option>
-                                </select> 
-                                <input type="text" id="expdate" class="form-control{{ $errors->has('expdate') ? ' is-invalid' : '' }}" name="expdate" min="2019-01-01" readonly autofocus value>
-                                    
-                                @if ($errors->has('expdate'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('expdate') }}</strong>
-                                    </span>
-                                @endif
                             </div>
                         </div>
 
@@ -260,31 +186,4 @@
         </div>
     </div>
 </div>
-<script>
-    function showBMI() {
-        var height = document.getElementById('height').value;
-        var weight = document.getElementById('weight').value;
-        var bmicalc = 0.0;
-        bmicalc = parseFloat((weight/Math.pow(height, 2))*10000).toFixed(1);
-        document.getElementById('bmi').value=bmicalc; 
-    }
-
-    function showEXP() {
-        var expireMM = document.getElementById('expireMM').value;
-        var expireYY = document.getElementById('expireYY').value;
-        var originalArray = [expireMM, expireYY]; 
-        var separator = '/'; 
-        var implodedArray = originalArray.join(separator); 
-        document.getElementById('expdate').value=implodedArray; 
-    }
-
-    // function getClass(){
-    //     var today = new Date();
-    //     var birthDate = new Date(document.getElementById('dob').value);
-    //     var age = today.getFullYear() - birthDate.getFullYear();
-    //     var m = today.getMonth() - birthDate.getMonth();
-    //     if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())){age--;}
-    //     document.getElementById('age').value=age;
-    // }
-</script>
 @endsection

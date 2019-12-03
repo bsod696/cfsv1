@@ -1,4 +1,4 @@
-@extends('layouts.user-app')
+@extends('layouts.staff-app')
 
 @section('content')
 <div class="container">
@@ -100,46 +100,8 @@
                                             </p>
                                             <p>
                                                 <b>Quantity :</b>
-
-                                                <form action="{{ route('user.submit.menuselect') }}" method="POST" enctype="multipart/form-data">
-                                                    @csrf
-                                                    <input id="id" type="text" class="form-control{{ $errors->has('id') ? ' is-invalid' : '' }}" name="id"  value="{{ $m->id }}" hidden />
-                                                    <input id="foodqty" type="number" min="1" max="999" size="2" class="form-control{{ $errors->has('id') ? ' is-invalid' : '' }}" name="foodqty" value="{{ old('foodqty') }}" required autocomplete="foodqty" autofocus>
-
-                                                    @error('foodqty')
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong>{{ $message }}</strong>
-                                                        </span>
-                                                    @enderror
                                             </p>
-                                            <p>
-                                                <b>Assign To :</b>
-                                                    <select id="studentid" class="form-control{{ $errors->has('studentid') ? ' is-invalid' : '' }}" name="studentid" required autofocus>
-                                                        <option value="">--Select One--</option>
-                                                        @foreach($stud as $s)
-                                                            <option value="{{ $s->studentid }}">{{ $s->fullname }}</option>
-                                                        @endforeach
-                                                    </select>
-                                    
-                                                    @if ($errors->has('studentid'))
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong>{{ $errors->first('studentid') }}</strong>
-                                                        </span>
-                                                    @endif
-                                            </p>
-                                            <p>
-                                                <b>Date to Serve :</b>
-                                                    <input type="date" id="dateserve" class="form-control{{ $errors->has('dateserve') ? ' is-invalid' : '' }}" name="dateserve" min="1900-01-01" required autofocus value="{{ old('dateserve') }}">
-                                    
-                                                    @if ($errors->has('dateserve'))
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong>{{ $errors->first('dateserve') }}</strong>
-                                                        </span>
-                                                    @endif
-                                            </p>
-                                                    <input id="parentid" type="text" class="form-control @error('parentid') is-invalid @enderror" name="parentid" value="{{ Auth::user()->id }}" readonly hidden>
-                                            <p align="right"><button type="submit" name="submit" class="btn btn-primary">{{ __('Add to Cart') }}</button></p>
-                                        </td>
+                                            </td>
                                     </form>
                                 </tr>
                         @endforeach

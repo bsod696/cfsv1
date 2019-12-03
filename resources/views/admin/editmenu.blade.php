@@ -5,17 +5,25 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Add Menu') }}</div>
+                <div class="card-header">{{ __('Edit Menu') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('admin.submit.storemenu') }}" enctype="multipart/form-data">
+                    @if (session('status'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('status') }}
+                        </div>
+                    @endif
+                    
+                    @foreach( $updata as $u)
+                    <form method="POST" action="{{ route('admin.submit.editmenu') }}" enctype="multipart/form-data">
                         @csrf
+                        <input id="id" type="hidden" class="form-control @error('id') is-invalid @enderror" name="id" value="{{ $u->id }}" required autocomplete="id" readonly>
 
                         <div class="form-group row">
                             <label for="foodname" class="col-md-4 col-form-label text-md-right">{{ __('Menu Name') }}</label>
 
                             <div class="col-md-6">
-                                <input id="foodname" type="text" class="form-control @error('foodname') is-invalid @enderror" name="foodname" value="{{ old('foodname') }}" required autocomplete="foodname" autofocus>
+                                <input id="foodname" type="text" class="form-control @error('foodname') is-invalid @enderror" name="foodname" value="{{ $u->menuname }}" required autocomplete="foodname" autofocus>
 
                                 @error('foodname')
                                     <span class="invalid-feedback" role="alert">
@@ -29,7 +37,7 @@
                             <label for="fooddesc" class="col-md-4 col-form-label text-md-right">{{ __('Menu Description') }}</label>
 
                             <div class="col-md-6">
-                                <input id="fooddesc" type="textarea" class="form-control @error('fooddesc') is-invalid @enderror" name="fooddesc" value="{{ old('fooddesc') }}" required autocomplete="fooddesc" autofocus>
+                                <input id="fooddesc" type="textarea" class="form-control @error('fooddesc') is-invalid @enderror" name="fooddesc" value="{{ $u->menudesc }}" required autocomplete="fooddesc" autofocus>
 
                                 @error('fooddesc')
                                     <span class="invalid-feedback" role="alert">
@@ -44,7 +52,7 @@
 
                             <div class="col-md-6">
                                 <select id="foodtype" class="form-control{{ $errors->has('foodtype') ? ' is-invalid' : '' }}" name="foodtype" required autofocus>
-                                    <option value="">--Select One--</option>
+                                    <option value="{{ $u->menutype }}">{{ ucfirst($u->menutype) }}</option>
                                     <option value="food">Food</option>
                                     <option value="beverage">Beverage</option>
                                 </select>
@@ -61,7 +69,7 @@
                             <label for="foodprice" class="col-md-4 col-form-label text-md-right">{{ __('Menu Price (RM)') }}</label>
 
                             <div class="col-md-6">
-                                <input id="foodprice" type="text" class="form-control @error('foodprice') is-invalid @enderror" name="foodprice" value="{{ old('foodprice') }}" required autocomplete="foodprice" autofocus>
+                                <input id="foodprice" type="text" class="form-control @error('foodprice') is-invalid @enderror" name="foodprice" value="{{ $u->menuprice }}" required autocomplete="foodprice" autofocus>
 
                                 @error('foodprice')
                                     <span class="invalid-feedback" role="alert">
@@ -75,7 +83,7 @@
                             <label for="foodcal" class="col-md-4 col-form-label text-md-right">{{ __('Menu Calories (KCal)') }}</label>
 
                             <div class="col-md-6">
-                                <input id="foodcal" type="text" class="form-control @error('foodcal') is-invalid @enderror" name="foodcal" value="{{ old('foodcal') }}" required autocomplete="foodcal" autofocus>
+                                <input id="foodcal" type="text" class="form-control @error('foodcal') is-invalid @enderror" name="foodcal" value="{{ $u->menucalories }}" required autocomplete="foodcal" autofocus>
 
                                 @error('foodcal')
                                     <span class="invalid-feedback" role="alert">
@@ -89,8 +97,8 @@
                             <label for="foodpic" class="col-md-4 col-form-label text-md-right">{{ __('Menu Picture') }}</label>
 
                             <div class="col-md-6">
-                                <input id="foodpic" type="file" class="form-control{{ $errors->has('foodpic') ? ' is-invalid' : '' }}" name="foodpic" value="{{ old('foodpic') }}" required autocomplete="foodpic" autofocus onchange="readURLfoodpic(this);">
-                                <img id="foodp" src="#" alt="your image" width="240" height="160" border="1"/>
+                                <input id="foodpic" type="file" class="form-control{{ $errors->has('foodpic') ? ' is-invalid' : '' }}" name="foodpic" value="{{ $u->menupic }}" required autocomplete="foodpic" autofocus onchange="readURLfoodpic(this);">
+                                <img id="foodp" src="{{ asset($u->menupic) }}" alt="your image" width="240" height="160" border="1"/>
 
                                 @if ($errors->has('foodpic'))
                                     <span class="invalid-feedback" role="alert">
@@ -107,7 +115,7 @@
                             <div class="col-md-6 offset-md-0">
 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ old('allergy') ? 'checked' : '' }} value="shellfish">
+                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ unserialize($u->allergyid)['shellfish'] == true ? 'checked' : '' }} value="shellfish">
 
                                     <label class="form-check-label" for="shellfish">
                                         {{ __('Shellfish') }}
@@ -115,7 +123,7 @@
                                 </div>
 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ old('allergy') ? 'checked' : '' }} value="dairy">
+                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ unserialize($u->allergyid)['dairy'] == true ? 'checked' : '' }} value="dairy">
 
                                     <label class="form-check-label" for="dairy">
                                         {{ __('Dairy') }}
@@ -123,7 +131,7 @@
                                 </div>
 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ old('allergy') ? 'checked' : '' }} value="peanuts">
+                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ unserialize($u->allergyid)['peanuts'] == true ? 'checked' : '' }} value="peanuts">
 
                                     <label class="form-check-label" for="peanuts">
                                         {{ __('Peanuts') }}
@@ -131,7 +139,7 @@
                                 </div>
 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ old('allergy') ? 'checked' : '' }} value="treenuts">
+                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ unserialize($u->allergyid)['treenuts'] == true ? 'checked' : '' }} value="treenuts">
 
                                     <label class="form-check-label" for="treenuts">
                                         {{ __('Tree Nuts') }}
@@ -139,7 +147,7 @@
                                 </div>
 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ old('allergy') ? 'checked' : '' }} value="eggs">
+                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ unserialize($u->allergyid)['eggs'] == true ? 'checked' : '' }} value="eggs">
 
                                     <label class="form-check-label" for="eggs">
                                         {{ __('Eggs') }}
@@ -147,7 +155,7 @@
                                 </div>
 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ old('allergy') ? 'checked' : '' }} value="wheat">
+                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ unserialize($u->allergyid)['wheat'] == true ? 'checked' : '' }} value="wheat">
 
                                     <label class="form-check-label" for="wheat">
                                         {{ __('Wheat') }}
@@ -155,7 +163,7 @@
                                 </div>
 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ old('allergy') ? 'checked' : '' }} value="soy">
+                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ unserialize($u->allergyid)['soy'] == true ? 'checked' : '' }} value="soy">
 
                                     <label class="form-check-label" for="soy">
                                         {{ __('Soy') }}
@@ -163,7 +171,7 @@
                                 </div>
 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ old('allergy') ? 'checked' : '' }} value="fish">
+                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ unserialize($u->allergyid)['fish'] == true ? 'checked' : '' }} value="fish">
 
                                     <label class="form-check-label" for="fish">
                                         {{ __('Fish') }}
@@ -171,10 +179,10 @@
                                 </div>
 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ old('allergy') ? 'checked' : '' }} value="noallergy">
+                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ unserialize($u->allergyid)['noallergy'] == true ? 'checked' : '' }} value="noallergy">
 
-                                    <label class="form-check-label" for="fish">
-                                        {{ __('No Allergens') }}
+                                    <label class="form-check-label" for="noallergy">
+                                        {{ __('No Allergies') }}
                                     </label>
                                 </div>
 
@@ -184,11 +192,12 @@
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
-                                    {{ __('Add') }}
+                                    {{ __('Update') }}
                                 </button>
                             </div>
                         </div>
                     </form>
+                    @endforeach
                 </div>
             </div>
         </div>

@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Staff Dashboard</div>
+                <div class="card-header">{{ __('Setting') }}</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -18,24 +18,13 @@
                             {{ $message }}
                         </div>
                     @endif
-
-                    <p>Redemption</p>
-                    <a href="{{url('/staff/redeem')}}">Scanner</a>
+                    <p>Personal Details</p>
+                    <a href="{{url('/staff/editstaff')}}">Edit</a>
                     <br>
                     <br>
 
-                    <p>Payment Management</p>
-                    <a href="{{url('/staff/viewaccount')}}">View Account Details</a>
-                    <br>
-                    <br>
-
-                    <p>Menu Management</p>
-                    <a href="{{url('/staff/viewmenu')}}">List Menu</a>
-                    <br>
-                    <br>
-
-                    <p>Order Management</p>
-                    <a href="{{url('/staff/listorder')}}">List Orders</a>
+                    <p>Security</p>
+                    <a href="{{url('/staff/storeaccount')}}">Change Password</a>
                     <br>
                     <br>
                 </div>

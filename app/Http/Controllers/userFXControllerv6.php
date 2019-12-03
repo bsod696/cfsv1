@@ -98,7 +98,7 @@ use AuthenticatesUsers;
 			'secondary_parentid'=>$secondary_parentid,
 		]);
 		$message = "New Student added";
-		return view('user.home', compact('message'));
+		return redirect('user/viewstudent')->with('status', $message);
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 	public function viewstudent(){
@@ -168,7 +168,7 @@ use AuthenticatesUsers;
 		]);
 		
 		$message = "Student Updated";
-		return redirect('user/home')->with('status', $message);
+		return redirect('user/viewstudent')->with('status', $message);
 	}
 
 
@@ -249,7 +249,7 @@ use AuthenticatesUsers;
 				'defaultpay'=>$payflag,
 			]);
 			$message = "Payment Details Added";
-			return redirect('user/home')->with('status', $message);
+			return redirect('user/viewpayment')->with('status', $message);
    		}
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
@@ -347,8 +347,52 @@ use AuthenticatesUsers;
 				'defaultpay'=>$payflag,
 			]);
 			$message = "Payment Details Updated";
-			return redirect('user/home')->with('status', $message);
+			return redirect('user/viewpayment')->with('status', $message);
    		}	
+	}
+
+
+//---------------------------------------------------------------------------------------------------------------------------------------------//
+	public function setting(){
+		if (!Auth::check()) {
+			Session::flash('message', trans('errors.session_label'));
+		  	Session::flash('type', 'warning');
+		  	return redirect()->route('');
+		}
+		else {
+			//$stud = Student::where('primary_parentid', Auth::user()->id)->orwhere('secondary_parentid', Auth::user()->id)->get();
+	      	return view('user.setting'); //, compact('stud'));
+	    }
+	}
+//---------------------------------------------------------------------------------------------------------------------------------------------//
+	//Update Student data in database
+	public function editparentinit(){
+		if (!Auth::check()) {
+			Session::flash('message', trans('errors.session_label'));
+		  	Session::flash('type', 'warning');
+		  	return redirect()->route('');
+		}
+		else {
+			$id = Auth::user()->id;
+			$updata = array('updata'=>User::where('id', $id)->first()); //stored procedures: select * with specific arguments. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:329
+			//dd($id, $updata);
+      		return view('user.editparent', compact('updata'));
+      	}
+	}
+   	public function editparentProc(Request $request){
+   		$id = $request->id;
+   		$fullname = $request->fullname;
+   		$email = $request->email;
+   		$phonenum = $request->phonenum;
+
+   		User::where('id', $id)->update([ //stored procedures: update rows. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:772
+			'fullname'=>$fullname,
+			'email'=>$email,
+			'phonenum'=>$phonenum,
+		]);
+		
+		$message = "Parent Data Updated";
+		return redirect('user/setting')->with('status', $message);
 	}
 
 
@@ -378,7 +422,7 @@ use AuthenticatesUsers;
    		$menuselect = Menus::where('id', $menu_id)->first();
    		$menuname = $menuselect->menuname;
    		$foodqty = $request->foodqty;
-   		$menudate = $menuselect->created_at;
+   		$menudate = $request->dateserve;
    		$price = $menuselect->menuprice;
 
    		Orders::create([
@@ -397,7 +441,7 @@ use AuthenticatesUsers;
 		]);
 
 		$message = "Orders added";
-		return redirect('user/home')->with('status', $message);
+		return redirect('user/menuselect')->with('status', $message);
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 	public function vieworderinit(){
@@ -440,7 +484,7 @@ use AuthenticatesUsers;
 		]);
 		
 		$message = "Orders Updated";
-		return redirect('user/home')->with('status', $message);
+		return redirect('user/vieworder')->with('status', $message);
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 	public function payorderinit(){
@@ -485,11 +529,11 @@ use AuthenticatesUsers;
 			]);
 
 			$message = "Orders Successfully Paid";
-			return redirect('user/home')->with('status', $message);
+			return redirect('user/vieworder')->with('status', $message);
    		}
    		else {
    			$message = "No Default Payment Added";
-			return redirect('user/home')->with('status', $message);
+			return redirect('user/vieworder')->with('status', $message);
    		}
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
@@ -503,7 +547,7 @@ use AuthenticatesUsers;
 			$id = $request->id;
 			Orders::find($id)->delete();
 			$message = "Orders Data Deleted";
-			return redirect('user/home')->with('status', $message);
+			return redirect('user/vieworder')->with('status', $message);
 		}
 	}
 

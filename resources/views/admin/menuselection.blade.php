@@ -18,9 +18,23 @@
                             <div class="col-md-12 offset-md-0">
                             <table class="table">
                         @foreach($menu as $m)
-                                <tr>
+                                    <tr>
                                         <td>
                                             <img align="top" src="{{ asset($m->menupic) }}" width="240" height="160" border="1">
+                                            <br>
+                                            <br>
+                                            <div class="form-group row">
+                                            <form action="{{ route('admin.editmenu') }}" method="POST" enctype="multipart/form-data">
+                                                @csrf
+                                                <input id="id" type="text" class="form-control{{ $errors->has('id') ? ' is-invalid' : '' }}" name="id"  value="{{ $m->id }}" hidden />
+                                                <button type="submit" name="submit" class="btn btn-primary">{{ __('Edit') }}</button>
+                                            </form>
+                                            <form action="{{ route('admin.submit.deletemenu') }}" method="POST" enctype="multipart/form-data">
+                                                @csrf
+                                                <input id="id" type="text" class="form-control{{ $errors->has('id') ? ' is-invalid' : '' }}" name="id"  value="{{ $m->id }}" hidden />
+                                                <button type="submit" name="submit" class="btn btn-primary">{{ __('Delete') }}</button>
+                                            </form>
+                                            </div>
                                         </td>
                                         <td>
                                             <h5>{{ucfirst($m->menuname)}}</h5>
@@ -50,7 +64,7 @@
                                                                 </label>
                                                             @endif
                                                             @if (unserialize($m->allergyid)['peanuts'] == true)
-                                                                <img src="https://i.dlpng.com/static/png/330176_thumb.png" width="30" height="30">
+                                                                <img src="https://img.freepik.com/free-vector/peanut-icon-set_98396-180.jpg?size=626&ext=jpg" width="30" height="30">
                                                                 <label class="form-check-label" for="peanuts">
                                                                     {{ __('Peanuts') }}
                                                                 </label>
@@ -124,6 +138,16 @@
                                                     @if ($errors->has('studentid'))
                                                         <span class="invalid-feedback" role="alert">
                                                             <strong>{{ $errors->first('studentid') }}</strong>
+                                                        </span>
+                                                    @endif
+                                            </p>
+                                            <p>
+                                                <b>Date to Serve :</b>
+                                                    <input type="date" id="dateserve" class="form-control{{ $errors->has('dateserve') ? ' is-invalid' : '' }}" name="dateserve" min="1900-01-01" readonly autofocus value="{{ old('dateserve') }}">
+                                    
+                                                    @if ($errors->has('dateserve'))
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $errors->first('dateserve') }}</strong>
                                                         </span>
                                                     @endif
                                             </p>

@@ -19,9 +19,13 @@
                         </div>
                     @endif
 
-                    <p>Student Management</p>
+                    <p>User Management</p>
                     <!-- <a href="{{url('/admin/storestudent')}}">Add Student</a>
                     <br> -->
+                    <a href="{{url('/admin/viewparent')}}">List Parent</a>
+                    <br>
+                    <a href="{{url('/admin/viewstaff')}}">List Staff</a>
+                    <br>
                     <a href="{{url('/admin/viewstudent')}}">List Student</a>
                     <br>
                     <br>
@@ -30,6 +34,8 @@
                     <!-- <a href="{{url('/admin/storepayment')}}">Add Payment</a>
                     <br> -->
                     <a href="{{url('/admin/viewpayment')}}">View Payment Details</a>
+                    <br>
+                    <a href="{{url('/admin/viewaccount')}}">View Account Details</a>
                     <br>
                     <br>
 

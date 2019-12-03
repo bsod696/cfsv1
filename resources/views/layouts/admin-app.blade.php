@@ -23,7 +23,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand" href="{{ url('/admin/dashboard') }}">
                     <!-- {{ config('app.name', 'Laravel') }} -->
                     <img src="{{ asset('images/logo.jfif') }}" height="30" width="50">
                     Canteen Food System

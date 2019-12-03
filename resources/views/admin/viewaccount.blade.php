@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Payment Details List') }}</div>
+                <div class="card-header">{{ __('Account Details List') }}</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -13,8 +13,8 @@
                             {{ session('status') }}
                         </div>
                         @endif
-                        <p><b>Click 'View' button to see further details of Payment Details.</b></p>
-                        <a href="{{url('/admin/storepayment')}}">Add</a>
+                        <p><b>Click 'View' button to see further details of Account Details.</b></p>
+                        <a href="{{url('/admin/storeaccount')}}">Add</a>
                         <br>
                         <div class="form-group row mb-0">
                             <div class="col-md-12 offset-md-0">
@@ -23,17 +23,15 @@
                                 <col width="80">
                                 <col width="50">
                                 <thead class="thead-dark">
-                                @if(!empty($pay))
-                        @foreach($pay as $s)
+                                @if(!empty($acc))
+                        @foreach($acc as $s)
                                 <tr>
                                 <td>
                                         <b>Full Name : </b>{{$s->fullname}}
                                         <br>
-                                        <b>Card Number : </b>{{$s->cardnum}}
+                                        <b>Bank Name : </b>{{strtoupper($s->bankname)}}
                                         <br>
-                                        <b>Card Type : </b>{{strtoupper($s->cardtype)}}
-                                        <br>
-                                        <b>Expiry Date : </b>{{$s->expdate}}
+                                        <b>Account Number : </b>{{strtoupper($s->banknum)}}
                                         <br>
                                         <b>Billing Address : </b>
                                         <br>
@@ -52,7 +50,7 @@
                                         @endif
                                 </td>
                                 <td><center>
-                                    <form action="{{ route('admin.editpayment') }}" method="POST" enctype="multipart/form-data">
+                                    <form action="{{ route('admin.editaccount') }}" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         <input id="id" type="text" class="form-control{{ $errors->has('id') ? ' is-invalid' : '' }}" name="id"  value="{{ $s->id }}" hidden />
                                         <button type="submit" name="submit" class="btn btn-primary">{{ __('View') }}</button>
@@ -61,7 +59,7 @@
                                 </tr>
                         @endforeach
                                 @else
-                                <p>No Payment data found.</p>
+                                <p>No Account data found.</p>
                                 @endif
                             </table>
                             </div>
