@@ -487,15 +487,16 @@ use AuthenticatesUsers;
 		return redirect('user/vieworder')->with('status', $message);
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
-	public function payorderinit(){
+	public function payorderinit(Request $request){
 		if (!Auth::check()) {
 			Session::flash('message', trans('errors.session_label'));
 		  	Session::flash('type', 'warning');
 		  	return redirect()->route('');
 		}
 		else {
-			$orders = Orders::where('parentid', Auth::user()->id)->get();
-	      	return view('user.vieworders', compact('orders', 'menu'));
+			$id = $request->id;
+			$orders = Orders::where('id', $id)->get();
+	      	return view('user.payorders', compact('orders'));
 	    }
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
@@ -504,10 +505,11 @@ use AuthenticatesUsers;
    		$parent_id = $request->parentid;
 
    		$ordersdet = Orders::where('id', $order_id)->first();
-   		$payflag = PaymentDet::where('parentid', $parent_id)->first();
-   		
-   		if($payflag->defaultpay =='Y'){
-   			$payment_txid = strtoupper('CFSP'.$parent_id.'D'.$order_id.'H'.Carbon::now()->timestamp.'TX'.getRandomString(5));
+   		$payflag = PaymentDet::where('parentid', Auth::user()->id)->where('defaultpay', 'Y')->count();
+
+   		if($payflag >= 1){
+   			$paydet = PaymentDet::where('parentid', Auth::user()->id)->where('defaultpay', 'Y')->first();
+   			$payment_txid = strtoupper('CFSP'.$parent_id.'D'.$order_id.'P'.$paydet->id.'H'.Carbon::now()->timestamp.'TX'.getRandomString(5));
 	   		
 	   		if($payment_txid != ''){$txstatus = 'success';}
 	   		else{$txstatus = 'fail';}
@@ -519,8 +521,9 @@ use AuthenticatesUsers;
 			]);
 
 			Transaction::create([
-				'menuid'=>$ordersdet->menu_id,
+				'menuid'=>$ordersdet->menuid,
 				'parentid'=>$parent_id,
+				'paymentid'=>$paydet->id,
 				'orderid'=>$order_id, 
 				'txstatus'=>$txstatus, 
 				'txreference'=>'PAYORDERS', 
@@ -561,7 +564,7 @@ use AuthenticatesUsers;
 		  	return redirect()->route('');
 		}
 		else {
-			$trans = Transaction::where('parentuid', Auth::user()->id)->get();
+			$trans = Transaction::where('parentid', Auth::user()->id)->get();
 	      	return view('user.listtrans', compact('trans'));
 	    }
 	}
@@ -574,8 +577,9 @@ use AuthenticatesUsers;
 		}
 		else {
 			$payment_txid = $request->txid;
+			$orders = Orders::where('txid', $payment_txid)->get();
 			$trans = Transaction::where('txid', $payment_txid)->get();
-	      	return view('user.viewtrans', compact('trans'));
+	      	return view('user.viewtrans', compact('trans', 'orders'));
 	    }
 	}
 

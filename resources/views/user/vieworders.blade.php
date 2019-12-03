@@ -48,9 +48,8 @@
                                 @endif
                                 <td><center>
                                     @if ($o->txid == '')
-                                        <form action="{{ route('user.submit.payorder') }}" method="POST" enctype="multipart/form-data">
+                                        <form action="{{ route('user.payorder') }}" method="POST" enctype="multipart/form-data">
                                             @csrf
-                                            <input id="parentid" type="text" class="form-control @error('parentid') is-invalid @enderror" name="parentid" value="{{ Auth::user()->id }}" readonly hidden>
                                             <input id="id" type="text" class="form-control{{ $errors->has('id') ? ' is-invalid' : '' }}" name="id"  value="{{ $o->id }}" hidden />
                                             <button type="submit" name="submit" class="btn btn-primary">{{ __('Pay') }}</button>
                                         </form>

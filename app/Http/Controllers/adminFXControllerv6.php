@@ -358,7 +358,7 @@ use AuthenticatesUsers;
 				'defaultpay'=>$payflag,
 			]);
 			$message = "Payment Details Updated";
-			return redirect('admin/dashboard')->with('status', $message);
+			return redirect('admin/viewpayment')->with('status', $message);
    		}	
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
@@ -373,7 +373,7 @@ use AuthenticatesUsers;
 			$id = $request->id;
 			PaymentDet::find($id)->delete(); //stored procedures: delete row. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:843
 			$message = "Payment Data Deleted";
-			return redirect('admin/dashboard')->with('status', $message);
+			return redirect('admin/viewpayment')->with('status', $message);
 		}
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
@@ -589,10 +589,11 @@ use AuthenticatesUsers;
    		$parent_id = $request->parentid;
 
    		$ordersdet = Orders::where('id', $order_id)->first(); //stored procedures: select * with specific arguments. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:329
-   		$payflag = PaymentDet::where('parentid', $parent_id)->first(); //stored procedures: select * with specific arguments. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:329
+   		$payflag = PaymentDet::where('parentid', $parent_id)->where('defaultpay', 'Y')->count();
    		
-   		if($payflag->defaultpay =='Y'){
-   			$payment_txid = strtoupper('CFSP'.$parent_id.'D'.$order_id.'H'.Carbon::now()->timestamp.'TX'.getRandomString(5));
+   		if($payflag >= 1){
+   			$paydet = PaymentDet::where('parentid', $parent_id)->where('defaultpay', 'Y')->first();
+   			$payment_txid = strtoupper('CFSP'.$parent_id.'D'.$order_id.'P'.$paydet->id.'H'.Carbon::now()->timestamp.'TX'.getRandomString(5));
 	   		
 	   		if($payment_txid != ''){$txstatus = 'success';}
 	   		else{$txstatus = 'fail';}
@@ -604,21 +605,21 @@ use AuthenticatesUsers;
 			]);
 
 			Transaction::create([ //stored procedures: create new row. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:746
-				'menuid'=>$ordersdet->menu_id,
+				'menuid'=>$ordersdet->menuid,
 				'parentid'=>$parent_id,
+				'paymentid'=>$paydet->id,
 				'orderid'=>$order_id, 
 				'txstatus'=>$txstatus, 
 				'txreference'=>'PAYORDERS', 
 				'txamount'=>$total,
 				'txid'=>$payment_txid, 
 			]);
-
 			$message = "Orders Successfully Paid";
-			return redirect('admin/dashboard')->with('status', $message);
+			return redirect('admin/vieworder')->with('status', $message);
    		}
    		else {
    			$message = "No Default Payment Added";
-			return redirect('admin/dashboard')->with('status', $message);
+			return redirect('admin/vieworder')->with('status', $message);
    		}
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
@@ -632,7 +633,7 @@ use AuthenticatesUsers;
 			$id = $request->id;
 			Orders::find($id)->delete(); //stored procedures: delete row. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:843
 			$message = "Orders Data Deleted";
-			return redirect('admin/dashboard')->with('status', $message);
+			return redirect('admin/vieworder')->with('status', $message);
 		}
 	}
 
@@ -658,9 +659,10 @@ use AuthenticatesUsers;
 		  	return redirect()->route('');
 		}
 		else {
-			$payment_txid = $request->txid;
+	      	$payment_txid = $request->txid;
+			$orders = Orders::where('txid', $payment_txid)->get(); //stored procedures: select * with specific arguments. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:329
 			$trans = Transaction::where('txid', $payment_txid)->get(); //stored procedures: select * with specific arguments. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:329
-	      	return view('admin.viewtrans', compact('trans'));
+	      	return view('admin.viewtrans', compact('trans', 'orders'));
 	    }
 	}
 
@@ -714,7 +716,7 @@ use AuthenticatesUsers;
 	        'allergyid'=>serialize($allcomp),
 	    ]);
 	    $message = "New Menu added";
-	    return redirect('admin/dashboard')->with('status', $message);
+	    return redirect('admin/menuselect')->with('status', $message);
     }
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 	public function viewmenu(){
@@ -779,7 +781,7 @@ use AuthenticatesUsers;
 	        'allergyid'=>serialize($allcomp),
 	    ]);
 	    $message = "Menu data updated";
-	    return redirect('admin/dashboard')->with('status', $message);
+	    return redirect('admin/menuselect')->with('status', $message);
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 	//Delete Student data in database
@@ -793,7 +795,7 @@ use AuthenticatesUsers;
 			$id = $request->id;
 			Menus::find($id)->delete(); //stored procedures: delete row. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:843
 			$message = "Menu Data Deleted";
-			return redirect('admin/dashboard')->with('status', $message);
+			return redirect('admin/menuselect')->with('status', $message);
 		}
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//

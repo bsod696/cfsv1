@@ -98,9 +98,6 @@
                                                 <b>Price : RM</b> {{$m->menuprice}}<br>
                                                 <b>Calories :</b> {{$m->menucalories}} Kcal<br>
                                             </p>
-                                            <p>
-                                                <b>Quantity :</b>
-                                            </p>
                                             </td>
                                     </form>
                                 </tr>

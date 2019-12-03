@@ -10,6 +10,7 @@ class Transaction extends Model
 	protected $fillable = [
 		'menuid',
 		'parentid',
+		'paymentid',
 		'orderid', 
 		'txstatus', 
 		'txreference', 

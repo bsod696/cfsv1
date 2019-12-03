@@ -14,6 +14,8 @@
                         </div>
                         @endif
                         <br>
+                        <a href="{{url('/admin/storemenu')}}">Add</a>
+                        <br>
                         <div class="form-group row mb-0">
                             <div class="col-md-12 offset-md-0">
                             <table class="table">
@@ -22,19 +24,6 @@
                                         <td>
                                             <img align="top" src="{{ asset($m->menupic) }}" width="240" height="160" border="1">
                                             <br>
-                                            <br>
-                                            <div class="form-group row">
-                                            <form action="{{ route('admin.editmenu') }}" method="POST" enctype="multipart/form-data">
-                                                @csrf
-                                                <input id="id" type="text" class="form-control{{ $errors->has('id') ? ' is-invalid' : '' }}" name="id"  value="{{ $m->id }}" hidden />
-                                                <button type="submit" name="submit" class="btn btn-primary">{{ __('Edit') }}</button>
-                                            </form>
-                                            <form action="{{ route('admin.submit.deletemenu') }}" method="POST" enctype="multipart/form-data">
-                                                @csrf
-                                                <input id="id" type="text" class="form-control{{ $errors->has('id') ? ' is-invalid' : '' }}" name="id"  value="{{ $m->id }}" hidden />
-                                                <button type="submit" name="submit" class="btn btn-primary">{{ __('Delete') }}</button>
-                                            </form>
-                                            </div>
                                         </td>
                                         <td>
                                             <h5>{{ucfirst($m->menuname)}}</h5>
@@ -113,46 +102,19 @@
                                                 <b>Calories :</b> {{$m->menucalories}} Kcal<br>
                                             </p>
                                             <p>
-                                                <b>Quantity :</b>
-
-                                                <form action="{{ route('admin.submit.menuselect') }}" method="POST" enctype="multipart/form-data">
+                                                <form action="{{ route('admin.editmenu') }}" method="POST" enctype="multipart/form-data">
                                                     @csrf
                                                     <input id="id" type="text" class="form-control{{ $errors->has('id') ? ' is-invalid' : '' }}" name="id"  value="{{ $m->id }}" hidden />
-                                                    <input id="foodqty" type="number" min="1" max="999" size="2" class="form-control{{ $errors->has('id') ? ' is-invalid' : '' }}" name="foodqty" value="{{ old('foodqty') }}" required autocomplete="foodqty" autofocus>
-
-                                                    @error('foodqty')
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong>{{ $message }}</strong>
-                                                        </span>
-                                                    @enderror
+                                                    <button type="submit" name="submit" class="btn btn-primary">{{ __('Edit Menu') }}</button>
+                                                </form>
                                             </p>
                                             <p>
-                                                <b>Assign To :</b>
-                                                    <select id="studentid" class="form-control{{ $errors->has('studentid') ? ' is-invalid' : '' }}" name="studentid" required autofocus>
-                                                        <option value="">--Select One--</option>
-                                                        @foreach($stud as $s)
-                                                            <option value="{{ $s->studentid }}">{{ $s->fullname }}</option>
-                                                        @endforeach
-                                                    </select>
-                                    
-                                                    @if ($errors->has('studentid'))
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong>{{ $errors->first('studentid') }}</strong>
-                                                        </span>
-                                                    @endif
+                                                <form action="{{ route('admin.submit.deletemenu') }}" method="POST" enctype="multipart/form-data">
+                                                    @csrf
+                                                    <input id="id" type="text" class="form-control{{ $errors->has('id') ? ' is-invalid' : '' }}" name="id"  value="{{ $m->id }}" hidden />
+                                                    <button type="submit" name="submit" class="btn btn-primary">{{ __('Delete Menu') }}</button>
+                                                </form>
                                             </p>
-                                            <p>
-                                                <b>Date to Serve :</b>
-                                                    <input type="date" id="dateserve" class="form-control{{ $errors->has('dateserve') ? ' is-invalid' : '' }}" name="dateserve" min="1900-01-01" readonly autofocus value="{{ old('dateserve') }}">
-                                    
-                                                    @if ($errors->has('dateserve'))
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong>{{ $errors->first('dateserve') }}</strong>
-                                                        </span>
-                                                    @endif
-                                            </p>
-                                                    <input id="parentid" type="text" class="form-control @error('parentid') is-invalid @enderror" name="parentid" value="ADMIN_{{ Auth::guard('admin')->user()->id }}" readonly hidden>
-                                            <p align="right"><button type="submit" name="submit" class="btn btn-primary">{{ __('Add to Cart') }}</button></p>
                                         </td>
                                     </form>
                                 </tr>

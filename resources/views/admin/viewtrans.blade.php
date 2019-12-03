@@ -18,13 +18,16 @@
                         <div class="form-group row mb-0">
                             <div class="col-md-12 offset-md-0">
                                 @foreach($trans as $t)
-                                    <p> Parent Reference: {{ $t->parentid }} </p>
-                                    <p> Menu Reference: {{ $t->menuid }} </p>
-                                    <p> Order Reference : {{ $t->orderid }}  </p>
-                                    <p> Transaction Status : {{ strtoupper($t->txstatus) }}  </p>
-                                    <p> Transaction Reference : {{ $t->txreference }} </p> 
-                                    <p> Transaction Amount : RM {{ $t->txamount }} </p>
-                                    <p> Transaction ID : {{ $t->txid }} </p>
+                                    @foreach($orders as $o)
+                                        <p> <b> Menu Name: </b> {{ ucfirst($o->menuname) }} </p>
+                                        <p> <b> Menu Quantity: </b> {{ $o->menuqty }} Units</p>
+                                        <p> <b> Student ID : </b> {{ strtoupper($o->studentid) }}  </p>
+                                        <p> <b> Student Name : </b> {{ ucfirst($o->studentname) }}  </p>
+                                    @endforeach
+                                    <p> <b> Transaction Status : </b> {{ strtoupper($t->txstatus) }}  </p>
+                                    <p> <b> Transaction Reference : </b> {{ $t->txreference }} </p> 
+                                    <p> <b> Transaction Amount : </b> RM {{ $t->txamount }} </p>
+                                    <p> <b> Transaction ID : </b> {{ $t->txid }} </p>
                                 @endforeach
                             </div>
                         </div>

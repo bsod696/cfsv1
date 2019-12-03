@@ -15,7 +15,7 @@
                     @endif
                     
                     @foreach( $updata as $u)
-                    <form action="{{ route('admin.submit.deleteparent') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('admin.submit.deletestaff') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <input id="id" type="text" class="form-control{{ $errors->has('id') ? ' is-invalid' : '' }}" name="id"  value="{{ $u->id }}" hidden />
                         <button type="submit" name="submit" class="btn btn-primary">{{ __('Delete Staff') }}</button>

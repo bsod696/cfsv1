@@ -57,7 +57,7 @@ Route::prefix('user')->group(function() {
 	Route::post('/submit/editorder','userFXControllerv6@editorderProc')->name('user.submit.editorder');
 	Route::get('/deleteorder','userFXControllerv6@deleteorderinit');
 	Route::post('/submit/deleteorder','userFXControllerv6@deleteorderProc')->name('user.submit.deleteorder');
-	Route::get('/payorder','userFXControllerv6@payorderinit')->name('user.payorder');
+	Route::post('/payorder','userFXControllerv6@payorderinit')->name('user.payorder');
 	Route::post('/submit/payorder','userFXControllerv6@payorderProc')->name('user.submit.payorder');
 	Route::post('/submit/deleteorder','userFXControllerv6@deleteorderProc')->name('user.submit.deleteorder');
 
