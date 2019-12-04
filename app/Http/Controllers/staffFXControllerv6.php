@@ -241,7 +241,7 @@ use AuthenticatesUsers;
 		  	return redirect()->route('');
 		}
 		else {
-			$menu = Menus::whereNotNull('staffid')->get();
+			$menu = Menus::all();
 	      	return view('staff.viewmenu', compact('menu'));
 	    }
 	}
@@ -331,7 +331,85 @@ use AuthenticatesUsers;
 			return redirect('staff/listorder')->with('status', $message);
 		}
 	}	
+//---------------------------------------------------------------------------------------------------------------------------------------------//
+	public function ordersummaryinit(){
+		if (!Auth::guard('staff')) {
+			Session::flash('message', trans('errors.session_label'));
+		  	Session::flash('type', 'warning');
+		  	return redirect()->route('');
+		}
+		else {
+			$nextday = date_format(Carbon::now()->tomorrow(), 'd/m/Y');
+			$staffid = Auth::guard('staff')->user()->id; 
 
+	  		$orderscheck = Orders::where('staffid', $staffid)->where('redeemstatus', 'NOTREDEEEMED')->count();
+	  		if($orderscheck > 0){
+	  			$orders = Orders::where('staffid', $staffid)->where('redeemstatus', 'NOTREDEEEMED')->get();
+	  			$tmp = array();
+	  			foreach ($orders as $ord) {
+	  				if(date_format(date_create($ord['menudate']), 'd/m/Y') == $nextday){
+	  					$tmp[$ord['menuname']][] = $ord['menuqty'];
+	  				}
+	  			}
+	  			$output = array();
+		  		foreach ($tmp as $menuname => $menuqty) {
+		  			$output[] = array(
+				        'menuname' => $menuname,
+				        'menuqty' => array_sum($menuqty)
+				    );
+		  		}
+		  		$ordersorg = array();
+		  		foreach($output as $out){
+		  			$menudet = Menus::where('menuname', $out['menuname'])->first();
+		  			$ordersorg[] = array(
+		  				'menudate' => $nextday,
+		  				'menuname' => $out['menuname'],
+		  				'menuprice' => $menudet->menuprice,
+				        'menuqty' => $out['menuqty'],
+				        'totalpermenu' => number_format($out['menuqty']*$menudet->menuprice, 2, '.', '')
+		  			);
+				}
+		  		return view('staff.orderssummary', compact('ordersorg'));
+	  		}
+	  		else {return view('staff.orderssummary');}
+	    }
+	}
+//---------------------------------------------------------------------------------------------------------------------------------------------//
+   	public function ordersummaryProc(Request $request){
+   		$servedate = date_format(date_create($request->servedate), 'd/m/Y');
+   		$staffid = Auth::guard('staff')->user()->id; 
+
+   		$orderscheck = Orders::where('staffid', $staffid)->where('redeemstatus', 'NOTREDEEEMED')->count();
+   		if($orderscheck > 0){
+	  		$orders = Orders::where('staffid', $staffid)->where('redeemstatus', 'NOTREDEEEMED')->get();
+	  		$tmp = array();
+	  		foreach ($orders as $ord) {
+	  			if(date_format(date_create($ord['menudate']), 'd/m/Y') == $servedate){
+	  				$tmp[$ord['menuname']][] = $ord['menuqty'];
+	  			}
+	  		}
+	  		$output = array();
+		  	foreach ($tmp as $menuname => $menuqty) {
+		  		$output[] = array(
+			        'menuname' => $menuname,
+			        'menuqty' => array_sum($menuqty)
+			    );
+		  	}
+		  	$ordersorg = array();
+		  	foreach($output as $out){
+		  		$menudet = Menus::where('menuname', $out['menuname'])->first();
+		  		$ordersorg[] = array(
+		  			'menudate' => $servedate,
+		  			'menuname' => $out['menuname'],
+		  			'menuprice' => $menudet->menuprice,
+			        'menuqty' => $out['menuqty'],
+			        'totalpermenu' => number_format($out['menuqty']*$menudet->menuprice, 2, '.', '')
+		  		);
+			}
+		  	return view('staff.orderssummary', compact('ordersorg'));
+	  	}
+	  	else {return view('staff.orderssummary');}
+   	}	
 
 
 

@@ -37,6 +37,7 @@
                     <p>Order Management</p>
                     <a href="{{url('/staff/listorder')}}">List Orders</a>
                     <br>
+                    <a href="{{url('/staff/ordersummary')}}">Orders Summary</a>
                     <br>
                 </div>
             </div>

@@ -179,7 +179,9 @@ Route::prefix('staff')->group(function() {
 	Route::get('/takeorder','staffFXControllerv6@takeordersinit');
 	Route::post('/submit/takeorder','staffFXControllerv6@takeordersProc')->name('staff.submit.takeorder');
 	Route::post('/submit/cancelorder','staffFXControllerv6@cancelordersProc')->name('staff.submit.cancelorder');
-
+	Route::get('/ordersummary','staffFXControllerv6@ordersummaryinit');
+	Route::post('/submit/ordersummary','staffFXControllerv6@ordersummaryProc')->name('staff.submit.ordersummary');
+	
 	// Route::post('/submit/deleteorder','staffFXControllerv6@deleteorderProc')->name('staff.submit.deleteorder');
 	// Route::get('/payorder','staffFXControllerv6@payorderinit')->name('staff.payorder');
 	// Route::post('/submit/payorder','staffFXControllerv6@payorderProc')->name('staff.submit.payorder');
