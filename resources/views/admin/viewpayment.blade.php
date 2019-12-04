@@ -29,7 +29,7 @@
                                 <td>
                                         <b>Full Name : </b>{{$s->fullname}}
                                         <br>
-                                        <b>Card Number : </b>{{$s->cardnum}}
+                                        <b>Card Number : </b>************{{substr($s->cardnum,-4)}}
                                         <br>
                                         <b>Card Type : </b>{{strtoupper($s->cardtype)}}
                                         <br>
