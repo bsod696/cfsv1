@@ -61,7 +61,7 @@
                                 Logout
                                 </a>
 
-                                <form id="logout-form" action="{{ route('user.logout') }}" method="POST" style="display: none;">
+                                <form id="logout-form" action="{{ route('user.logout') }}" method="GET" style="display: none;">
                                     @csrf
                                 </form>
                             </li>
