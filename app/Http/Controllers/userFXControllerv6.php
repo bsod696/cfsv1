@@ -158,7 +158,7 @@ use AuthenticatesUsers;
    		// 	$primary_parentid = '';
    		// 	$secondary_parentid = $request->parentid;
    		// }
-   		$primary_parentid = $request->parentid;
+   		$parentid = $request->parentid;
 
    		Student::where('id', $id)->update([
 			'class'=>$class,

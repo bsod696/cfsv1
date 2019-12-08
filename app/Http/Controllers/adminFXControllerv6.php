@@ -67,7 +67,7 @@ use AuthenticatesUsers;
    		$weight = $request->weight;
    		$bmi = $request->bmi;
    		$target_calories = $request->target_calories;
-   		$primary = $request->primary;
+   		//$primary = $request->primary;
    		$allergy = $request->allergy;
 
    		$allallergy = Allergy::all(); //stored procedures: select *. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:521
@@ -934,7 +934,7 @@ use AuthenticatesUsers;
    		$weight = $request->weight;
    		$bmi = $request->bmi;
    		$target_calories = $request->target_calories;
-   		$primary = $request->primary;
+   		//$primary = $request->primary;
    		$allergy = $request->allergy;
 
    		$allallergy = Allergy::all(); //stored procedures: select *. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:521
