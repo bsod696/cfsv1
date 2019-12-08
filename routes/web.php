@@ -33,6 +33,8 @@ Route::prefix('user')->group(function() {
     Route::get('/setting','userFXControllerv6@setting')->name('user.setting');
     Route::get('/editparent','userFXControllerv6@editparentinit')->name('user.editparent');
 	Route::post('/submit/editparent','userFXControllerv6@editparentProc')->name('user.submit.editparent');
+	Route::get('/changepass','userFXControllerv6@changepasswordinit')->name('user.password');
+	Route::post('/submit/changepass','userFXControllerv6@changepasswordProc')->name('user.submit.password');
 
 	//STUDENT
 	Route::get('/storestudent','userFXControllerv6@storestudentinit');
@@ -81,6 +83,9 @@ Route::prefix('admin')->group(function() {
     Route::get('/password/reset', 'Auth\AdminForgotPasswordController@showLinkRequestForm')->name('password.request');
     Route::post('/password/reset', 'Auth\AdminResetPasswordController@reset')->name('password.update');
     Route::get('/password/reset/{token}', 'Auth\AdminResetPasswordController@showResetForm')->name('password.reset');
+
+    Route::get('/changepass','adminFXControllerv6@changepasswordinit')->name('admin.password');
+	Route::post('/submit/changepass','adminFXControllerv6@changepasswordProc')->name('admin.submit.password');
 
     //PARENT
     Route::get('/viewparent','adminFXControllerv6@viewparent');
@@ -162,6 +167,8 @@ Route::prefix('staff')->group(function() {
     Route::get('/setting','staffFXControllerv6@setting')->name('staff.setting');
     Route::get('/editstaff','staffFXControllerv6@editstaffinit')->name('staff.editstaff');
 	Route::post('/submit/editstaff','staffFXControllerv6@editstaffProc')->name('staff.submit.editstaff');
+	Route::get('/changepass','staffFXControllerv6@changepasswordinit')->name('staff.password');
+	Route::post('/submit/changepass','staffFXControllerv6@changepasswordProc')->name('staff.submit.password');
 
 	//ACCOUNT
 	Route::get('/storeaccount','staffFXControllerv6@storeaccountinit')->name('staff.storeaccount');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Intervention\Image\ImageManagerStatic as Image;
 use PDF;
 use Auth;
@@ -229,7 +230,40 @@ use AuthenticatesUsers;
 		$message = "Staff Data Updated";
 		return redirect('staff/dashboard')->with('status', $message);
 	}
+//---------------------------------------------------------------------------------------------------------------------------------------------//
+	public function changepasswordinit(){
+		if (!Auth::guard('staff')) {
+			Session::flash('message', trans('errors.session_label'));
+		  	Session::flash('type', 'warning');
+		  	return redirect()->route('');
+		}
+		else {
+	      	return view('staff.changepassword');
+	    }
+	}
+	public function changepasswordProc(Request $request){
+   		$id = $request->id;
+   		$cpassword = $request->cpassword;
+   		$password = $request->password;
+   		$confirm_password = $request->password_confirmation;
+   		$cpasswordhashed = Hash::make($cpassword);
+   		$passwordhashed = Hash::make($password);
 
+   		$request->validate(['password' => ['required', 'min:8', 'regex:/[a-z]/', 'regex:/[A-Z]/', 'regex:/[0-9]/', 'confirmed']]);
+   		$staffdet = Staff::where('id', $id)->first();
+   		
+   		if(Hash::check($cpassword, $staffdet->password) == true){
+   			Staff::where('id', $id)->update([ //stored procedures: update rows. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:772
+				'password'=>$passwordhashed,
+			]);	
+			$message = "Password Updated";
+			return redirect('staff/dashboard')->with('status', $message);
+   		}
+   		else {
+   			$message = "Incorrect Current Password";
+			return redirect('staff/changepass')->with('status', $message);
+   		}
+	}
 
 
 

@@ -42,6 +42,12 @@
                                 </ul>
                             </li>
                             <li>
+                                <a href="#">Setting</a>
+                                <ul>
+                                    <li><a href="{{ route('admin.password') }}">Change Password</a></li>
+                                </ul>
+                            </li>
+                            <li>
                                 <a href="{{ route('admin.logout') }}"
                                     onclick="event.preventDefault();
                                             document.getElementById('logout-form').submit();" class="button"

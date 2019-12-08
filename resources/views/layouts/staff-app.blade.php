@@ -57,7 +57,7 @@
                                         <a href="#">Setting</a>
                                         <ul>
                                             <li><a href="{{ route('staff.editstaff') }}">Edit Personal Details</a></li>
-                                            <li><a href="{{ route('staff.editstaff') }}">Change Password</a></li>
+                                            <li><a href="{{ route('staff.password') }}">Change Password</a></li>
                                         </ul>
                                     </li>
                                 </ul>

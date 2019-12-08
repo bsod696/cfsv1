@@ -60,7 +60,7 @@
 
                                 @if ($errors->has('password'))
                                     <span class="invalid-feedback" role="alert">
-                                        <strong>The password must be more than 8 characters long, should contain at-least 1 Uppercase, 1 Lowercase, 1 Numeric</strong>
+                                        <strong>The password must be more than 8 characters long, should contain at-least 1 Uppercase, 1 Lowercase, 1 Numeric or password not match with confirm password</strong>
                                     </span>
                                 @endif
                             </div>

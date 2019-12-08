@@ -48,7 +48,7 @@
                                         <a href="#">Setting</a>
                                         <ul>
                                             <li><a href="{{ route('user.editparent') }}">Edit Personal Details</a></li>
-                                            <li><a href="{{ route('user.editparent') }}">Change Password</a></li>
+                                            <li><a href="{{ route('user.password') }}">Change Password</a></li>
                                         </ul>
                                     </li>
                                 </ul>
