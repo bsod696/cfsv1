@@ -227,7 +227,7 @@ use AuthenticatesUsers;
 		]);
 		
 		$message = "Staff Data Updated";
-		return redirect('staff/setting')->with('status', $message);
+		return redirect('staff/dashboard')->with('status', $message);
 	}
 
 

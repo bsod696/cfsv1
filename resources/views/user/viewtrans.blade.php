@@ -1,39 +1,59 @@
 @extends('layouts.user-app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Transaction Details') }}</div>
-
-                <div class="card-body">
+<header>
+        <h2>{{ __('Transaction Details') }}</h2>
+        <p>Seamless food management for your children</p>
+</header>
+<div class="box">
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">
                             {{ session('status') }}
                         </div>
-                        @endif
-                        <p><b>This is your receipt.</b></p>
-                        <br>
-                        <div class="form-group row mb-0">
-                            <div class="col-md-12 offset-md-0">
-                                @foreach($trans as $t)
-                                    @foreach($orders as $o)
-                                        <p> <b> Menu Name: </b> {{ ucfirst($o->menuname) }} </p>
-                                        <p> <b> Menu Quantity: </b> {{ $o->menuqty }} Units</p>
-                                        <p> <b> Student ID : </b> {{ strtoupper($o->studentid) }}  </p>
-                                        <p> <b> Student Name : </b> {{ ucfirst($o->studentname) }}  </p>
-                                    @endforeach
-                                    <p> <b> Transaction Status : </b> {{ strtoupper($t->txstatus) }}  </p>
-                                    <p> <b> Transaction Reference : </b> {{ $t->txreference }} </p> 
-                                    <p> <b> Transaction Amount : </b> RM {{ $t->txamount }} </p>
-                                    <p> <b> Transaction ID : </b> {{ $t->txid }} </p>
-                                @endforeach
-                            </div>
+                    @endif
+
+                <section class="box">
+                    <div class="row gtr-50 gtr-uniform">
+                        @foreach($trans as $t)
+                        <div class="col-4">
+                            <span class="image fit"><img src="{{ asset('images/logo.jfif') }}"></span>
                         </div>
-                </div>
-            </div>
-        </div>
-    </div>
+                        <div class="col-8">
+                            <h2>Canteen Food System</h2>
+                        </div>
+                        <div class="col-12">
+                            <h3>This is your receipt.</h3>
+                            <p>
+
+                            @foreach($orders as $o)
+                                <b> Menu Name: </b> {{ ucfirst($o->menuname) }} <br>
+                                <b> Menu Quantity: </b> {{ $o->menuqty }} Units<br>
+                                <b> Student ID : </b> {{ strtoupper($o->studentid) }}  <br>
+                                <b> Student Name : </b> {{ ucfirst($o->studentname) }}  <br>
+                            @endforeach
+
+                                <b> Transaction Status : </b> {{ strtoupper($t->txstatus) }}  <br>
+                                <b> Transaction Reference : </b> {{ $t->txreference }} <br> 
+                                <b> Transaction Amount : </b> RM {{ $t->txamount }} <br>
+                                <b> Transaction ID : </b> {{ $t->txid }} <br>
+                        @endforeach
+                        </p>
+                        </div>
+                    </div>
+
+                    <p></p>
+                    <div class="row gtr-50 gtr-uniform">
+                        <div class="col-12">
+                            <p>
+                                <b>Payment Information.</b><br>
+                            @foreach($payments as $p)
+                                <b> Issued To : </b> {{ ucfirst($p->fullname) }} <br>
+                                <b> Card Number: </b> ************{{substr($p->cardnum,-4)}} <br>
+                                <b> Card Merchant : </b> {{ strtoupper($p->cardtype) }}  <br>
+                            @endforeach
+                            </p>
+                        </div>
+                    </div>
+                </section>
 </div>
 @endsection

@@ -10,8 +10,9 @@ class Student extends Model
 	protected $fillable = [
 		'fullname',
 		'studentid', 
-		'primary_parentid', 
-		'secondary_parentid', 
+		// 'primary_parentid', 
+		// 'secondary_parentid',
+		'parentid',  
 		'class', 
 		'school_session',
 		'dob',

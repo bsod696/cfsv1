@@ -13,6 +13,8 @@
 
 //-----------------------------------------------------------GUEST------------------------------------------------------------------------------//
 Route::get('/', function () {return view('index');});
+Route::get('/mission', function () {return view('mission');});
+Route::get('/solution', function () {return view('solution');});
 
 //-----------------------------------------------------------USER------------------------------------------------------------------------------//
 Route::prefix('user')->group(function() {
@@ -21,7 +23,7 @@ Route::prefix('user')->group(function() {
 	Route::get('/login', 'Auth\LoginController@showLoginForm')->name('user.login');
    	Route::post('/login', 'Auth\LoginController@login')->name('user.login.submit');
 	Route::get('/home', 'userFXControllerv6@index')->name('user.home');
-	Route::post('/logout', 'Auth\LoginController@logout')->name('user.logout');
+	Route::get('/logout', 'Auth\LoginController@logout')->name('user.logout');
 	
 	Route::post('/password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
     Route::get('/password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
@@ -29,7 +31,7 @@ Route::prefix('user')->group(function() {
     Route::get('/password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 
     Route::get('/setting','userFXControllerv6@setting')->name('user.setting');
-    Route::get('/editparent','userFXControllerv6@editparentinit');
+    Route::get('/editparent','userFXControllerv6@editparentinit')->name('user.editparent');
 	Route::post('/submit/editparent','userFXControllerv6@editparentProc')->name('user.submit.editparent');
 
 	//STUDENT
@@ -52,7 +54,7 @@ Route::prefix('user')->group(function() {
 	Route::post('/submit/menuselect','userFXControllerv6@menuselectProc')->name('user.submit.menuselect');
 
 	//ORDER
-	Route::get('/vieworder','userFXControllerv6@vieworderinit');
+	Route::get('/vieworder','userFXControllerv6@vieworderinit')->name('user.vieworder');
 	Route::get('/editorder','userFXControllerv6@editorderinit');
 	Route::post('/submit/editorder','userFXControllerv6@editorderProc')->name('user.submit.editorder');
 	Route::get('/deleteorder','userFXControllerv6@deleteorderinit');
@@ -73,7 +75,7 @@ Route::prefix('admin')->group(function() {
 	Route::get('/login', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
    	Route::post('/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
 	Route::get('/dashboard', 'adminFXControllerv6@index')->name('admin.dashboard');
-	Route::post('/logout', 'Auth\AdminLoginController@logout')->name('admin.logout');
+	Route::get('/logout', 'Auth\AdminLoginController@logout')->name('admin.logout');
 
 	Route::post('/password/email', 'Auth\AdminForgotPasswordController@sendResetLinkEmail')->name('password.email');
     Route::get('/password/reset', 'Auth\AdminForgotPasswordController@showLinkRequestForm')->name('password.request');
@@ -123,6 +125,8 @@ Route::prefix('admin')->group(function() {
 	Route::post('/submit/menuselect','adminFXControllerv6@menuselectProc')->name('admin.submit.menuselect');
 	Route::post('/editmenu','adminFXControllerv6@editmenuinit')->name('admin.editmenu');
 	Route::post('/submit/editmenu','adminFXControllerv6@editmenuProc')->name('admin.submit.editmenu');
+	Route::post('/editmenuimage','adminFXControllerv6@editmenuimageinit')->name('admin.editmenuimage');
+	Route::post('/submit/editmenuimage','adminFXControllerv6@editmenuimageProc')->name('admin.submit.editmenuimage');
 	Route::post('/submit/deletemenu','adminFXControllerv6@deletemenuProc')->name('admin.submit.deletemenu');
 
 	//ORDER
@@ -148,7 +152,7 @@ Route::prefix('staff')->group(function() {
 	Route::get('/login', 'Auth\StaffLoginController@showLoginForm')->name('staff.login');
    	Route::post('/login', 'Auth\StaffLoginController@login')->name('staff.login.submit');
 	Route::get('/dashboard', 'staffFXControllerv6@index')->name('staff.dashboard');
-	Route::post('/logout', 'Auth\StaffLoginController@logout')->name('staff.logout');
+	Route::get('/logout', 'Auth\StaffLoginController@logout')->name('staff.logout');
 
 	Route::post('/password/email', 'Auth\StaffForgotPasswordController@sendResetLinkEmail')->name('password.email');
     Route::get('/password/reset', 'Auth\StaffForgotPasswordController@showLinkRequestForm')->name('password.request');
@@ -156,7 +160,7 @@ Route::prefix('staff')->group(function() {
     Route::get('/password/reset/{token}', 'Auth\StaffResetPasswordController@showResetForm')->name('password.reset');
 
     Route::get('/setting','staffFXControllerv6@setting')->name('staff.setting');
-    Route::get('/editstaff','staffFXControllerv6@editstaffinit');
+    Route::get('/editstaff','staffFXControllerv6@editstaffinit')->name('staff.editstaff');
 	Route::post('/submit/editstaff','staffFXControllerv6@editstaffProc')->name('staff.submit.editstaff');
 
 	//ACCOUNT

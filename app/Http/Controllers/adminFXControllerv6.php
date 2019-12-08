@@ -50,7 +50,10 @@ use AuthenticatesUsers;
 		  	Session::flash('type', 'warning');
 		  	return redirect()->route('');
 		}
-		else {return view('admin.addstudent');}
+		else {
+			$parent = User::all();
+			return view('admin.addstudent', compact('parent'));
+		}
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
    	public function storestudentProc(Request $request){
@@ -77,13 +80,15 @@ use AuthenticatesUsers;
 			$allcomp[$type]=$value;
    		}
 
-   		if($primary == 'true'){
-   			$primary_parentid = $request->parentid;
-   			$secondary_parentid = '';
-   		}
-   		else{
-   			$primary_parentid = '';
-   			$secondary_parentid = $request->parentid;}
+   		// if($primary == 'true'){
+   		// 	$primary_parentid = $request->parentid;
+   		// 	$secondary_parentid = '';
+   		// }
+   		// else{
+   		// 	$primary_parentid = '';
+   		// 	$secondary_parentid = $request->parentid;
+   		// }
+   		$parentid = $request->parentid;
    		
    		$age = Carbon::parse($dob)->age;
 
@@ -100,11 +105,12 @@ use AuthenticatesUsers;
 			'bmi'=>$bmi,
 			'target_calories'=>$target_calories,
 			'allergies'=>serialize($allcomp), //unserialize  = string array to array
-			'primary_parentid'=>$primary_parentid,
-			'secondary_parentid'=>$secondary_parentid,
+			'parentid'=>$parentid,
+			// 'primary_parentid'=>$primary_parentid,
+			// 'secondary_parentid'=>$secondary_parentid,
 		]);
 		$message = "New Student added";
-		return redirect('admin/dashboard')->with('status', $message);
+		return redirect('admin/viewstudent')->with('status', $message);
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 	//Store Payment details in database
@@ -181,7 +187,7 @@ use AuthenticatesUsers;
 				'defaultpay'=>$payflag,
 			]);
 			$message = "Payment Details Added";
-			return redirect('admin/dashboard')->with('status', $message);
+			return redirect('admin/viewpayment')->with('status', $message);
    		}	
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
@@ -308,7 +314,7 @@ use AuthenticatesUsers;
    		$country = $request->country;
    		$cardtype = $request->cardtype;
    		$cardnum = $request->cardnum;
-   		$cvvnum = $request->cvvnum;
+   		//$cvvnum = $request->cvvnum;
    		$expdate = $request->expdate;
    		$defaultpay = $request->defaultpay;
 
@@ -329,7 +335,7 @@ use AuthenticatesUsers;
 					'country'=>$country,
 					'cardtype'=>$cardtype,
 					'cardnum'=>$cardnum,
-					'cvvnum'=>$cvvnum,
+					//'cvvnum'=>$cvvnum,
 					'expdate'=>$expdate,
 					'defaultpay'=>$payflag,
 				]);
@@ -353,7 +359,7 @@ use AuthenticatesUsers;
 				'country'=>$country,
 				'cardtype'=>$cardtype,
 				'cardnum'=>$cardnum,
-				'cvvnum'=>$cvvnum,
+				//'cvvnum'=>$cvvnum,
 				'expdate'=>$expdate,
 				'defaultpay'=>$payflag,
 			]);
@@ -660,9 +666,13 @@ use AuthenticatesUsers;
 		}
 		else {
 	      	$payment_txid = $request->txid;
+
 			$orders = Orders::where('txid', $payment_txid)->get(); //stored procedures: select * with specific arguments. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:329
 			$trans = Transaction::where('txid', $payment_txid)->get(); //stored procedures: select * with specific arguments. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:329
-	      	return view('admin.viewtrans', compact('trans', 'orders'));
+			foreach ($trans as $tr) {
+				$payments[] = PaymentDet::where('id', $tr['paymentid'])->first();
+			}
+	      	return view('admin.viewtrans', compact('trans', 'orders', 'payments'));
 	    }
 	}
 
@@ -751,7 +761,7 @@ use AuthenticatesUsers;
         $foodtype = $request->foodtype;
         $foodprice = $request->foodprice;
         $foodcal = $request->foodcal;
-        $foodpic = $request->foodpic;
+        //$foodpic = $request->foodpic;
        
         $allergy = $request->allergy;
 
@@ -765,11 +775,11 @@ use AuthenticatesUsers;
             $allcomp[$type]=$value;
         }
 
-        $request->validate(['foodpic' => 'required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048']);
-        $file_name = hash('adler32',$foodname);
-        $food = $request->file('foodpic');
-        $picpath = $food->storeAs('images/admin/menup', $file_name.'/MENUP'.$file_name.'.'.$food->getClientOriginalExtension(), 'public');
-        $fp1_path = 'storage/images/admin/menup/'.$file_name.'/MENUP'.$file_name.'.'.$food->getClientOriginalExtension();
+        // $request->validate(['foodpic' => 'required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048']);
+        // $file_name = hash('adler32',$foodname);
+        // $food = $request->file('foodpic');
+        // $picpath = $food->storeAs('images/admin/menup', $file_name.'/MENUP'.$file_name.'.'.$food->getClientOriginalExtension(), 'public');
+        // $fp1_path = 'storage/images/admin/menup/'.$file_name.'/MENUP'.$file_name.'.'.$food->getClientOriginalExtension();
 
         Menus::find($id)->update([ //stored procedures: update rows. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:772
 	        'menuname'=>$foodname,
@@ -777,10 +787,41 @@ use AuthenticatesUsers;
 	        'menutype'=>$foodtype,
 	        'menuprice'=>$foodprice,
 	        'menucalories'=>$foodcal ,
-	        'menupic'=>$fp1_path,
+	        //'menupic'=>$fp1_path,
 	        'allergyid'=>serialize($allcomp),
 	    ]);
 	    $message = "Menu data updated";
+	    return redirect('admin/menuselect')->with('status', $message);
+	}
+//---------------------------------------------------------------------------------------------------------------------------------------------//
+	//Update Student data in database
+	public function editmenuimageinit(Request $request){
+		if (!Auth::guard('admin')) {
+			Session::flash('message', trans('errors.session_label'));
+		  	Session::flash('type', 'warning');
+		  	return redirect()->route('');
+		}
+		else {
+			$id = $request->id;
+			$updata = array('updata'=>Menus::where('id', $id)->first()); //stored procedures: select * with specific arguments. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:329
+      		return view('admin.editmenuimage', compact('updata'));
+      	}
+	}
+   	public function editmenuimageProc(Request $request){
+   		$id = $request->id;
+   		$foodname = $request->foodname;
+        $foodpic = $request->foodpic;
+
+        $request->validate(['foodpic' => 'required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048']);
+        $file_name = hash('adler32',$foodname);
+        $food = $request->file('foodpic');
+        $picpath = $food->storeAs('images/admin/menup', $file_name.'/MENUP'.$file_name.'.'.$food->getClientOriginalExtension(), 'public');
+        $fp1_path = 'storage/images/admin/menup/'.$file_name.'/MENUP'.$file_name.'.'.$food->getClientOriginalExtension();
+
+        Menus::find($id)->update([ //stored procedures: update rows. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:772
+	        'menupic'=>$fp1_path,
+	    ]);
+	    $message = "Menu image updated";
 	    return redirect('admin/menuselect')->with('status', $message);
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
@@ -875,9 +916,10 @@ use AuthenticatesUsers;
 		  	return redirect()->route('');
 		}
 		else {
+			$parent = User::all();
 			$id = $request->id;
 			$updata = array('updata'=>Student::where('id', $id)->first()); //stored procedures: select * with specific arguments. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:329
-      		return view('admin.editstudent', compact('updata'));
+      		return view('admin.editstudent', compact('updata', 'parent'));
       	}
 	}
    	public function editstudentProc(Request $request){
@@ -905,8 +947,9 @@ use AuthenticatesUsers;
 			$allcomp[$type]=$value;
    		}
 
-   		$primary_parentid = $request->primary_parentid;
-   		$secondary_parentid = $request->secondary_parentid;
+   		// $primary_parentid = $request->primary_parentid;
+   		// $secondary_parentid = $request->secondary_parentid;
+   		$parentid = $request->parentid;
    		
    		$age = Carbon::parse($dob)->age;
 
@@ -923,8 +966,9 @@ use AuthenticatesUsers;
 			'bmi'=>$bmi,
 			'target_calories'=>$target_calories,
 			'allergies'=>serialize($allcomp), //unserialize  = string array to array
-			'primary_parentid'=>$primary_parentid,
-			'secondary_parentid'=>$secondary_parentid,
+			'parentid'=>$parentid,
+			// 'primary_parentid'=>$primary_parentid,
+			// 'secondary_parentid'=>$secondary_parentid,
 		]);
 		
 		$message = "Student Data Updated";

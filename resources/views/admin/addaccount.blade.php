@@ -1,25 +1,22 @@
 @extends('layouts.admin-app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Add Account Details') }}</div>
-
-                <div class="card-body">
-
+<header>
+        <h2>{{ __('Add Account Details') }}</h2>
+        <p>Seamless food management for your children</p>
+</header>
+<div class="box">
                     <form method="POST" action="{{ route('admin.submit.storeaccount') }}">
                         @csrf
 
-                        <div class="form-group row">
-                            <label for="staffid" class="col-md-4 col-form-label text-md-right">{{ __('Staff ID') }}</label>
-
-                            <div class="col-md-6">
+                        <div class="row gtr-50 gtr-uniform">
+                           
+                            <div class="col-6 col-12-mobilep">
+                                <label for="staffid" class="col-md-4 col-form-label text-md-right">{{ __('Staff ID') }}</label>
                                 <select id="staffid" class="form-control{{ $errors->has('staffid') ? ' is-invalid' : '' }}" name="staffid" required autofocus>
                                     <option value="">--Select One--</option>
                                         @foreach($staff as $s)
-                                            <option value="{{ $s->id }}">{{ $s->username  }} ({{ $s->id  }})</option>
+                                            <option value="{{ $s->id }}">{{ ucfirst($s->fullname)  }} ({{ $s->id  }})</option>
                                         @endforeach
                                 </select>
                                     
@@ -31,11 +28,15 @@
                             </div>
                         </div>
 
-                        <p><b>Account Info</b></p>
-                        <div class="form-group row">
-                            <label for="fullname" class="col-md-4 col-form-label text-md-right">{{ __('Full Name') }}</label>
+                        <p></p>
+                        <div class="row gtr-50 gtr-uniform">
+                            <p><b>Account Info</b></p>
+                        </div>
 
-                            <div class="col-md-6">
+                        <div class="row gtr-50 gtr-uniform">
+
+                            <div class="col-6 col-12-mobilep">
+                                <label for="fullname" class="col-md-4 col-form-label text-md-right">{{ __('Full Name') }}</label>
                                 <input id="fullname" type="text" class="form-control @error('fullname') is-invalid @enderror" name="fullname" value="{{ old('fullname') }}" required autocomplete="fullname" autofocus>
 
                                 @error('fullname')
@@ -44,12 +45,9 @@
                                     </span>
                                 @enderror
                             </div>
-                        </div>
-                      
-                        <div class="form-group row">
-                            <label for="bankname" class="col-md-4 col-form-label text-md-right">{{ __('Bank Name') }}</label>
 
-                            <div class="col-md-6">
+                            <div class="col-6 col-12-mobilep">
+                                <label for="bankname" class="col-md-4 col-form-label text-md-right">{{ __('Bank Name') }}</label>
                                 <input id="bankname" type="text" class="form-control @error('bankname') is-invalid @enderror" name="bankname" value="{{ old('bankname') }}" required autocomplete="bankname" autofocus>
 
                                 @error('bankname')
@@ -58,12 +56,9 @@
                                     </span>
                                 @enderror
                             </div>
-                        </div>
 
-                         <div class="form-group row">
-                            <label for="banknum" class="col-md-4 col-form-label text-md-right">{{ __('Account Number') }}</label>
-
-                            <div class="col-md-6">
+                            <div class="col-6 col-12-mobilep">
+                                <label for="banknum" class="col-md-4 col-form-label text-md-right">{{ __('Account Number') }}</label>
                                 <input id="banknum" type="text" class="form-control @error('banknum') is-invalid @enderror" name="banknum" value="{{ old('banknum') }}" required autocomplete="banknum" autofocus>
 
                                 @error('banknum')
@@ -74,11 +69,15 @@
                             </div>
                         </div>
 
-                        <p><b>Billing Address</b></p>
-                        <div class="form-group row">
-                            <label for="billaddr1" class="col-md-4 col-form-label text-md-right">{{ __('Address Line 1') }}</label>
+                        <p></p>
+                        <div class="row gtr-50 gtr-uniform">
+                            <p><b>Billing Address</b></p>
+                        </div>
 
-                            <div class="col-md-6">
+                        <div class="row gtr-50 gtr-uniform">
+
+                            <div class="col-6 col-12-mobilep">
+                                <label for="billaddr1" class="col-md-4 col-form-label text-md-right">{{ __('Address Line 1') }}</label>
                                 <input id="billaddr1" type="text" class="form-control @error('billaddr1') is-invalid @enderror" name="billaddr1" value="{{ old('billaddr1') }}" required autocomplete="billaddr1" autofocus>
 
                                 @error('billaddr1')
@@ -87,12 +86,9 @@
                                     </span>
                                 @enderror
                             </div>
-                        </div>
 
-                        <div class="form-group row">
-                            <label for="billaddr2" class="col-md-4 col-form-label text-md-right">{{ __('Address Line 2') }}</label>
-
-                            <div class="col-md-6">
+                            <div class="col-6 col-12-mobilep">
+                                <label for="billaddr2" class="col-md-4 col-form-label text-md-right">{{ __('Address Line 2') }}</label>
                                 <input id="billaddr2" type="text" class="form-control @error('billaddr2') is-invalid @enderror" name="billaddr2" value="{{ old('billaddr2') }}" required autocomplete="billaddr2" autofocus>
 
                                 @error('billaddr2')
@@ -101,13 +97,9 @@
                                     </span>
                                 @enderror
                             </div>
-                        </div>
 
-
-                        <div class="form-group row">
-                            <label for="city" class="col-md-4 col-form-label text-md-right">{{ __('City') }}</label>
-
-                            <div class="col-md-6">
+                            <div class="col-6 col-12-mobilep">
+                                <label for="city" class="col-md-4 col-form-label text-md-right">{{ __('City') }}</label>
                                 <input id="city" type="text" class="form-control @error('city') is-invalid @enderror" name="city" value="{{ old('city') }}" required autocomplete="city" autofocus>
 
                                 @error('city')
@@ -116,13 +108,10 @@
                                     </span>
                                 @enderror
                             </div>
-                        </div>
 
-                        <div class="form-group row">
-                            <label for="zipcode" class="col-md-4 col-form-label text-md-right">{{ __('Zipcode') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="zipcode" type="text" maxlength="5" class="form-control @error('zipcode') is-invalid @enderror" name="zipcode" value="{{ old('zipcode') }}" required autocomplete="zipcode" autofocus>
+                            <div class="col-6 col-12-mobilep">
+                                <label for="zipcode" class="col-md-4 col-form-label text-md-right">{{ __('Zipcode') }}</label>
+                                <input id="zipcode" type="number" maxlength="5" class="form-control @error('zipcode') is-invalid @enderror" name="zipcode" value="{{ old('zipcode') }}" required autocomplete="zipcode" autofocus>
 
                                 @error('zipcode')
                                     <span class="invalid-feedback" role="alert">
@@ -130,12 +119,9 @@
                                     </span>
                                 @enderror
                             </div>
-                        </div>
 
-                        <div class="form-group row">
-                            <label for="state" class="col-md-4 col-form-label text-md-right">{{ __('State') }}</label>
-
-                            <div class="col-md-6">
+                            <div class="col-6 col-12-mobilep">
+                                <label for="state" class="col-md-4 col-form-label text-md-right">{{ __('State') }}</label>
                                 <select id="state" class="form-control{{ $errors->has('state') ? ' is-invalid' : '' }}" name="state" required autofocus>
                                     <option value="">--Select One--</option>
                                     <option value="Kuala Lumpur">Kuala Lumpur</option>
@@ -162,12 +148,9 @@
                                     </span>
                                 @endif
                             </div>
-                        </div>
 
-                        <div class="form-group row">
-                            <label for="country" class="col-md-4 col-form-label text-md-right">{{ __('Country') }}</label>
-
-                            <div class="col-md-6">
+                            <div class="col-6 col-12-mobilep">
+                                <label for="country" class="col-md-4 col-form-label text-md-right">{{ __('Country') }}</label>
                                 <input id="country" type="text" class="form-control @error('country') is-invalid @enderror" name="country" value="Malaysia" readonly autocomplete="fullname" autofocus>
 
                                 @error('country')
@@ -178,30 +161,28 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <div class="col-md-6 offset-md-4">
+                        <p></p>
+                        <div class="row gtr-50 gtr-uniform">
+
+                            <div class="col-6 col-12-mobilep">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="defaultpay" id="defaultpay" {{ old('defaultpay') ? 'checked' : '' }}>
-
                                     <label class="form-check-label" for="defaultpay">
                                         {{ __('Set As Default') }}
                                     </label>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Add') }}
-                                </button>
+                            <div class="col-12">
+                                <ul class="actions special">
+                                    <li>
+                                        <input type="submit" value="{{ __('Add') }}"></input>
+                                    </li>
+                                </ul>
                             </div>
+
                         </div>
                     </form>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 <script>
     function showBMI() {

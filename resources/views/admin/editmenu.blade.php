@@ -1,13 +1,11 @@
 @extends('layouts.admin-app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Edit Menu') }}</div>
-
-                <div class="card-body">
+<header>
+        <h2>{{ __('Edit Menu Details') }}</h2>
+        <p>Seamless food management for your children</p>
+</header>
+<div class="box">
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">
                             {{ session('status') }}
@@ -19,10 +17,10 @@
                         @csrf
                         <input id="id" type="hidden" class="form-control @error('id') is-invalid @enderror" name="id" value="{{ $u->id }}" required autocomplete="id" readonly>
 
-                        <div class="form-group row">
-                            <label for="foodname" class="col-md-4 col-form-label text-md-right">{{ __('Menu Name') }}</label>
-
-                            <div class="col-md-6">
+                        <div class="row gtr-50 gtr-uniform">
+                           
+                            <div class="col-6 col-12-mobilep">
+                                <label for="foodname" class="col-md-4 col-form-label text-md-right">{{ __('Menu Name') }}</label>
                                 <input id="foodname" type="text" class="form-control @error('foodname') is-invalid @enderror" name="foodname" value="{{ $u->menuname }}" required autocomplete="foodname" autofocus>
 
                                 @error('foodname')
@@ -31,12 +29,9 @@
                                     </span>
                                 @enderror
                             </div>
-                        </div>
 
-                        <div class="form-group row">
-                            <label for="fooddesc" class="col-md-4 col-form-label text-md-right">{{ __('Menu Description') }}</label>
-
-                            <div class="col-md-6">
+                            <div class="col-12">
+                                <label for="fooddesc" class="col-md-4 col-form-label text-md-right">{{ __('Menu Description') }}</label>
                                 <input id="fooddesc" type="textarea" class="form-control @error('fooddesc') is-invalid @enderror" name="fooddesc" value="{{ $u->menudesc }}" required autocomplete="fooddesc" autofocus>
 
                                 @error('fooddesc')
@@ -45,12 +40,9 @@
                                     </span>
                                 @enderror
                             </div>
-                        </div>
 
-                        <div class="form-group row">
-                            <label for="foodtype" class="col-md-4 col-form-label text-md-right">{{ __('Menu Type') }}</label>
-
-                            <div class="col-md-6">
+                            <div class="col-6 col-12-mobilep">
+                                <label for="foodtype" class="col-md-4 col-form-label text-md-right">{{ __('Menu Type') }}</label>
                                 <select id="foodtype" class="form-control{{ $errors->has('foodtype') ? ' is-invalid' : '' }}" name="foodtype" required autofocus>
                                     <option value="{{ $u->menutype }}">{{ ucfirst($u->menutype) }}</option>
                                     <option value="food">Food</option>
@@ -63,12 +55,9 @@
                                     </span>
                                 @endif
                             </div>
-                        </div>
 
-                        <div class="form-group row">
-                            <label for="foodprice" class="col-md-4 col-form-label text-md-right">{{ __('Menu Price (RM)') }}</label>
-
-                            <div class="col-md-6">
+                            <div class="col-6 col-12-mobilep">
+                                <label for="foodprice" class="col-md-4 col-form-label text-md-right">{{ __('Menu Price (RM)') }}</label>
                                 <input id="foodprice" type="text" class="form-control @error('foodprice') is-invalid @enderror" name="foodprice" value="{{ $u->menuprice }}" required autocomplete="foodprice" autofocus>
 
                                 @error('foodprice')
@@ -77,13 +66,10 @@
                                     </span>
                                 @enderror
                             </div>
-                        </div>
 
-                        <div class="form-group row">
-                            <label for="foodcal" class="col-md-4 col-form-label text-md-right">{{ __('Menu Calories (KCal)') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="foodcal" type="text" class="form-control @error('foodcal') is-invalid @enderror" name="foodcal" value="{{ $u->menucalories }}" required autocomplete="foodcal" autofocus>
+                            <div class="col-6 col-12-mobilep">
+                                <label for="foodcal" class="col-md-4 col-form-label text-md-right">{{ __('Menu Calories (KCal)') }}</label>
+                                <input id="foodcal" type="number" class="form-control @error('foodcal') is-invalid @enderror" name="foodcal" value="{{ $u->menucalories }}" required autocomplete="foodcal" autofocus>
 
                                 @error('foodcal')
                                     <span class="invalid-feedback" role="alert">
@@ -91,29 +77,22 @@
                                     </span>
                                 @enderror
                             </div>
-                        </div>
 
-                        <div class="form-group row">
-                            <label for="foodpic" class="col-md-4 col-form-label text-md-right">{{ __('Menu Picture') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="foodpic" type="file" class="form-control{{ $errors->has('foodpic') ? ' is-invalid' : '' }}" name="foodpic" value="{{ $u->menupic }}" required autocomplete="foodpic" autofocus onchange="readURLfoodpic(this);">
+                            <div class="col-12">
+                                <label for="foodpic" class="col-md-4 col-form-label text-md-right">{{ __('Menu Picture') }}</label>
                                 <img id="foodp" src="{{ asset($u->menupic) }}" alt="your image" width="240" height="160" border="1"/>
-
-                                @if ($errors->has('foodpic'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('foodpic') }}</strong>
-                                    </span>
-                                @endif
                             </div>
+
                         </div>
 
-                        
-                        <div class="form-group row">
-                            <label for="target_calories" class="col-md-4 col-form-label text-md-right">{{ __('Allergies') }}</label>
+                        <p></p>
+                        <div class="row gtr-50 gtr-uniform">
+                            <p><b>Allergens</b></p>
+                        </div>
 
-                            <div class="col-md-6 offset-md-0">
+                        <div class="row gtr-50 gtr-uniform">
 
+                            <div class="col-6 col-12-mobilep">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ unserialize($u->allergyid)['shellfish'] == true ? 'checked' : '' }} value="shellfish">
 
@@ -121,7 +100,9 @@
                                         {{ __('Shellfish') }}
                                     </label>
                                 </div>
+                            </div>
 
+                            <div class="col-6 col-12-mobilep">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ unserialize($u->allergyid)['dairy'] == true ? 'checked' : '' }} value="dairy">
 
@@ -129,7 +110,9 @@
                                         {{ __('Dairy') }}
                                     </label>
                                 </div>
+                            </div>
 
+                            <div class="col-6 col-12-mobilep">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ unserialize($u->allergyid)['peanuts'] == true ? 'checked' : '' }} value="peanuts">
 
@@ -137,7 +120,9 @@
                                         {{ __('Peanuts') }}
                                     </label>
                                 </div>
+                            </div>
 
+                            <div class="col-6 col-12-mobilep">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ unserialize($u->allergyid)['treenuts'] == true ? 'checked' : '' }} value="treenuts">
 
@@ -145,23 +130,29 @@
                                         {{ __('Tree Nuts') }}
                                     </label>
                                 </div>
+                            </div>
 
-                                <div class="form-check">
+                            <div class="col-6 col-12-mobilep">
+                                    <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ unserialize($u->allergyid)['eggs'] == true ? 'checked' : '' }} value="eggs">
 
                                     <label class="form-check-label" for="eggs">
                                         {{ __('Eggs') }}
                                     </label>
                                 </div>
+                            </div>
 
-                                <div class="form-check">
+                            <div class="col-6 col-12-mobilep">
+                                    <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ unserialize($u->allergyid)['wheat'] == true ? 'checked' : '' }} value="wheat">
 
                                     <label class="form-check-label" for="wheat">
                                         {{ __('Wheat') }}
                                     </label>
                                 </div>
+                            </div>
 
+                            <div class="col-6 col-12-mobilep">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ unserialize($u->allergyid)['soy'] == true ? 'checked' : '' }} value="soy">
 
@@ -169,7 +160,9 @@
                                         {{ __('Soy') }}
                                     </label>
                                 </div>
+                            </div>
 
+                            <div class="col-6 col-12-mobilep">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ unserialize($u->allergyid)['fish'] == true ? 'checked' : '' }} value="fish">
 
@@ -177,31 +170,28 @@
                                         {{ __('Fish') }}
                                     </label>
                                 </div>
+                            </div>
 
+                            <div class="col-6 col-12-mobilep">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ unserialize($u->allergyid)['noallergy'] == true ? 'checked' : '' }} value="noallergy">
 
                                     <label class="form-check-label" for="noallergy">
-                                        {{ __('No Allergies') }}
+                                        {{ __('No Allergens') }}
                                     </label>
                                 </div>
-
                             </div>
-                        </div>
 
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Update') }}
-                                </button>
+                            <div class="col-12">
+                                <ul class="actions special">
+                                    <li>
+                                        <input type="submit" value="{{ __('Update') }}"></input>
+                                    </li>
+                                </ul>
                             </div>
+
                         </div>
                     </form>
-                    @endforeach
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 <script>
     function showBMI() {

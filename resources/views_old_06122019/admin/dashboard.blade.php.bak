@@ -1,0 +1,53 @@
+@extends('layouts.admin-app')
+@section('content')
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">Admin Dashboard</div>
+                    <div class="card-body">
+                        @if (session('status'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('status') }}
+                        </div>
+                        @endif
+                    <p>Admin FX</p>
+                    <br>
+                    Identity
+                    <br>
+                    <a href="{{url('/admin/storeidentity')}}">Add User Identity</a>
+                    <br>
+                    <a href="{{url('/admin/viewidentity')}}">View User Identity</a>
+                    <br>
+                    <a href="{{url('/admin/viewencid')}}">Encode User Identity</a>
+                    <br>
+                    <a href="{{url('/admin/viewsignid')}}">Sign User Identity</a>
+                    <br>
+                    <br>
+                    Asset
+                    <br>
+                    <a href="{{url('/admin/storeasset')}}">Add Asset</a>
+                    <br>
+                    <a href="{{url('/admin/viewasset')}}">View Asset</a>
+                    <br>
+                    <a href="{{url('/admin/viewencast')}}">Encode Asset</a>
+                    <br>
+                    <a href="{{url('/admin/viewsignast')}}">Sign Asset</a>
+                    <br>
+                    <br>
+                    Ticketing
+                    <br>
+                    <a href="{{url('/admin/createname')}}">Create Namespace</a>
+                    <br>
+                    <a href="{{url('/admin/createticket')}}">Create Ticket</a>
+                    <br>
+                    <a href="{{url('/admin/sendticket')}}">Send Ticket</a>
+                    <br>
+                    <a href="{{url('/admin/viewticket')}}">View Ticket</a>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection

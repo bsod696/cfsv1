@@ -58,7 +58,7 @@ use AuthenticatesUsers;
    		$weight = $request->weight;
    		$bmi = $request->bmi;
    		$target_calories = $request->target_calories;
-   		$primary = $request->primary;
+   		// $primary = $request->primary;
    		$allergy = $request->allergy;
 
    		$allallergy = Allergy::all();
@@ -71,13 +71,15 @@ use AuthenticatesUsers;
 			$allcomp[$type]=$value;
    		}
 
-   		if($primary == 'true'){
-   			$primary_parentid = $request->parentid;
-   			$secondary_parentid = '';
-   		}
-   		else{
-   			$primary_parentid = '';
-   			$secondary_parentid = $request->parentid;}
+   		// if($primary == 'true'){
+   		// 	$primary_parentid = $request->parentid;
+   		// 	$secondary_parentid = '';
+   		// }
+   		// else{
+   		// 	$primary_parentid = '';
+   		// 	$secondary_parentid = $request->parentid;
+   		// }
+   		$parentid = $request->parentid;
    		
    		$age = Carbon::parse($dob)->age;
 
@@ -94,8 +96,9 @@ use AuthenticatesUsers;
 			'bmi'=>$bmi,
 			'target_calories'=>$target_calories,
 			'allergies'=>serialize($allcomp), //unserialize  = string array to array
-			'primary_parentid'=>$primary_parentid,
-			'secondary_parentid'=>$secondary_parentid,
+			'parentid'=>$parentid,
+			// 'primary_parentid'=>$primary_parentid,
+			// 'secondary_parentid'=>$secondary_parentid,
 		]);
 		$message = "New Student added";
 		return redirect('user/viewstudent')->with('status', $message);
@@ -108,7 +111,7 @@ use AuthenticatesUsers;
 		  	return redirect()->route('');
 		}
 		else {
-			$stud = Student::where('primary_parentid', Auth::user()->id)->orwhere('secondary_parentid', Auth::user()->id)->get();
+			$stud = Student::where('parentid', Auth::user()->id)->get();
 	      	return view('user.viewstudent', compact('stud'));
 	    }
 	}
@@ -134,7 +137,7 @@ use AuthenticatesUsers;
    		$weight = $request->weight;
    		$bmi = $request->bmi;
    		$target_calories = $request->target_calories;
-   		$primary = $request->primary;
+   		// $primary = $request->primary;
    		$allergy = $request->allergy;
 
    		$allallergy = Allergy::all();
@@ -147,13 +150,15 @@ use AuthenticatesUsers;
 			$allcomp[$type]=$value;
    		}
 
-   		if($primary == 'true'){
-   			$primary_parentid = $request->parentid;
-   			$secondary_parentid = '';
-   		}
-   		else{
-   			$primary_parentid = '';
-   			$secondary_parentid = $request->parentid;}
+   		// if($primary == 'true'){
+   		// 	$primary_parentid = $request->parentid;
+   		// 	$secondary_parentid = '';
+   		// }
+   		// else{
+   		// 	$primary_parentid = '';
+   		// 	$secondary_parentid = $request->parentid;
+   		// }
+   		$primary_parentid = $request->parentid;
 
    		Student::where('id', $id)->update([
 			'class'=>$class,
@@ -163,8 +168,9 @@ use AuthenticatesUsers;
 			'bmi'=>$bmi,
 			'target_calories'=>$target_calories,
 			'allergies'=>serialize($allcomp), //unserialize  = string array to array
-			'primary_parentid'=>$primary_parentid,
-			'secondary_parentid'=>$secondary_parentid,
+			'parentid'=>$parentid,
+			// 'primary_parentid'=>$primary_parentid,
+			// 'secondary_parentid'=>$secondary_parentid,
 		]);
 		
 		$message = "Student Updated";
@@ -392,7 +398,7 @@ use AuthenticatesUsers;
 		]);
 		
 		$message = "Parent Data Updated";
-		return redirect('user/setting')->with('status', $message);
+		return redirect('user/home')->with('status', $message);
 	}
 
 
@@ -407,7 +413,7 @@ use AuthenticatesUsers;
 		}
 		else {
 			$menu = Menus::all();
-			$stud = Student::where('primary_parentid', Auth::user()->id)->orwhere('secondary_parentid', Auth::user()->id)->get();
+			$stud = Student::where('parentid', Auth::user()->id)->get();
 	      	return view('user.menuselection', compact('menu', 'stud'));
 		}
 	}
@@ -494,21 +500,31 @@ use AuthenticatesUsers;
 		  	return redirect()->route('');
 		}
 		else {
-			$id = $request->id;
-			$orders = Orders::where('id', $id)->get();
-	      	return view('user.payorders', compact('orders'));
+			$paymentscheck = PaymentDet::where('parentid', Auth::user()->id)->count();
+			if($paymentscheck >= 1){
+				$id = $request->id;
+				$payments = PaymentDet::where('parentid', Auth::user()->id)->get();
+				$orders = Orders::where('id', $id)->get();
+	      		return view('user.payorders', compact('orders', 'payments'));
+			}
+			else {
+				$message = "No Credit/Debit cards added. Please add card before making a payment";
+				return redirect('user/vieworder')->with('status', $message);
+			}
+			
 	    }
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
    	public function payorderProc(Request $request){
    		$order_id = $request->id;
    		$parent_id = $request->parentid;
+   		$payment_id = $request->paymentid;
 
    		$ordersdet = Orders::where('id', $order_id)->first();
-   		$payflag = PaymentDet::where('parentid', Auth::user()->id)->where('defaultpay', 'Y')->count();
+   		//$payflag = PaymentDet::where('parentid', Auth::user()->id)->where('defaultpay', 'Y')->count();
 
-   		if($payflag >= 1){
-   			$paydet = PaymentDet::where('parentid', Auth::user()->id)->where('defaultpay', 'Y')->first();
+   		//if($payflag >= 1){
+   			$paydet = PaymentDet::where('id', $payment_id)->first();
    			$payment_txid = strtoupper('CFSP'.$parent_id.'D'.$order_id.'P'.$paydet->id.'H'.Carbon::now()->timestamp.'TX'.getRandomString(5));
 	   		
 	   		if($payment_txid != ''){$txstatus = 'success';}
@@ -533,11 +549,11 @@ use AuthenticatesUsers;
 
 			$message = "Orders Successfully Paid";
 			return redirect('user/vieworder')->with('status', $message);
-   		}
-   		else {
-   			$message = "No Default Payment Added";
-			return redirect('user/vieworder')->with('status', $message);
-   		}
+   		//}
+   		//else {
+   		//	$message = "No Default Payment Added";
+		//	return redirect('user/vieworder')->with('status', $message);
+   		//}
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 	public function deleteorderProc(Request $request){
@@ -579,7 +595,10 @@ use AuthenticatesUsers;
 			$payment_txid = $request->txid;
 			$orders = Orders::where('txid', $payment_txid)->get();
 			$trans = Transaction::where('txid', $payment_txid)->get();
-	      	return view('user.viewtrans', compact('trans', 'orders'));
+			foreach ($trans as $tr) {
+				$payments[] = PaymentDet::where('id', $tr['paymentid'])->first();
+			}
+	      	return view('user.viewtrans', compact('trans', 'orders', 'payments'));
 	    }
 	}
 

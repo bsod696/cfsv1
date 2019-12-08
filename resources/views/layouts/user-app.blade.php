@@ -1,8 +1,8 @@
-<!doctype html>
+<!DOCTYPE HTML>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -11,78 +11,83 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/jquery.min.js') }}" defer></script>
+    <script src="{{ asset('js/jquery.dropotron.min.js') }}" defer></script>
+    <script src="{{ asset('js/jquery.scrollex.min.js') }}" defer></script>
+    <script src="{{ asset('js/browser.min.js') }}" defer></script>
+    <script src="{{ asset('js/breakpoints.min.js') }}" defer></script>
+    <script src="{{ asset('js/util.js') }}" defer></script>
+    <script src="{{ asset('js/main.js') }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/main.css') }}" rel="stylesheet">
 </head>
-<body>
-    <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/user/home') }}">
-                    <!-- {{ config('app.name', 'Laravel') }} -->
-                    <img src="{{ asset('images/logo.jfif') }}" height="30" width="50">
-                    Canteen Food System
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+<body class="is-preload">
+    <div id="page-wrapper">
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('user.login') }}">{{ __('Sign In') }}</a>
+        <!-- Header -->
+                <header id="header">
+                    <h1><a href="{{ url('/user/home') }}">Canteen Food System</a> (CFS)</h1>
+                    <nav id="nav">
+                        <ul>
+                            <li><a href="{{ url('/user/home') }}">Home</a></li>
+                            <li>
+                                <a href="" class="icon solid fa-angle-down">{{ Auth::user()->username }}</a>
+                                <ul>
+                                    <li><a href="{{ route('user.home') }}">Home</a></li>
+                                    <li>
+                                        <a href="{{ route('user.vieworder') }}">
+                                            Cart
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Setting</a>
+                                        <ul>
+                                            <li><a href="{{ route('user.editparent') }}">Edit Personal Details</a></li>
+                                            <li><a href="{{ route('user.editparent') }}">Change Password</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
                             </li>
-                            @if (Route::has('user.register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('user.register') }}">{{ __('Sign Up') }}</a>
-                                </li>
-                            @endif
-                        @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->username }} <span class="caret"></span>
+                            <li>
+                                <a href="{{ route('user.logout') }}"
+                                    onclick="event.preventDefault();
+                                            document.getElementById('logout-form').submit();" class="button"
+                                >
+                                Logout
                                 </a>
 
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                     <a class="dropdown-item" href="{{ route('user.home') }}">
-                                        {{ __('Home') }}
-                                    </a>
-                                    <a class="dropdown-item" href="{{ route('user.setting') }}">
-                                        {{ __('Setting') }}
-                                    </a>
-                                    <a class="dropdown-item" href="{{ route('user.logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('user.logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
-                                </div>
+                                <form id="logout-form" action="{{ route('user.logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
                             </li>
-                        @endguest
-                    </ul>
-                </div>
-            </div>
-        </nav>
+                        </ul>
+                    </nav>
+                </header>
 
-        <main class="py-4">
-            @yield('content')
-        </main>
+        <!-- Main -->
+                <section id="main" class="container">
+                    @yield('content')
+                </section>
+
+        <!-- Footer -->
+                <footer id="footer">
+                    <ul class="icons">
+                        <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+                        <li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+                        <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+                        <li><a href="#" class="icon brands fa-github"><span class="label">Github</span></a></li>
+                        <li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
+                        <li><a href="#" class="icon brands fa-google-plus"><span class="label">Google+</span></a></li>
+                    </ul>
+                    <ul class="copyright">
+                        <li>&copy; CFS. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+                    </ul>
+                </footer>
     </div>
 </body>
 </html>

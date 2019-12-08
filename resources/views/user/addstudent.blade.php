@@ -1,20 +1,20 @@
 @extends('layouts.user-app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Add Student') }}</div>
-
-                <div class="card-body">
+<header>
+        <h2>{{ __('Add Student') }}</h2>
+        <p>Seamless food management for your children</p>
+</header>
+<div class="box">
                     <form method="POST" action="{{ route('user.submit.storestudent') }}">
                         @csrf
 
-                        <div class="form-group row">
-                            <label for="studentid" class="col-md-4 col-form-label text-md-right">{{ __('Student ID') }}</label>
+                        <div class="row gtr-50 gtr-uniform">
 
-                            <div class="col-md-6">
+                            <input id="parentid" type="hidden" class="form-control @error('parentid') is-invalid @enderror" name="parentid" value="{{ Auth::user()->id }}" readonly hidden>
+                           
+                            <div class="col-6 col-12-mobilep">
+                                <label for="studentid" class="col-md-4 col-form-label text-md-right">{{ __('Student ID') }}</label>
                                 <input id="studentid" type="text" class="form-control @error('studentid') is-invalid @enderror" name="studentid" value="{{ old('studentid') }}" required autocomplete="studentid" autofocus>
 
                                 @error('studentid')
@@ -23,12 +23,9 @@
                                     </span>
                                 @enderror
                             </div>
-                        </div>
 
-                        <div class="form-group row">
-                            <label for="fullname" class="col-md-4 col-form-label text-md-right">{{ __('Full Name') }}</label>
-
-                            <div class="col-md-6">
+                            <div class="col-6 col-12-mobilep">
+                                <label for="fullname" class="col-md-4 col-form-label text-md-right">{{ __('Full Name') }}</label>
                                 <input id="fullname" type="text" class="form-control @error('fullname') is-invalid @enderror" name="fullname" value="{{ old('fullname') }}" required autocomplete="fullname" autofocus>
 
                                 @error('fullname')
@@ -37,12 +34,9 @@
                                     </span>
                                 @enderror
                             </div>
-                        </div>
 
-                        <div class="form-group row">
-                            <label for="gender" class="col-md-4 col-form-label text-md-right">{{ __('Gender') }}</label>
-
-                            <div class="col-md-6">
+                            <div class="col-6 col-12-mobilep">
+                                <label for="gender" class="col-md-4 col-form-label text-md-right">{{ __('Gender') }}</label>
                                 <select id="gender" class="form-control{{ $errors->has('gender') ? ' is-invalid' : '' }}" name="gender" required autofocus>
                                     <option value="">--Select One--</option>
                                     <option value="male">Male</option>
@@ -55,12 +49,9 @@
                                     </span>
                                 @endif
                             </div>
-                        </div>
 
-                        <div class="form-group row">
-                            <label for="dob" class="col-md-4 col-form-label text-md-right">{{ __('Date of Birth') }}</label>
-
-                            <div class="col-md-6">  
+                            <div class="col-6 col-12-mobilep">
+                                <label for="dob" class="col-md-4 col-form-label text-md-right">{{ __('Date of Birth') }}</label>
                                 <input type="date" id="dob" class="form-control{{ $errors->has('dob') ? ' is-invalid' : '' }}" name="dob" min="1900-01-01" required autofocus>
                                     
                                 @if ($errors->has('dob'))
@@ -69,12 +60,9 @@
                                     </span>
                                 @endif
                             </div>
-                        </div>
 
-                        <div class="form-group row">
-                            <label for="class" class="col-md-4 col-form-label text-md-right">{{ __('Current Classroom') }}</label>
-
-                            <div class="col-md-6">
+                            <div class="col-6 col-12-mobilep">
+                                <label for="class" class="col-md-4 col-form-label text-md-right">{{ __('Current Classroom') }}</label>
                                 <select id="class" class="form-control{{ $errors->has('class') ? ' is-invalid' : '' }}" name="class" required autofocus>
                                     <option value="">--Select One--</option>
                                     <option value="1A">1A</option>
@@ -91,12 +79,9 @@
                                     </span>
                                 @endif
                             </div>
-                        </div>
 
-                        <div class="form-group row">
-                            <label for="school_session" class="col-md-4 col-form-label text-md-right">{{ __('School Session') }}</label>
-
-                            <div class="col-md-6">
+                            <div class="col-6 col-12-mobilep">
+                                <label for="school_session" class="col-md-4 col-form-label text-md-right">{{ __('School Session') }}</label>
                                 <select id="school_session" class="form-control{{ $errors->has('school_session') ? ' is-invalid' : '' }}" name="school_session" required autofocus>
                                     <option value="">--Select One--</option>
                                     <option value="morning">Morning</option>
@@ -109,12 +94,9 @@
                                     </span>
                                 @endif
                             </div>
-                        </div>
 
-                        <div class="form-group row">
-                            <label for="height" class="col-md-4 col-form-label text-md-right">{{ __('Height (CM)') }}</label>
-
-                            <div class="col-md-6">
+                            <div class="col-6 col-12-mobilep">
+                                <label for="height" class="col-md-4 col-form-label text-md-right">{{ __('Height (CM)') }}</label>
                                 <input id="height" type="number" min="1" max="500" class="form-control @error('height') is-invalid @enderror" name="height" value="{{ old('height') }}" required autocomplete="height" autofocus>
 
                                 @error('height')
@@ -123,12 +105,9 @@
                                     </span>
                                 @enderror
                             </div>
-                        </div>
 
-                        <div class="form-group row">
-                            <label for="weight" class="col-md-4 col-form-label text-md-right">{{ __('Weight (KG)') }}</label>
-
-                            <div class="col-md-6">
+                            <div class="col-6 col-12-mobilep">
+                                <label for="weight" class="col-md-4 col-form-label text-md-right">{{ __('Weight (KG)') }}</label>
                                 <input id="weight" type="number" min="1" max="500" class="form-control @error('weight') is-invalid @enderror" name="weight" value="{{ old('weight') }}" required autocomplete="weight" autofocus onchange="showBMI()">
 
                                 @error('weight')
@@ -137,12 +116,9 @@
                                     </span>
                                 @enderror
                             </div>
-                        </div>
 
-                        <div class="form-group row">
-                            <label for="bmi" class="col-md-4 col-form-label text-md-right">{{ __('Body Mass Index (BMI)') }}</label>
-
-                            <div class="col-md-6">
+                            <div class="col-6 col-12-mobilep">
+                                <label for="bmi" class="col-md-4 col-form-label text-md-right">{{ __('Body Mass Index (BMI)') }}</label>
                                 <input id="bmi" type="text" class="form-control @error('bmi') is-invalid @enderror" name="bmi" readonly required autocomplete="bmi" autofocus>
 
                                 @error('bmi')
@@ -150,14 +126,10 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                                
                             </div>
-                        </div>
 
-                        <div class="form-group row">
-                            <label for="target_calories" class="col-md-4 col-form-label text-md-right">{{ __('Target Calories (Kcal)') }}</label>
-
-                            <div class="col-md-6">
+                            <div class="col-6 col-12-mobilep">
+                                <label for="target_calories" class="col-md-4 col-form-label text-md-right">{{ __('Target Calories (Kcal)') }}</label>
                                 <input id="target_calories" type="number" min="1" max="10000" class="form-control @error('target_calories') is-invalid @enderror" name="target_calories" value="{{ old('target_calories') }}" required autocomplete="target_calories" autofocus>
 
                                 @error('target_calories')
@@ -166,119 +138,116 @@
                                     </span>
                                 @enderror
                             </div>
+
                         </div>
 
-                        <div class="form-group row">
-                            <label for="target_calories" class="col-md-4 col-form-label text-md-right">{{ __('Allergies') }}</label>
+                        <p></p>
+                        <div class="row gtr-50 gtr-uniform">
+                            <p><b>Allergies</b></p>
+                        </div>
 
-                            <div class="col-md-6 offset-md-0">
+                        <div class="row gtr-50 gtr-uniform">
 
+                            <div class="col-6 col-12-mobilep">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ old('allergy') ? 'checked' : '' }} value="shellfish">
+                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="shellfish" {{ old('allergy') ? 'checked' : '' }} value="shellfish">
 
                                     <label class="form-check-label" for="shellfish">
                                         {{ __('Shellfish') }}
                                     </label>
                                 </div>
+                            </div>
 
+                            <div class="col-6 col-12-mobilep">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ old('allergy') ? 'checked' : '' }} value="dairy">
+                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="dairy" {{ old('allergy') ? 'checked' : '' }} value="dairy">
 
                                     <label class="form-check-label" for="dairy">
                                         {{ __('Dairy') }}
                                     </label>
                                 </div>
+                            </div>
 
+                            <div class="col-6 col-12-mobilep">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ old('allergy') ? 'checked' : '' }} value="peanuts">
+                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="peanuts" {{ old('allergy') ? 'checked' : '' }} value="peanuts">
 
                                     <label class="form-check-label" for="peanuts">
                                         {{ __('Peanuts') }}
                                     </label>
                                 </div>
+                            </div>
 
+                            <div class="col-6 col-12-mobilep">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ old('allergy') ? 'checked' : '' }} value="treenuts">
+                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="treenuts" {{ old('allergy') ? 'checked' : '' }} value="treenuts">
 
                                     <label class="form-check-label" for="treenuts">
                                         {{ __('Tree Nuts') }}
                                     </label>
                                 </div>
+                            </div>
 
+                            <div class="col-6 col-12-mobilep">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ old('allergy') ? 'checked' : '' }} value="eggs">
+                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="eggs" {{ old('allergy') ? 'checked' : '' }} value="eggs">
 
                                     <label class="form-check-label" for="eggs">
                                         {{ __('Eggs') }}
                                     </label>
                                 </div>
+                            </div>
 
+                            <div class="col-6 col-12-mobilep">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ old('allergy') ? 'checked' : '' }} value="wheat">
+                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="wheat" {{ old('allergy') ? 'checked' : '' }} value="wheat">
 
                                     <label class="form-check-label" for="wheat">
                                         {{ __('Wheat') }}
                                     </label>
                                 </div>
+                            </div>
 
+                            <div class="col-6 col-12-mobilep">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ old('allergy') ? 'checked' : '' }} value="soy">
+                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="soy" {{ old('allergy') ? 'checked' : '' }} value="soy">
 
                                     <label class="form-check-label" for="soy">
                                         {{ __('Soy') }}
                                     </label>
                                 </div>
+                            </div>
 
+                            <div class="col-6 col-12-mobilep">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ old('allergy') ? 'checked' : '' }} value="fish">
+                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="fish" {{ old('allergy') ? 'checked' : '' }} value="fish">
 
                                     <label class="form-check-label" for="fish">
                                         {{ __('Fish') }}
                                     </label>
                                 </div>
+                            </div>
 
+                            <div class="col-6 col-12-mobilep">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="allergy" {{ old('allergy') ? 'checked' : '' }} value="noallergy">
+                                    <input class="form-check-input" type="checkbox" name="allergy[]" id="noallergy" {{ old('allergy') ? 'checked' : '' }} value="noallergy">
 
                                     <label class="form-check-label" for="noallergy">
                                         {{ __('No Allergies') }}
                                     </label>
-                                </div>
-
+                               </div>
                             </div>
-                        </div>
 
-                        <div class="form-group row">
-                            <label for="primary" class="col-md-4 col-form-label text-md-right">{{ __('Primary/Secondary guardian') }}</label>
-                       
-                            <div class="col-md-6">
-                                <select id="primary" class="form-control{{ $errors->has('primary') ? ' is-invalid' : '' }}" name="primary" required autofocus>
-                                    <option value="">--Select One--</option>
-                                    <option value="true">Primary</option>
-                                    <option value="false">Secondary</option>
-                                </select>
-                                    
-                                @if ($errors->has('primary'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('primary') }}</strong>
-                                    </span>
-                                @endif
+                            <div class="col-12">
+                                <ul class="actions special">
+                                    <li>
+                                        <input type="submit" value="{{ __('Add') }}"></input>
+                                    </li>
+                                </ul>
                             </div>
-                        </div>
-                        <input id="parentid" type="text" class="form-control @error('parentid') is-invalid @enderror" name="parentid" value="{{ Auth::user()->id }}" readonly hidden>
 
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Add') }}
-                                </button>
-                            </div>
                         </div>
                     </form>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 <script>
     function showBMI() {
