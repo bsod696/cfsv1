@@ -39,12 +39,12 @@
                                 <a href="" class="icon solid fa-angle-down">{{ Auth::guard('admin')->user()->username }}</a>
                                 <ul>
                                     <li><a href="{{ route('admin.dashboard') }}">Home</a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#">Setting</a>
-                                <ul>
-                                    <li><a href="{{ route('admin.password') }}">Change Password</a></li>
+                                    <li>
+                                        <a href="#">Setting</a>
+                                        <ul>
+                                            <li><a href="{{ route('admin.password') }}">Change Password</a></li>
+                                        </ul>
+                                    </li>
                                 </ul>
                             </li>
                             <li>

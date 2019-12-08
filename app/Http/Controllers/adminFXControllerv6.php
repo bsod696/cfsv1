@@ -700,7 +700,6 @@ use AuthenticatesUsers;
 		}
 		else {
 	      	$payment_txid = $request->txid;
-
 			$orders = Orders::where('txid', $payment_txid)->get(); //stored procedures: select * with specific arguments. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:329
 			$trans = Transaction::where('txid', $payment_txid)->get(); //stored procedures: select * with specific arguments. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:329
 			foreach ($trans as $tr) {
