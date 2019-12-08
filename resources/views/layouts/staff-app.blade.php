@@ -18,6 +18,14 @@
     <script src="{{ asset('js/breakpoints.min.js') }}" defer></script>
     <script src="{{ asset('js/util.js') }}" defer></script>
     <script src="{{ asset('js/main.js') }}" defer></script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/3.3.3/adapter.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.10/vue.min.js"></script>
+    <script type="text/javascript" src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+    
+    <!-- <script src="{{ asset('js/zxing.js') }}" defer></script> -->
+    <!-- <script src="{{ asset('js/camera.js') }}" defer></script> -->
+    <!-- <script src="{{ asset('js/scanner.js') }}" defer></script> -->
     <!-- <script src="{{ asset('js/instascan.min.js') }}" defer></script> -->
     <!-- <script src="https://gist.githubusercontent.com/chris-gunawardena/15d507d11dc09ef8f7653f1005eda203/raw/9ee3e38c57f2b1b7dc034fcf4c0dc48a2126a67c/instascan.min.js" defer></script> -->
 
