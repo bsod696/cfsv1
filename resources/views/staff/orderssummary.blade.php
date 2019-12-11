@@ -12,64 +12,66 @@
                         </div>
                     @endif
 
-                    <a href="{{url('/staff/takeorder')}}" class="button special fit small">Add New</a>
+                    <section class="box">
+                        <a href="{{url('/staff/takeorder')}}" class="button special fit small">Add New</a>
+                        <p></p>
 
-                    <p>
-                        <form method="POST" action="{{ route('staff.submit.ordersummary') }}">
-                            @csrf
+                        <p>
+                            <form method="POST" action="{{ route('staff.submit.ordersummary') }}">
+                                @csrf
 
-                            <div class="row gtr-50 gtr-uniform">
+                                <div class="row gtr-50 gtr-uniform">
 
-                                <div class="col-4">
-                                    Search based on Serve Date
+                                    <div class="col-4">
+                                        Search based on Serve Date
+                                    </div>
+
+                                    <div class="col-6">
+                                        <input id="servedate" type="date" class="unstyled" name="servedate" value="{{ old('servedate') }}" required autocomplete="servedate" autofocus>
+
+                                        @error('servedate')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+
+                                    <div class="col-2">
+                                        <input type="submit" value="{{ __('Search') }}" class="button special fit small"></input>
+                                    </div>
+
                                 </div>
-
-                                <div class="col-6">
-                                    <input id="servedate" type="date" class="form-control @error('servedate') is-invalid @enderror" name="servedate" value="{{ old('servedate') }}" required autocomplete="servedate" autofocus>
-
-                                    @error('servedate')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-
-                                <div class="col-2">
-                                    <input type="submit" value="{{ __('Search') }}" class="button special fit small"></input>
-                                </div>
-
-                            </div>
-                        </form>
-                    </p>
+                            </form>
+                        </p>
+                    </section>
                     
                     <section class="box">
-                        <div class="table-wrapper">
-                                
-                            <table>
-                                <thead>
-                                    <tr>
-                                @if(!empty($ordersorg))
-                                        <th><center>Serve Date</center></th>
-                                        <th><center>Menu</center></th>
-                                        <th><center>Price</center></th>
-                                        <th><center>Quantity</center></th>
-                                        <th><center>Total</center></th>
-                                    </tr>
-                                </thead>
-                        @foreach($ordersorg as $o)
-                                <tr>
-                                    <td><center>{{$o['menudate']}}</center></td>
-                                    <td><center>{{$o['menuname']}}</center></td>
-                                    <td><center>RM {{$o['menuprice']}}</center></td>
-                                    <td><center>{{$o['menuqty']}} units</center></td>
-                                    <td><center>RM {{$o['totalpermenu']}}</center></td>
-                                </tr>
-                        @endforeach
-                                @else
-                                <p>No Orders data found.</p>
-                                @endif
-                            </table>
+                        @if(!empty($ordersorg))
+                            <div class="table-wrapper">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th><center>Serve Date</center></th>
+                                            <th><center>Menu</center></th>
+                                            <th><center>Price</center></th>
+                                            <th><center>Quantity</center></th>
+                                            <th><center>Total</center></th>
+                                        </tr>
+                                    </thead>
+                                    @foreach($ordersorg as $o)
+                                        <tr>
+                                            <td><center>{{$o['menudate']}}</center></td>
+                                            <td><center>{{$o['menuname']}}</center></td>
+                                            <td><center>RM {{$o['menuprice']}}</center></td>
+                                            <td><center>{{$o['menuqty']}} units</center></td>
+                                            <td><center>RM {{$o['totalpermenu']}}</center></td>
+                                        </tr>
+                                    @endforeach
+                                </table>
                             </div>
-                        </section>
+                        @else
+                            <p>No Orders data found.</p>
+                        @endif
+                    </section>
 </div>
 @endsection

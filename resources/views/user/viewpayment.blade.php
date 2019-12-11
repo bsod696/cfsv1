@@ -13,16 +13,18 @@
                     @endif
 
                     <section class="box">
-
-                        <div class="table-wrapper">
-                            <table>
-                                @if(!empty($pay))
-                        @foreach($pay as $s)
-                                <tr>
-                                    <td>
+                        <a href="{{url('/user/storepayment')}}" class="button special fit small">Add New</a>
+                        <p></p>
+                        
+                        @if(!$pay->isEmpty())
+                            <div class="table-wrapper">
+                                <table>
+                                @foreach($pay as $s)
+                                    <tr>
+                                        <td>
                                             <b>Full Name : </b>{{$s->fullname}}
                                             <br>
-                                            <b>Card Number : </b>************{{substr($s->cardnum,-4)}}
+                                            <b>Card Number : </b>**** **** **** {{substr($s->cardnum,-4)}}
                                             <br>
                                             <b>Card Type : </b>{{strtoupper($s->cardtype)}}
                                             <br>
@@ -43,30 +45,30 @@
                                             @else
                                                 <b>NO</b>
                                             @endif
-                                    </td>
-                                    <td><center>
-                                        <form action="{{ route('user.editpayment') }}" method="POST" enctype="multipart/form-data">
-                                            @csrf
-                                            <div class="row gtr-50 gtr-uniform">
-                                                <input id="id" type="hidden" class="form-control{{ $errors->has('id') ? ' is-invalid' : '' }}" name="id"  value="{{ $s->id }}" hidden />
+                                        </td>
+                                        <td><center>
+                                            <form action="{{ route('user.editpayment') }}" method="POST" enctype="multipart/form-data">
+                                                @csrf
+                                                <div class="row gtr-50 gtr-uniform">
+                                                    <input id="id" type="hidden" class="form-control{{ $errors->has('id') ? ' is-invalid' : '' }}" name="id"  value="{{ $s->id }}" hidden />
 
-                                                <div class="col-12">
-                                                    <ul class="actions special">
-                                                        <li>
-                                                            <input type="submit" value="{{ __('View') }}"></input>
-                                                        </li>
-                                                    </ul>
+                                                    <div class="col-12">
+                                                        <ul class="actions special">
+                                                            <li>
+                                                                <input type="submit" value="{{ __('View') }}" class="button special fit small"></input>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </form>
-                                    </center></td>
-                                </tr>
-                        @endforeach
-                                @else
-                                <p>No Payment data found.</p>
-                                @endif
+                                            </form>
+                                        </center></td>
+                                    </tr>
+                                @endforeach
                             </table>
-                            </div>
-                    </section>
+                        </div>
+                    @else
+                        <p>No Payment data found.</p>
+                    @endif
+                </section>
 </div>
 @endsection

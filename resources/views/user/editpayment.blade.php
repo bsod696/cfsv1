@@ -39,11 +39,12 @@
 
                             <div class="col-6 col-12-mobilep">
                                 <label for="cardtype" class="col-md-4 col-form-label text-md-right">{{ __('Credit Card Type') }}</label>
-                                <select id="cardtype" class="form-control{{ $errors->has('cardtype') ? ' is-invalid' : '' }}" name="cardtype" required autofocus>
+                                <input id="cardtype" type="text" class="form-control @error('cardtype') is-invalid @enderror" name="cardtype" value="{{ strtoupper($u->cardtype) }}" readonly autocomplete="cardtype" autofocus>
+                                <!-- <select id="cardtype" class="form-control{{ $errors->has('cardtype') ? ' is-invalid' : '' }}" name="cardtype" required autofocus>
                                     <option value="{{ ucfirst($u->cardtype) }}">{{ ucfirst($u->cardtype) }}</option>
                                     <option value="visa">Visa</option>
                                     <option value="mastercard">Mastercard</option>
-                                </select>
+                                </select> -->
                                     
                                 @if ($errors->has('cardtype'))
                                     <span class="invalid-feedback" role="alert">
@@ -54,7 +55,7 @@
 
                             <div class="col-6 col-12-mobilep">
                                 <label for="cardnum" class="col-md-4 col-form-label text-md-right">{{ __('Credit Card Number') }}</label>
-                                <input id="cardnum" type="text" class="form-control @error('cardnum') is-invalid @enderror" name="cardnum" value="{{ $u->cardnum }}" required autocomplete="cardnum" autofocus>
+                                <input id="cardnum" type="text" class="form-control @error('cardnum') is-invalid @enderror" name="cardnum" value="{{ $u->cardnum }}" readonly autocomplete="cardnum" autofocus>
 
                                 @error('cardnum')
                                     <span class="invalid-feedback" role="alert">
@@ -65,7 +66,7 @@
 
                             <div class="col-6 col-12-mobilep">
                                 <label for="cvvnum" class="col-md-4 col-form-label text-md-right">{{ __('CVV Number') }}</label>
-                                <input id="cvvnum" type="text" maxlength="3" class="form-control @error('cvvnum') is-invalid @enderror" name="cvvnum" value="{{ $u->cvvnum }}" required autocomplete="cvvnum" autofocus>
+                                <input id="cvvnum" type="text" maxlength="3" class="form-control @error('cvvnum') is-invalid @enderror" name="cvvnum" value="{{ $u->cvvnum }}" readonly autocomplete="cvvnum" autofocus>
 
                                 @error('cvvnum')
                                     <span class="invalid-feedback" role="alert">
@@ -80,7 +81,7 @@
 
                             <div class="col-6 col-12-mobilep">
                                 <label for="expdate" class="col-md-4 col-form-label text-md-right">{{ __('Expiration Date') }}</label>
-                                <select name='expireMM' id='expireMM' class="form-control{{ $errors->has('expireMM') ? ' is-invalid' : '' }}" required autofocus>
+                               <!--  <select name='expireMM' id='expireMM' class="form-control{{ $errors->has('expireMM') ? ' is-invalid' : '' }}" required autofocus>
                                     
                                     <option value=''>Month</option>
                                     <option value='01'>January</option>
@@ -113,8 +114,8 @@
                                     <option value='23'>2023</option>
                                     <option value='24'>2024</option>
                                     <option value='25'>2025</option>
-                                </select> 
-                                <input type="text" id="expdate" class="form-control{{ $errors->has('expdate') ? ' is-invalid' : '' }}" name="expdate" min="2019-01-01" readonly autofocus value>
+                                </select>  -->
+                                <input type="text" id="expdate" class="form-control{{ $errors->has('expdate') ? ' is-invalid' : '' }}" name="expdate" min="2019-01-01" readonly autofocus value="{{ $u->expdate }}">
                                     
                                 @if ($errors->has('expdate'))
                                     <span class="invalid-feedback" role="alert">

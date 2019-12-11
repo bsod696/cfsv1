@@ -2076,6 +2076,26 @@
 		margin: 0 0 1em 0;
 	}
 
+	.unstyled {
+    -webkit-appearance: none;
+	}
+	.unstyled::-webkit-inner-spin-button,
+	.unstyled::-webkit-calendar-picker-indicator {
+	    display: block;
+	    -webkit-appearance: none;
+	}
+
+	.videocontainer{
+		width: 300px;
+	    overflow:hidden;
+	    display:inline-block;
+	    height: 300px;
+	    margin: 0 auto;
+	}
+	#preview{
+	    /*margin-right: 220px;*/
+	}
+
 	input[type="text"],
 	input[type="password"],
 	input[type="email"],
