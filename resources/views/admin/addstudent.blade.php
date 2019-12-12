@@ -70,7 +70,7 @@
 
                             <div class="col-6 col-12-mobilep">
                                 <label for="dob" class="col-md-4 col-form-label text-md-right">{{ __('Date of Birth') }}</label>
-                                <input type="date" id="dob" class="form-control{{ $errors->has('dob') ? ' is-invalid' : '' }}" name="dob" min="1900-01-01" required autofocus>
+                                <input type="date" id="dob" class="unstyled" name="dob" min="1900-01-01" required autofocus>
                                     
                                 @if ($errors->has('dob'))
                                     <span class="invalid-feedback" role="alert">

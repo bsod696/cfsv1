@@ -24,7 +24,7 @@
                                             <th><center>Quantity</center></th>
                                             <th><center>Total</center></th>
                                             <th><center>Serve Date</center></th>
-                                            <th></th>
+                                            <th><center>Payment TXID</center></th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -36,6 +36,7 @@
                                             <td><center>{{$o->menuqty}} units</center></td>
                                             <td><center>RM {{number_format($o->menuprice*$o->menuqty, 2, '.', '')}}</center></td>
                                             <td><center>{{date_format(date_create($o->menudate), 'd/m/Y')}}</center></td>
+                                            <td><center>{{ $o->txid )}}</center></td>
                                             <td><center>
                                                 <form action="{{ route('staff.submit.takeorder') }}" method="POST" enctype="multipart/form-data">
                                                     @csrf

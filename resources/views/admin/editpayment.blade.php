@@ -52,11 +52,12 @@
 
                             <div class="col-6 col-12-mobilep">
                                 <label for="cardtype" class="col-md-4 col-form-label text-md-right">{{ __('Credit Card Type') }}</label>
-                                <select id="cardtype" class="form-control{{ $errors->has('cardtype') ? ' is-invalid' : '' }}" name="cardtype" required autofocus>
+                                <input id="cardtype" type="text" class="form-control @error('cardtype') is-invalid @enderror" name="cardtype" value="{{ strtoupper($u->cardtype) }}" readonly autocomplete="cardtype" autofocus>
+                               <!--  <select id="cardtype" class="form-control{{ $errors->has('cardtype') ? ' is-invalid' : '' }}" name="cardtype" required autofocus>
                                     <option value="{{ ucfirst($u->cardtype) }}">{{ ucfirst($u->cardtype) }}</option>
                                     <option value="visa">Visa</option>
                                     <option value="mastercard">Mastercard</option>
-                                </select>
+                                </select> -->
                                     
                                 @if ($errors->has('cardtype'))
                                     <span class="invalid-feedback" role="alert">
@@ -67,7 +68,7 @@
 
                             <div class="col-6 col-12-mobilep">
                                 <label for="cardnum" class="col-md-4 col-form-label text-md-right">{{ __('Credit Card Number') }}</label>
-                                <input id="cardnum" type="number" class="form-control @error('cardnum') is-invalid @enderror" name="cardnum" value="{{ $u->cardnum }}" required autocomplete="cardnum" autofocus>
+                                <input id="cardnum" type="number" class="form-control @error('cardnum') is-invalid @enderror" name="cardnum" value="{{ **** **** **** {{substr($u->cardnum,-4)}} }}" readonly autocomplete="cardnum" autofocus>
 
                                 @error('cardnum')
                                     <span class="invalid-feedback" role="alert">
@@ -94,8 +95,8 @@
 
                             <div class="col-6 col-12-mobilep">
                                 <label for="expdate" class="col-md-4 col-form-label text-md-right">{{ __('Expiration Date') }}</label>
-                                <select name='expireMM' id='expireMM' class="form-control{{ $errors->has('expireMM') ? ' is-invalid' : '' }}" required autofocus>
-                                    <!-- <option value='{{ explode("/",$u->expdate)[0] }}'>{{ explode("/",$u->expdate)[0] }}</option> -->
+                                <!--  <select name='expireMM' id='expireMM' class="form-control{{ $errors->has('expireMM') ? ' is-invalid' : '' }}" required autofocus>
+                                    
                                     <option value=''>Month</option>
                                     <option value='01'>January</option>
                                     <option value='02'>February</option>
@@ -109,7 +110,7 @@
                                     <option value='10'>October</option>
                                     <option value='11'>November</option>
                                     <option value='12'>December</option>
-                                </select>
+                                </select> 
                             </div>
 
                         </div>
@@ -118,7 +119,7 @@
 
                             <div class="col-6 col-12-mobilep">
                                 <select name='expireYY' id='expireYY' class="form-control{{ $errors->has('expireYY') ? ' is-invalid' : '' }}" required autofocus onchange="showEXP()">
-                                    <!-- <option value='{{ explode("/",$u->expdate)[1] }}'>{{ explode("/",$u->expdate)[1] }}</option> -->
+                                    
                                     <option value=''>Year</option>
                                     <option value='19'>2019</option>
                                     <option value='20'>2020</option>
@@ -127,14 +128,7 @@
                                     <option value='23'>2023</option>
                                     <option value='24'>2024</option>
                                     <option value='25'>2025</option>
-                                </select>
-                            </div> 
-
-                        </div>
-
-                        <div class="row gtr-50 gtr-uniform">
-
-                            <div class="col-6 col-12-mobilep">
+                                </select>  -->
                                 <input type="text" id="expdate" class="form-control{{ $errors->has('expdate') ? ' is-invalid' : '' }}" name="expdate" min="2019-01-01" readonly autofocus value>
                                     
                                 @if ($errors->has('expdate'))
