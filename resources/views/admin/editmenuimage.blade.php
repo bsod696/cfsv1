@@ -16,7 +16,7 @@
                     
                     <form method="POST" action="{{ route('admin.submit.editmenuimage') }}" enctype="multipart/form-data">
                         @csrf
-                        <input id="menuname" type="hidden" class="form-control @error('menuname') is-invalid @enderror" name="menuname" value="{{ $u->menuname }}" required autocomplete="id" readonly>
+                        <input id="foodname" type="hidden" class="form-control @error('foodname') is-invalid @enderror" name="foodname" value="{{ $u->menuname }}" required autocomplete="id" readonly>
 
                         <input id="id" type="hidden" class="form-control @error('id') is-invalid @enderror" name="id" value="{{ $u->id }}" required autocomplete="id" readonly>
 
