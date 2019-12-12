@@ -21,7 +21,7 @@
                             <div class="col-12">
                                 <ul class="actions special">
                                     <li>
-                                        <input type="submit" value="{{ __('Delete Student Detail') }}"></input>
+                                        <input type="submit" value="{{ __('Remove Student Detail') }}" class="button special small" onclick="return confirm('Are you sure you want to Remove this Student?');"></input>
                                     </li>
                                 </ul>
                             </div>

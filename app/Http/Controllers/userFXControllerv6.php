@@ -59,7 +59,6 @@ use AuthenticatesUsers;
    		$weight = $request->weight;
    		$bmi = $request->bmi;
    		$target_calories = $request->target_calories;
-   		// $primary = $request->primary;
    		$allergy = $request->allergy;
 
    		$allallergy = Allergy::all();
@@ -72,16 +71,7 @@ use AuthenticatesUsers;
 			$allcomp[$type]=$value;
    		}
 
-   		// if($primary == 'true'){
-   		// 	$primary_parentid = $request->parentid;
-   		// 	$secondary_parentid = '';
-   		// }
-   		// else{
-   		// 	$primary_parentid = '';
-   		// 	$secondary_parentid = $request->parentid;
-   		// }
    		$parentid = $request->parentid;
-   		
    		$age = Carbon::parse($dob)->age;
 
    		Student::create([
@@ -98,8 +88,6 @@ use AuthenticatesUsers;
 			'target_calories'=>$target_calories,
 			'allergies'=>serialize($allcomp), //unserialize  = string array to array
 			'parentid'=>$parentid,
-			// 'primary_parentid'=>$primary_parentid,
-			// 'secondary_parentid'=>$secondary_parentid,
 		]);
 		$message = "New Student added";
 		return redirect('user/viewstudent')->with('status', $message);
@@ -138,7 +126,6 @@ use AuthenticatesUsers;
    		$weight = $request->weight;
    		$bmi = $request->bmi;
    		$target_calories = $request->target_calories;
-   		// $primary = $request->primary;
    		$allergy = $request->allergy;
 
    		$allallergy = Allergy::all();
@@ -151,14 +138,6 @@ use AuthenticatesUsers;
 			$allcomp[$type]=$value;
    		}
 
-   		// if($primary == 'true'){
-   		// 	$primary_parentid = $request->parentid;
-   		// 	$secondary_parentid = '';
-   		// }
-   		// else{
-   		// 	$primary_parentid = '';
-   		// 	$secondary_parentid = $request->parentid;
-   		// }
    		$parentid = $request->parentid;
 
    		Student::where('id', $id)->update([
@@ -170,8 +149,6 @@ use AuthenticatesUsers;
 			'target_calories'=>$target_calories,
 			'allergies'=>serialize($allcomp), //unserialize  = string array to array
 			'parentid'=>$parentid,
-			// 'primary_parentid'=>$primary_parentid,
-			// 'secondary_parentid'=>$secondary_parentid,
 		]);
 		
 		$message = "Student Updated";
@@ -217,7 +194,7 @@ use AuthenticatesUsers;
    			$parentpaycheck = PaymentDet::where('parentid', $parentid)->where('defaultpay', 'Y')->count();
    			if($parentpaycheck < 1){
    				PaymentDet::create([
-					'parentid'=>$parentid,
+					'parentid'=>(int)$parentid,
 					'fullname'=>$fullname,
 					'billaddr1'=>$billaddr1,
 					'billaddr2'=>$billaddr2,
@@ -241,7 +218,7 @@ use AuthenticatesUsers;
    		}
    		else {
    			PaymentDet::create([
-				'parentid'=>$parentid,
+				'parentid'=>(int)$parentid,
 				'fullname'=>$fullname,
 				'billaddr1'=>$billaddr1,
 				'billaddr2'=>$billaddr2,
@@ -281,10 +258,6 @@ use AuthenticatesUsers;
 		}
 		else {
 			$id = $request->id;
-			// $years = Years::all();
-			// $months = Months::all();
-			// $updata = array('updata'=>PaymentDet::where('id', $id)->first());
-   //    		return view('user.editpayment', compact('years', 'months', 'updata'));
       		$updata = array('updata'=>PaymentDet::where('id', $id)->first());
       		return view('user.editpayment', compact('updata'));
 		}
@@ -315,7 +288,7 @@ use AuthenticatesUsers;
    			$parentpaycheck = PaymentDet::where('parentid', $parentid)->where('defaultpay', 'Y')->count();
    			if($parentpaycheck < 1){
    				PaymentDet::where('id', $id)->update([
-					'parentid'=>$parentid,
+					'parentid'=>(int)$parentid,
 					'fullname'=>$fullname,
 					'billaddr1'=>$billaddr1,
 					'billaddr2'=>$billaddr2,
@@ -330,7 +303,7 @@ use AuthenticatesUsers;
 					'defaultpay'=>$payflag,
 				]);
 				$message = "Payment Details Updated";
-				return redirect('user/home')->with('status', $message);
+				return redirect('user/editpayment')->with('status', $message);
    			}
    			else {
 	   			$message = "Only ONE card can be default at a time";
@@ -339,7 +312,7 @@ use AuthenticatesUsers;
    		}
    		else {
    			PaymentDet::where('id', $id)->update([
-				'parentid'=>$parentid,
+				'parentid'=>(int)$parentid,
 				'fullname'=>$fullname,
 				'billaddr1'=>$billaddr1,
 				'billaddr2'=>$billaddr2,
@@ -366,10 +339,7 @@ use AuthenticatesUsers;
 		  	Session::flash('type', 'warning');
 		  	return redirect()->route('');
 		}
-		else {
-			//$stud = Student::where('primary_parentid', Auth::user()->id)->orwhere('secondary_parentid', Auth::user()->id)->get();
-	      	return view('user.setting'); //, compact('stud'));
-	    }
+		else {return view('user.setting');}
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 	//Update Student data in database
@@ -382,7 +352,6 @@ use AuthenticatesUsers;
 		else {
 			$id = Auth::user()->id;
 			$updata = array('updata'=>User::where('id', $id)->first()); //stored procedures: select * with specific arguments. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:329
-			//dd($id, $updata);
       		return view('user.editparent', compact('updata'));
       	}
 	}
@@ -492,8 +461,9 @@ use AuthenticatesUsers;
 		  	return redirect()->route('');
 		}
 		else {
-			$orders = Orders::where('parentid', Auth::user()->id)->get();
-	      	return view('user.vieworders', compact('orders'));
+			$orders = Orders::where('parentid', Auth::user()->id)->where('txid' , '')->get();
+			$ordersp = Orders::where('parentid', Auth::user()->id)->where('txid' ,'!=', '')->orderBy('updated_at', 'desc')->get();
+	      	return view('user.vieworders', compact('orders', 'ordersp'));
 	    }
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
@@ -537,10 +507,26 @@ use AuthenticatesUsers;
 		else {
 			$paymentscheck = PaymentDet::where('parentid', Auth::user()->id)->count();
 			if($paymentscheck >= 1){
-				$id = $request->id;
-				$payments = PaymentDet::where('parentid', Auth::user()->id)->get();
-				$orders = Orders::where('id', $id)->get();
-	      		return view('user.payorders', compact('orders', 'payments'));
+				$id = $request->selectorder;
+				if(empty($id)){
+					$message = "Please select Orders before making a payment";
+					return redirect('user/vieworder')->with('status', $message);
+				}
+				else {
+					$payments = PaymentDet::where('parentid', Auth::user()->id)->get();
+					$grandtotal = 0;
+					$total = null;
+					foreach ($id as $oid) {
+						$orders[] = Orders::where('id', $oid)->get();
+						foreach ($orders as $ord) {
+							foreach ($ord as $o) {
+							}
+						}
+						$total[] = $o->menuprice*$o->menuqty;
+					}
+					$grandtotal = array_sum($total);
+		      		return view('user.payorders', compact('orders', 'payments', 'grandtotal'));
+				}
 			}
 			else {
 				$message = "No Credit/Debit cards added. Please add card before making a payment";
@@ -551,39 +537,111 @@ use AuthenticatesUsers;
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
    	public function payorderProc(Request $request){
-   		$order_id = $request->id;
+   		$order_id = $request->selectorder;
    		$parent_id = $request->parentid;
    		$payment_id = $request->paymentid;
+   		$gtotal = $request->gtotal;
 
-   		$ordersdet = Orders::where('id', $order_id)->first();
+   		$bulkorderid = serialize($order_id);
+   		$paydet = PaymentDet::where('id', $payment_id)->first();
+	   	$payment_txid = strtoupper('CFSP'.$parent_id.'D'.$paydet->id.'H'.Carbon::now()->timestamp.'TX'.getRandomString(5));
+	   	if($payment_txid != ''){$txstatus = 'success';}
+	   	else{$txstatus = 'fail';}
+
+	   	foreach ($order_id as $id) {
+	   		Orders::where('id', $id)->update([
+			   	'txid'=>$payment_txid,
+			]);
+	   	}
+		Transaction::create([
+			'parentid'=>$parent_id,
+			'paymentid'=>(int)$paydet->id,
+			'orderid'=>$bulkorderid, 
+			'txstatus'=>$txstatus, 
+			'txreference'=>'PAYORDERS', 
+			'txamount'=>$gtotal,
+			'txid'=>$payment_txid, 
+		]);
+		// $arr = array(
+		// 	'parentid'=>$parent_id,
+		// 	'paymentid'=>(int)$paydet->id,
+		// 	'orderid'=>$bulkorderid, 
+		// 	'txstatus'=>$txstatus, 
+		// 	'txreference'=>'PAYORDERS', 
+		// 	'txamount'=>$gtotal,
+		// 	'txid'=>$payment_txid, 
+		// );
+		// dd($bulkorderid, $arr);
+
+   		$message = "Orders Successfully Paid";
+		return redirect('user/vieworder')->with('status', $message);
+
+  //  		foreach ($order_id as $id) {
+  //  			$ordersdet = Orders::where('id', $id)->get();
+  //  			foreach ($ordersdet as $orders) {
+  //  				$paydet = PaymentDet::where('id', $payment_id)->first();
+	 //   			$payment_txid = strtoupper('CFSP'.$parent_id.'D'.$orders->id.'P'.$paydet->id.'H'.Carbon::now()->timestamp.'TX'.getRandomString(5));
+		   		
+		//    		if($payment_txid != ''){$txstatus = 'success';}
+		//    		else{$txstatus = 'fail';}
+
+		//    		$total = number_format($orders->menuprice*$orders->menuqty, 2, '.', '');
+
+		//    		Orders::where('id', $orders['id'])->update([
+		//    			'txid'=>$payment_txid,
+		// 		]);
+
+		// 		Transaction::create([
+		// 			'menuid'=>$orders->menuid,
+		// 			'parentid'=>$parent_id,
+		// 			'paymentid'=>$paydet->id,
+		// 			'orderid'=>$orders->id, 
+		// 			'txstatus'=>$txstatus, 
+		// 			'txreference'=>'PAYORDERS', 
+		// 			'txamount'=>$total,
+		// 			'txid'=>$payment_txid, 
+		// 		]);
+  //  			}
+  //  		}
+  //  		$message = "Orders Successfully Paid";
+		// return redirect('user/vieworder')->with('status', $message);
+
+
+
+
    		//$payflag = PaymentDet::where('parentid', Auth::user()->id)->where('defaultpay', 'Y')->count();
 
    		//if($payflag >= 1){
-   			$paydet = PaymentDet::where('id', $payment_id)->first();
-   			$payment_txid = strtoupper('CFSP'.$parent_id.'D'.$order_id.'P'.$paydet->id.'H'.Carbon::now()->timestamp.'TX'.getRandomString(5));
+
+
+   // 			$paydet = PaymentDet::where('id', $payment_id)->first();
+   // 			$payment_txid = strtoupper('CFSP'.$parent_id.'D'.$order_id.'P'.$paydet->id.'H'.Carbon::now()->timestamp.'TX'.getRandomString(5));
 	   		
-	   		if($payment_txid != ''){$txstatus = 'success';}
-	   		else{$txstatus = 'fail';}
+	  //  		if($payment_txid != ''){$txstatus = 'success';}
+	  //  		else{$txstatus = 'fail';}
 
-	   		$total = number_format($ordersdet->menuprice*$ordersdet->menuqty, 2, '.', '');
+	  //  		$total = number_format($ordersdet->menuprice*$ordersdet->menuqty, 2, '.', '');
 
-	   		Orders::where('id', $order_id)->update([
-	   			'txid'=>$payment_txid,
-			]);
+	  //  		Orders::where('id', $order_id)->update([
+	  //  			'txid'=>$payment_txid,
+			// ]);
 
-			Transaction::create([
-				'menuid'=>$ordersdet->menuid,
-				'parentid'=>$parent_id,
-				'paymentid'=>$paydet->id,
-				'orderid'=>$order_id, 
-				'txstatus'=>$txstatus, 
-				'txreference'=>'PAYORDERS', 
-				'txamount'=>$total,
-				'txid'=>$payment_txid, 
-			]);
+			// Transaction::create([
+			// 	'menuid'=>$ordersdet->menuid,
+			// 	'parentid'=>$parent_id,
+			// 	'paymentid'=>$paydet->id,
+			// 	'orderid'=>$order_id, 
+			// 	'txstatus'=>$txstatus, 
+			// 	'txreference'=>'PAYORDERS', 
+			// 	'txamount'=>$total,
+			// 	'txid'=>$payment_txid, 
+			// ]);
 
-			$message = "Orders Successfully Paid";
-			return redirect('user/vieworder')->with('status', $message);
+			// $message = "Orders Successfully Paid";
+			// return redirect('user/vieworder')->with('status', $message);
+
+
+
    		//}
    		//else {
    		//	$message = "No Default Payment Added";
@@ -591,6 +649,17 @@ use AuthenticatesUsers;
    		//}
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
+	public function deleteorderinit(){
+		if (!Auth::check()) {
+			Session::flash('message', trans('errors.session_label'));
+		  	Session::flash('type', 'warning');
+		  	return redirect()->route('');
+		}
+		else {
+			$orders = Orders::where('parentid', Auth::user()->id)->where('txid' , '')->get();
+	      	return view('user.manageorders', compact('orders'));
+	    }
+	}	
 	public function deleteorderProc(Request $request){
 		if (!Auth::check()) {
 			Session::flash('message', trans('errors.session_label'));
@@ -598,10 +667,10 @@ use AuthenticatesUsers;
 		  	return redirect()->route('');
 		}
 		else {
-			$id = $request->id;
+			$id = $request->deleteid;
 			Orders::find($id)->delete();
 			$message = "Orders Data Deleted";
-			return redirect('user/vieworder')->with('status', $message);
+			return redirect('user/deleteorder')->with('status', $message);
 		}
 	}
 
@@ -615,7 +684,7 @@ use AuthenticatesUsers;
 		  	return redirect()->route('');
 		}
 		else {
-			$trans = Transaction::where('parentid', Auth::user()->id)->get();
+			$trans = Transaction::where('parentid', Auth::user()->id)->orderBy('updated_at', 'desc')->get();
 	      	return view('user.listtrans', compact('trans'));
 	    }
 	}
@@ -628,12 +697,16 @@ use AuthenticatesUsers;
 		}
 		else {
 			$payment_txid = $request->txid;
-			$orders = Orders::where('txid', $payment_txid)->get();
-			$trans = Transaction::where('txid', $payment_txid)->get();
-			foreach ($trans as $tr) {
-				$payments[] = PaymentDet::where('id', $tr['paymentid'])->first();
+			$trans = Transaction::where('txid', $payment_txid)
+				->leftJoin('payment_details', 'transaction.paymentid', '=', 'payment_details.id')
+				->first();
+			$updata = array('updata'=>$trans);
+			$singorderid = unserialize($trans->orderid);
+			foreach ($singorderid as $orderid) {
+				$orders[] = Orders::where('id', $orderid)->first();
 			}
-	      	return view('user.viewtrans', compact('trans', 'orders', 'payments'));
+
+			return view('user.viewtrans', compact('updata', 'orders'));
 	    }
 	}
 

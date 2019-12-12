@@ -123,8 +123,6 @@ use AuthenticatesUsers;
    		$banknum = $request->banknum;
  		$defaultpay = $request->defaultpay;
 
- 		// dd($fullname, $bankname, $banknum, $defaultpay);
-
    		if($defaultpay == 'defaultpay'){$payflag = 'Y';}
    		else{$payflag = 'N';}
 
@@ -195,10 +193,7 @@ use AuthenticatesUsers;
 		  	Session::flash('type', 'warning');
 		  	return redirect()->route('');
 		}
-		else {
-			//$stud = Student::where('primary_parentid', Auth::user()->id)->orwhere('secondary_parentid', Auth::user()->id)->get();
-	      	return view('staff.setting'); //, compact('stud'));
-	    }
+		else {return view('staff.setting');}
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 	//Update Student data in database
@@ -281,8 +276,6 @@ use AuthenticatesUsers;
 	}
 
 
-
-
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 	public function listordersinit(){
 		if (!Auth::guard('staff')) {
@@ -291,16 +284,8 @@ use AuthenticatesUsers;
 		  	return redirect()->route('');
 		}
 		else {
-			// $menus = Menus::where('staffid', Auth::guard('staff')->user()->id)->get();
-
-			// foreach ($menus as $menu) {
-			// 	$orders[] = Orders::where('menuid', $menu['id'])->get();
-			// 	$totalqty = array_sum($orders['menuqty']);
-			// }
-
-	  		// return view('user.listorders', compact('orders'));
 	  		$id = Auth::guard('staff')->user()->id;
-	  		$orders = Orders::where('staffid', $id)->get();
+	  		$orders = Orders::where('staffid', $id)->orderby('menudate', 'desc')->get();
 	  		return view('staff.listorders', compact('orders'));
 	    }
 	}
@@ -319,8 +304,7 @@ use AuthenticatesUsers;
 	      		'orders'=>$orders,
 	      		'menus'=>$menus
 	      	); 
-	      	//dd($id, $orders, $menus);
-      		return view('staff.vieworders', compact('updata')); //, 'menus'));
+      		return view('staff.vieworders', compact('updata'));
 	    }
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
@@ -331,10 +315,7 @@ use AuthenticatesUsers;
 		  	return redirect()->route('');
 		}
 		else {
-			//$menuid = $request->menuid;
-			//$menu = Menus::find($id)->first();
-	      	//return view('staff.confirmmenu', compact('menu', 'menu'));
-	      	$orders = Orders::where('staffid', '')->whereNotNull('txid')->get();
+	      	$orders = Orders::where('staffid', '')->whereNotNull('txid')->orderby('created_at', 'desc')->get();
 	      	return view('staff.pickorders', compact('orders'));
 	    }
 	}
@@ -481,7 +462,7 @@ use AuthenticatesUsers;
 	   		return view('staff.viewredeem', compact('redorder'))->with('status', $message);
    		}
    		else {
-   			$message = "No Orders for Today";
+   			$message = "No Today Orders for ".$studentid;
 			return redirect('staff/redeem')->with('status', $message);
    		}
    	}

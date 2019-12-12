@@ -19,9 +19,9 @@
     <script src="{{ asset('js/util.js') }}" defer></script>
     <script src="{{ asset('js/main.js') }}" defer></script>
 
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/3.3.3/adapter.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.10/vue.min.js"></script>
-    <script type="text/javascript" src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+    <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/3.3.3/adapter.min.js"></script> -->
+    <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.10/vue.min.js"></script> -->
+    <!-- <script type="text/javascript" src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script> -->
     
     <!-- <script src="{{ asset('js/zxing.js') }}" defer></script> -->
     <!-- <script src="{{ asset('js/camera.js') }}" defer></script> -->
@@ -59,6 +59,11 @@
                                     <li>
                                         <a href="{{ route('staff.redeem') }}">
                                             Scanner
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('staff.listorder') }}">
+                                            Orders
                                         </a>
                                     </li>
                                     <li>

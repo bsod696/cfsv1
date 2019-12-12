@@ -59,10 +59,10 @@ Route::prefix('user')->group(function() {
 	Route::get('/vieworder','userFXControllerv6@vieworderinit')->name('user.vieworder');
 	Route::get('/editorder','userFXControllerv6@editorderinit');
 	Route::post('/submit/editorder','userFXControllerv6@editorderProc')->name('user.submit.editorder');
-	Route::get('/deleteorder','userFXControllerv6@deleteorderinit');
 	Route::post('/submit/deleteorder','userFXControllerv6@deleteorderProc')->name('user.submit.deleteorder');
 	Route::post('/payorder','userFXControllerv6@payorderinit')->name('user.payorder');
 	Route::post('/submit/payorder','userFXControllerv6@payorderProc')->name('user.submit.payorder');
+	Route::get('/deleteorder','userFXControllerv6@deleteorderinit');
 	Route::post('/submit/deleteorder','userFXControllerv6@deleteorderProc')->name('user.submit.deleteorder');
 
 	//TRANSACTION
@@ -185,7 +185,7 @@ Route::prefix('staff')->group(function() {
 	Route::post('/submit/cancelmenu','staffFXControllerv6@cancelmenusProc')->name('staff.submit.cancelmenu');
 
 	//ORDER
-	Route::get('/listorder','staffFXControllerv6@listordersinit');
+	Route::get('/listorder','staffFXControllerv6@listordersinit')->name('staff.listorder');
 	Route::post('/vieworder','staffFXControllerv6@viewordersinit')->name('staff.vieworder');
 	Route::get('/takeorder','staffFXControllerv6@takeordersinit');
 	Route::post('/submit/takeorder','staffFXControllerv6@takeordersProc')->name('staff.submit.takeorder');

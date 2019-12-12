@@ -12,7 +12,7 @@
                         <input id="id" type="hidden" class="form-control{{ $errors->has('id') ? ' is-invalid' : '' }}" name="id"  value="{{ $u->id }}" hidden />
                         <ul class="actions special">
                             <li>
-                                <input type="submit" value="{{ __('Delete Account Detail') }}"></input>
+                                <input type="submit" value="{{ __('Remove Account Detail') }}" class="button special small" onclick="return confirm('Are you sure you want to Remove this Account?');"></input>
                             </li>
                         </ul>
                     </form>

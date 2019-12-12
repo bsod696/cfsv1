@@ -33,7 +33,7 @@
                                 @endif
                             </div>
 
-                            <div class="col-6 col-12-mobilep">
+                            <!-- <div class="col-6 col-12-mobilep">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
 
@@ -41,7 +41,7 @@
                                         {{ __('Remember Me') }}
                                     </label>
                                 </div>
-                            </div>
+                            </div> -->
 
                             <div class="col-12">
                                 <ul class="actions special">

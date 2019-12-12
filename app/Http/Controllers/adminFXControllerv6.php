@@ -68,7 +68,6 @@ use AuthenticatesUsers;
    		$weight = $request->weight;
    		$bmi = $request->bmi;
    		$target_calories = $request->target_calories;
-   		//$primary = $request->primary;
    		$allergy = $request->allergy;
 
    		$allallergy = Allergy::all(); //stored procedures: select *. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:521
@@ -81,16 +80,7 @@ use AuthenticatesUsers;
 			$allcomp[$type]=$value;
    		}
 
-   		// if($primary == 'true'){
-   		// 	$primary_parentid = $request->parentid;
-   		// 	$secondary_parentid = '';
-   		// }
-   		// else{
-   		// 	$primary_parentid = '';
-   		// 	$secondary_parentid = $request->parentid;
-   		// }
    		$parentid = $request->parentid;
-   		
    		$age = Carbon::parse($dob)->age;
 
    		Student::create([ //stored procedures: create new row. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:746
@@ -107,8 +97,6 @@ use AuthenticatesUsers;
 			'target_calories'=>$target_calories,
 			'allergies'=>serialize($allcomp), //unserialize  = string array to array
 			'parentid'=>$parentid,
-			// 'primary_parentid'=>$primary_parentid,
-			// 'secondary_parentid'=>$secondary_parentid,
 		]);
 		$message = "New Student added";
 		return redirect('admin/viewstudent')->with('status', $message);
@@ -219,8 +207,6 @@ use AuthenticatesUsers;
    		$banknum = $request->banknum;
  		$defaultpay = $request->defaultpay;
 
- 		//dd($defaultpay);
-
    		if($defaultpay == 'on'){$payflag = 'Y';}
    		else{$payflag = 'N';}
 
@@ -307,8 +293,6 @@ use AuthenticatesUsers;
 
 
 
-
-
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 	public function viewpayment(){
 		if (!Auth::guard('admin')) {
@@ -348,7 +332,6 @@ use AuthenticatesUsers;
    		$country = $request->country;
    		$cardtype = $request->cardtype;
    		$cardnum = $request->cardnum;
-   		//$cvvnum = $request->cvvnum;
    		$expdate = $request->expdate;
    		$defaultpay = $request->defaultpay;
 
@@ -369,7 +352,6 @@ use AuthenticatesUsers;
 					'country'=>$country,
 					'cardtype'=>$cardtype,
 					'cardnum'=>$cardnum,
-					//'cvvnum'=>$cvvnum,
 					'expdate'=>$expdate,
 					'defaultpay'=>$payflag,
 				]);
@@ -456,8 +438,6 @@ use AuthenticatesUsers;
    		$bankname = $request->bankname;
    		$banknum = $request->banknum;
  		$defaultpay = $request->defaultpay;
-
- 		// dd($fullname, $bankname, $banknum, $defaultpay);
 
    		if($defaultpay == 'defaultpay'){$payflag = 'Y';}
    		else{$payflag = 'N';}
@@ -699,13 +679,16 @@ use AuthenticatesUsers;
 		  	return redirect()->route('');
 		}
 		else {
-	      	$payment_txid = $request->txid;
-			$orders = Orders::where('txid', $payment_txid)->get(); //stored procedures: select * with specific arguments. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:329
-			$trans = Transaction::where('txid', $payment_txid)->get(); //stored procedures: select * with specific arguments. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:329
-			foreach ($trans as $tr) {
-				$payments[] = PaymentDet::where('id', $tr['paymentid'])->first();
+			$payment_txid = $request->txid;
+			$trans = Transaction::where('txid', $payment_txid)
+				->leftJoin('payment_details', 'transaction.paymentid', '=', 'payment_details.id')
+				->first();
+			$updata = array('updata'=>$trans);
+			$singorderid = unserialize($trans->orderid);
+			foreach ($singorderid as $orderid) {
+				$orders[] = Orders::where('id', $orderid)->first();
 			}
-	      	return view('admin.viewtrans', compact('trans', 'orders', 'payments'));
+			return view('admin.viewtrans', compact('updata', 'orders'));
 	    }
 	}
 
@@ -730,7 +713,6 @@ use AuthenticatesUsers;
         $foodprice = $request->foodprice;
         $foodcal = $request->foodcal;
         $foodpic = $request->foodpic;
-       
         $allergy = $request->allergy;
 
         $allallergy = Allergy::all(); //stored procedures: select *. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:521
@@ -794,8 +776,6 @@ use AuthenticatesUsers;
         $foodtype = $request->foodtype;
         $foodprice = $request->foodprice;
         $foodcal = $request->foodcal;
-        //$foodpic = $request->foodpic;
-       
         $allergy = $request->allergy;
 
         $allallergy = Allergy::all(); //stored procedures: select *. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:521
@@ -807,12 +787,6 @@ use AuthenticatesUsers;
             else{$value = false;}
             $allcomp[$type]=$value;
         }
-
-        // $request->validate(['foodpic' => 'required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048']);
-        // $file_name = hash('adler32',$foodname);
-        // $food = $request->file('foodpic');
-        // $picpath = $food->storeAs('images/admin/menup', $file_name.'/MENUP'.$file_name.'.'.$food->getClientOriginalExtension(), 'public');
-        // $fp1_path = 'storage/images/admin/menup/'.$file_name.'/MENUP'.$file_name.'.'.$food->getClientOriginalExtension();
 
         Menus::find($id)->update([ //stored procedures: update rows. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:772
 	        'menuname'=>$foodname,
@@ -967,7 +941,6 @@ use AuthenticatesUsers;
    		$weight = $request->weight;
    		$bmi = $request->bmi;
    		$target_calories = $request->target_calories;
-   		//$primary = $request->primary;
    		$allergy = $request->allergy;
 
    		$allallergy = Allergy::all(); //stored procedures: select *. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:521
@@ -980,10 +953,7 @@ use AuthenticatesUsers;
 			$allcomp[$type]=$value;
    		}
 
-   		// $primary_parentid = $request->primary_parentid;
-   		// $secondary_parentid = $request->secondary_parentid;
    		$parentid = $request->parentid;
-   		
    		$age = Carbon::parse($dob)->age;
 
    		Student::where('id', $id)->update([ //stored procedures: update rows. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:772
@@ -1000,8 +970,6 @@ use AuthenticatesUsers;
 			'target_calories'=>$target_calories,
 			'allergies'=>serialize($allcomp), //unserialize  = string array to array
 			'parentid'=>$parentid,
-			// 'primary_parentid'=>$primary_parentid,
-			// 'secondary_parentid'=>$secondary_parentid,
 		]);
 		
 		$message = "Student Data Updated";

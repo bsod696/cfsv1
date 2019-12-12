@@ -16,22 +16,22 @@
                         <a href="{{url('/admin/storestudent')}}" class="button special fit small">Add New</a>
                         <p></p>
 
-                        <div class="table-wrapper">
-                            <table>
-                            <thead>
-                                <tr>
-                                @if(!empty($stud))
-                                    <th><center>Full Name</center></th>
-                                    <th><center>StudentID</center></th>
-                                    <th><center>Class</center></th>
-                                    <th><center>Session</center></th>
-                                    <th><center>Gender</center></th>
-                                    <th><center>BMI</center></th>
-                                    <th><center>Calories(Kcal)</center></th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                        @foreach($stud as $s)
+                        @if(!$stud->isEmpty())
+                            <div class="table-wrapper">
+                                <table>
+                                <thead>
+                                    <tr>
+                                        <th><center>Full Name</center></th>
+                                        <th><center>StudentID</center></th>
+                                        <th><center>Class</center></th>
+                                        <th><center>Session</center></th>
+                                        <th><center>Gender</center></th>
+                                        <th><center>BMI</center></th>
+                                        <th><center>Calories(Kcal)</center></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                            @foreach($stud as $s)
                                 <tr>
                                     <td><center>{{ucfirst($s->fullname)}}</center></td>
                                     <td><center>{{strtoupper($s->studentid)}}</center></td>
@@ -49,7 +49,7 @@
                                                 <div class="col-12">
                                                     <ul class="actions special">
                                                         <li>
-                                                            <input type="submit" value="{{ __('View') }}"></input>
+                                                            <input type="submit" value="{{ __('View') }}" class="button special fit small"></input>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -57,12 +57,12 @@
                                         </form>
                                     </center></td>
                                 </tr>
-                        @endforeach
-                                @else
-                                <p>No Student data found.</p>
-                                @endif
-                            </table>
-                        </div>
-                    </section>
+                            @endforeach
+                        </table>
+                    </div>
+                @else
+                    <p>No Student data found.</p>
+                @endif
+            </section>
 </div>
 @endsection

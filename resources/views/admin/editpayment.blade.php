@@ -21,7 +21,7 @@
                             <div class="col-12">
                                 <ul class="actions special">
                                     <li>
-                                        <input type="submit" value="{{ __('Delete Payment Detail') }}"></input>
+                                        <input type="submit" value="{{ __('Remove Payment Detail') }}" class="button special small" onclick="return confirm('Are you sure you want to Remove this Payment?');"></input>
                                     </li>
                                 </ul>
                             </div>
