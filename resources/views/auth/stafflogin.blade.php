@@ -46,9 +46,9 @@
                             <div class="col-12">
                                 <ul class="actions special">
                                     <li><input type="submit" value="{{ __('Sign In') }}"></input></li>
-                                    @if (Route::has('password.request'))
+                                    @if (Route::has('staff.password.request'))
                                     <li>
-                                        <a class="btn btn-link" href="{{ route('password.request') }}">
+                                        <a class="btn btn-link" href="{{ route('staff.password.request') }}">
                                             {{ __('Forgot Your Password?') }}
                                         </a>
                                     </li>

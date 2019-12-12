@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Auth;
+// use Auth;
 use Password;
-use Illuminate\Http\Request;
+// use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 
@@ -27,7 +27,7 @@ class StaffForgotPasswordController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function showLinkRequestForm(){
-        return view('auth.passwords.email',[
+        return view('auth.passwords.staffemail',[
             'title' => 'Staff Password Reset',
             'passwordEmailRoute' => 'staff.password.email'
         ]);
@@ -40,13 +40,13 @@ class StaffForgotPasswordController extends Controller
     public function broker(){
         return Password::broker('staffs');
     }
-    /**
-     * Get the guard to be used during authentication
-     * after password reset.
-     * 
-     * @return \Illuminate\Contracts\Auth\StatefulGuard
-     */
-    public function guard(){
-        return Auth::guard('staff');
-    }
+    // *
+    //  * Get the guard to be used during authentication
+    //  * after password reset.
+    //  * 
+    //  * @return \Illuminate\Contracts\Auth\StatefulGuard
+     
+    // public function guard(){
+    //     return Auth::guard('staff');
+    // }
 }

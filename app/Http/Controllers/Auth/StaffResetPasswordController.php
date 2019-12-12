@@ -39,7 +39,7 @@ class StaffResetPasswordController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function showResetForm(Request $request, $token = null){
-        return view('auth.passwords.reset',[
+        return view('auth.passwords.staffreset',[
             'title' => 'Reset Staff Password',
             'passwordUpdateRoute' => 'staff.password.update',
             'token' => $token,

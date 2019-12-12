@@ -25,10 +25,10 @@ Route::prefix('user')->group(function() {
 	Route::get('/home', 'userFXControllerv6@index')->name('user.home');
 	Route::get('/logout', 'Auth\LoginController@logout')->name('user.logout');
 	
-	Route::post('/password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
-    Route::get('/password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
-    Route::post('/password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
-    Route::get('/password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+	Route::post('/password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('user.password.email');
+    Route::get('/password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('user.password.request');
+    Route::post('/password/reset', 'Auth\ResetPasswordController@reset')->name('user.password.update');
+    Route::get('/password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('user.password.reset');
 
     Route::get('/setting','userFXControllerv6@setting')->name('user.setting');
     Route::get('/editparent','userFXControllerv6@editparentinit')->name('user.editparent');
@@ -79,10 +79,10 @@ Route::prefix('admin')->group(function() {
 	Route::get('/dashboard', 'adminFXControllerv6@index')->name('admin.dashboard');
 	Route::get('/logout', 'Auth\AdminLoginController@logout')->name('admin.logout');
 
-	Route::post('/password/email', 'Auth\AdminForgotPasswordController@sendResetLinkEmail')->name('password.email');
-    Route::get('/password/reset', 'Auth\AdminForgotPasswordController@showLinkRequestForm')->name('password.request');
-    Route::post('/password/reset', 'Auth\AdminResetPasswordController@reset')->name('password.update');
-    Route::get('/password/reset/{token}', 'Auth\AdminResetPasswordController@showResetForm')->name('password.reset');
+	Route::post('/password/email', 'Auth\AdminForgotPasswordController@sendResetLinkEmail')->name('admin.password.email');
+    Route::get('/password/reset', 'Auth\AdminForgotPasswordController@showLinkRequestForm')->name('admin.password.request');
+    Route::post('/password/reset', 'Auth\AdminResetPasswordController@reset')->name('admin.password.update');
+    Route::get('/password/reset/{token}', 'Auth\AdminResetPasswordController@showResetForm')->name('admin.password.reset');
 
     Route::get('/changepass','adminFXControllerv6@changepasswordinit')->name('admin.password');
 	Route::post('/submit/changepass','adminFXControllerv6@changepasswordProc')->name('admin.submit.password');
@@ -159,10 +159,10 @@ Route::prefix('staff')->group(function() {
 	Route::get('/dashboard', 'staffFXControllerv6@index')->name('staff.dashboard');
 	Route::get('/logout', 'Auth\StaffLoginController@logout')->name('staff.logout');
 
-	Route::post('/password/email', 'Auth\StaffForgotPasswordController@sendResetLinkEmail')->name('password.email');
-    Route::get('/password/reset', 'Auth\StaffForgotPasswordController@showLinkRequestForm')->name('password.request');
-    Route::post('/password/reset', 'Auth\StaffResetPasswordController@reset')->name('password.update');
-    Route::get('/password/reset/{token}', 'Auth\StaffResetPasswordController@showResetForm')->name('password.reset');
+	Route::post('/password/email', 'Auth\StaffForgotPasswordController@sendResetLinkEmail')->name('staff.password.email');
+    Route::get('/password/reset', 'Auth\StaffForgotPasswordController@showLinkRequestForm')->name('staff.password.request');
+    Route::post('/password/reset', 'Auth\StaffResetPasswordController@reset')->name('staff.password.update');
+    Route::get('/password/reset/{token}', 'Auth\StaffResetPasswordController@showResetForm')->name('staff.password.reset');
 
     Route::get('/setting','staffFXControllerv6@setting')->name('staff.setting');
     Route::get('/editstaff','staffFXControllerv6@editstaffinit')->name('staff.editstaff');
