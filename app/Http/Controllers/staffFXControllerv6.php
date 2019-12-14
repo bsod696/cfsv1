@@ -502,7 +502,6 @@ use AuthenticatesUsers;
    		$redorder = null;
 
    		foreach ($ordersdet as $orders) {
-   			$parentdet = User::where('id', $ordersdet->parentid)->first();
    			$servedate = date_format(date_create($orders->menudate), 'd/m/Y');
    			if ($servedate == $currdate) {$redorder[] = $orders;}
    		}
@@ -514,6 +513,8 @@ use AuthenticatesUsers;
 	   				'redeemdate'=>Carbon::now(),
 	   			]);
 	   		}
+	   		$studentdet = Student::where('studentid', $studentid)->first();
+	   		$parentdet = User::where('id', $studentdet->parentid)->first();
 	   		$redeemdetails = $redorder;
 	   		Mail::to($parentdet->email, $parentdet->username)->send(new RedeemNotify($parentdet, $redeemdetails));
 	   		$message = "Orders Redeemed and notified to Parents";
