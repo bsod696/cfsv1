@@ -516,7 +516,7 @@ use AuthenticatesUsers;
 			// $weeknumorders = array_keys($orders->toArray());
 
 			$ordersp = Orders::where('parentid', Auth::user()->id)->where('txid' ,'!=', '')
-	  			->orderby('menudate', 'asc')
+	  			->orderby('menudate', 'desc')
 	  			->get()
 	  			->groupBy(function($date) {
 	  				return Carbon::parse($date->menudate)->format('W');

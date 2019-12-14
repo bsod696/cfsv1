@@ -290,7 +290,7 @@ use AuthenticatesUsers;
 	  		$id = Auth::guard('staff')->user()->id;
 	  		// $orders = Orders::where('staffid', $id)->orderby('menudate', 'desc')->get();
 	  		$orders = Orders::where('staffid', $id)
-	  			->orderby('menudate', 'asc')
+	  			->orderby('menudate', 'desc')
 	  			->get()
 	  			->groupBy(function($date) {
 	  				return Carbon::parse($date->menudate)->format('W');

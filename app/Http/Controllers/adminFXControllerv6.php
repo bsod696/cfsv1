@@ -638,8 +638,15 @@ use AuthenticatesUsers;
 		  	return redirect()->route('');
 		}
 		else {
-			$orders = Orders::all(); //stored procedures: select *. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:521
-	      	return view('admin.vieworders', compact('orders'));
+			// $orders = Orders::all(); //stored procedures: select *. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:521
+	  //     	return view('admin.vieworders', compact('orders'));
+	      	$orders = Orders::orderby('menudate', 'desc')
+	  			->get()
+	  			->groupBy(function($date) {
+	  				return Carbon::parse($date->menudate)->format('W');
+				});
+	  		$weeknum = array_keys($orders->toArray());
+	      	return view('admin.vieworders', compact('orders', 'weeknum'));
 	    }
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//

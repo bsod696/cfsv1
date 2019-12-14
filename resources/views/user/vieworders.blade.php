@@ -70,7 +70,7 @@
                                 <div class="table-wrapper">
                                     <table>
                                         <thead>
-                                            <th><center>Student</center></th>
+                                            <th><center>Child</center></th>
                                             <th><center>Menu</center></th>
                                             <th><center>Price</center></th>
                                             <th><center>Quantity</center></th>
