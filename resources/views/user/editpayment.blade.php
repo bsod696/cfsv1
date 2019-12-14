@@ -23,7 +23,7 @@
 
                             <div class="col-6 col-12-mobilep">
                                 <label for="fullname" class="col-md-4 col-form-label text-md-right">{{ __('Full Name') }}</label>
-                                <input id="fullname" type="text" class="form-control @error('fullname') is-invalid @enderror" name="fullname" value="{{ $u->fullname }}" required autocomplete="fullname" autofocus>
+                                <input id="fullname" type="text" class="form-control @error('fullname') is-invalid @enderror" name="fullname" value="{{ $u->fullname }}" readonly autocomplete="fullname" autofocus>
 
                                 @error('fullname')
                                     <span class="invalid-feedback" role="alert">
