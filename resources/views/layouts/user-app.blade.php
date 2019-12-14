@@ -18,13 +18,25 @@
     <script src="{{ asset('js/breakpoints.min.js') }}" defer></script>
     <script src="{{ asset('js/util.js') }}" defer></script>
     <script src="{{ asset('js/main.js') }}" defer></script>
+    <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"/> -->
+    <!-- <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"/> -->
+    <!-- <script src="http://multidatespickr.sourceforge.net/jquery-ui.multidatespicker.js"/> -->
+
+    <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"/> -->
+    <!-- <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"/> -->
+
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
+
+
     <!-- Styles -->
     <link href="{{ asset('css/main.css') }}" rel="stylesheet">
+    <!-- <link href="{{ asset('css/jquery-ui.multidatespicker.css') }}" rel="stylesheet"> -->
+    <!-- <link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"> -->
+    <!-- <link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"> -->
 </head>
 <body class="is-preload">
     <div id="page-wrapper">

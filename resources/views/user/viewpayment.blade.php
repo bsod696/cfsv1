@@ -6,12 +6,7 @@
         <p>Seamless food management for your children</p>
 </header>
 <div class="box">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
+    @include('flash-message')
                     <section class="box">
                         <a href="{{url('/user/storepayment')}}" class="button special fit small">Add New</a>
                         <p></p>

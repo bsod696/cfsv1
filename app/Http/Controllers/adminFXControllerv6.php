@@ -98,8 +98,8 @@ use AuthenticatesUsers;
 			'allergies'=>serialize($allcomp), //unserialize  = string array to array
 			'parentid'=>$parentid,
 		]);
-		$message = "New Student added";
-		return redirect('admin/viewstudent')->with('status', $message);
+		$message = "New Child added";
+		return redirect('admin/viewstudent')->with('success', $message);
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 	//Store Payment details in database
@@ -152,11 +152,11 @@ use AuthenticatesUsers;
 					'defaultpay'=>$payflag,
 				]);
 				$message = "Payment Details Added";
-				return redirect('admin/dashboard')->with('status', $message);
+				return redirect('admin/dashboard')->with('success', $message);
    			}
    			else {
 	   			$message = "Only ONE card can be default at a time";
-				return redirect('admin/dashboard')->with('status', $message);
+				return redirect('admin/dashboard')->with('error', $message);
 	   		}	
    		}
    		else {
@@ -176,7 +176,7 @@ use AuthenticatesUsers;
 				'defaultpay'=>$payflag,
 			]);
 			$message = "Payment Details Added";
-			return redirect('admin/viewpayment')->with('status', $message);
+			return redirect('admin/viewpayment')->with('success', $message);
    		}	
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
@@ -227,11 +227,11 @@ use AuthenticatesUsers;
 					'defaultpay'=>$payflag,
 				]);
 				$message = "Account Details Updated";
-				return redirect('admin/viewaccount')->with('status', $message);
+				return redirect('admin/viewaccount')->with('success', $message);
    			}
    			else {
 	   			$message = "Only ONE account can be default at a time";
-				return redirect('admin/viewaccount')->with('status', $message);
+				return redirect('admin/viewaccount')->with('error', $message);
 	   		}	
    		}
    		else {
@@ -249,7 +249,7 @@ use AuthenticatesUsers;
 				'defaultpay'=>$payflag,
 			]);
 			$message = "New Account Added";
-			return redirect('admin/viewaccount')->with('status', $message);
+			return redirect('admin/viewaccount')->with('success', $message);
    		}	
 	}
 
@@ -283,11 +283,11 @@ use AuthenticatesUsers;
 				'password'=>$passwordhashed,
 			]);	
 			$message = "Password Updated";
-			return redirect('admin/dashboard')->with('status', $message);
+			return redirect('admin/dashboard')->with('stasuccesstus', $message);
    		}
    		else {
    			$message = "Incorrect Current Password";
-			return redirect('admin/changepass')->with('status', $message);
+			return redirect('admin/changepass')->with('error', $message);
    		}
 	}
 
@@ -356,11 +356,11 @@ use AuthenticatesUsers;
 					'defaultpay'=>$payflag,
 				]);
 				$message = "Payment Details Updated";
-				return redirect('admin/dashboard')->with('status', $message);
+				return redirect('admin/dashboard')->with('success', $message);
    			}
    			else {
 	   			$message = "Only ONE card can be default at a time";
-				return redirect('admin/dashboard')->with('status', $message);
+				return redirect('admin/dashboard')->with('error', $message);
 	   		}	
    		}
    		else {
@@ -380,7 +380,7 @@ use AuthenticatesUsers;
 				'defaultpay'=>$payflag,
 			]);
 			$message = "Payment Details Updated";
-			return redirect('admin/viewpayment')->with('status', $message);
+			return redirect('admin/viewpayment')->with('success', $message);
    		}	
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
@@ -395,7 +395,7 @@ use AuthenticatesUsers;
 			$id = $request->id;
 			PaymentDet::find($id)->delete(); //stored procedures: delete row. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:843
 			$message = "Payment Data Deleted";
-			return redirect('admin/viewpayment')->with('status', $message);
+			return redirect('admin/viewpayment')->with('success', $message);
 		}
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
@@ -459,11 +459,11 @@ use AuthenticatesUsers;
 					'defaultpay'=>$payflag,
 				]);
 				$message = "Account Details Updated";
-				return redirect('admin/viewaccount')->with('status', $message);
+				return redirect('admin/viewaccount')->with('success', $message);
    			}
    			else {
 	   			$message = "Only ONE account can be default at a time";
-				return redirect('admin/viewaccount')->with('status', $message);
+				return redirect('admin/viewaccount')->with('error', $message);
 	   		}	
    		}
    		else {
@@ -481,7 +481,7 @@ use AuthenticatesUsers;
 				'defaultpay'=>$payflag,
 			]);
 			$message = "Account Details Updated";
-			return redirect('admin/viewaccount')->with('status', $message);
+			return redirect('admin/viewaccount')->with('success', $message);
    		}	
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
@@ -496,7 +496,7 @@ use AuthenticatesUsers;
 			$id = $request->id;
 			AccountDet::find($id)->delete(); //stored procedures: delete row. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:843
 			$message = "Account Data Deleted";
-			return redirect('admin/viewaccount')->with('status', $message);
+			return redirect('admin/viewaccount')->with('success', $message);
 		}
 	}	
 
@@ -546,7 +546,7 @@ use AuthenticatesUsers;
 		]);
 
 		$message = "Orders added";
-		return redirect('admin/dashboard')->with('status', $message);
+		return redirect('admin/dashboard')->with('success', $message);
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 	public function vieworderinit(){
@@ -589,7 +589,7 @@ use AuthenticatesUsers;
 		]);
 		
 		$message = "Orders Updated";
-		return redirect('admin/dashboard')->with('status', $message);
+		return redirect('admin/dashboard')->with('success', $message);
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 	public function payorderinit(){
@@ -635,11 +635,11 @@ use AuthenticatesUsers;
 				'txid'=>$payment_txid, 
 			]);
 			$message = "Orders Successfully Paid";
-			return redirect('admin/vieworder')->with('status', $message);
+			return redirect('admin/vieworder')->with('success', $message);
    		}
    		else {
    			$message = "No Default Payment Added";
-			return redirect('admin/vieworder')->with('status', $message);
+			return redirect('admin/vieworder')->with('error', $message);
    		}
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
@@ -653,7 +653,7 @@ use AuthenticatesUsers;
 			$id = $request->id;
 			Orders::find($id)->delete(); //stored procedures: delete row. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:843
 			$message = "Orders Data Deleted";
-			return redirect('admin/vieworder')->with('status', $message);
+			return redirect('admin/vieworder')->with('success', $message);
 		}
 	}
 
@@ -741,7 +741,7 @@ use AuthenticatesUsers;
 	        'allergyid'=>serialize($allcomp),
 	    ]);
 	    $message = "New Menu added";
-	    return redirect('admin/menuselect')->with('status', $message);
+	    return redirect('admin/menuselect')->with('success', $message);
     }
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 	public function viewmenu(){
@@ -798,7 +798,7 @@ use AuthenticatesUsers;
 	        'allergyid'=>serialize($allcomp),
 	    ]);
 	    $message = "Menu data updated";
-	    return redirect('admin/menuselect')->with('status', $message);
+	    return redirect('admin/menuselect')->with('success', $message);
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 	//Update Student data in database
@@ -829,7 +829,7 @@ use AuthenticatesUsers;
 	        'menupic'=>$fp1_path,
 	    ]);
 	    $message = "Menu image updated";
-	    return redirect('admin/menuselect')->with('status', $message);
+	    return redirect('admin/menuselect')->with('success', $message);
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 	//Delete Student data in database
@@ -843,7 +843,7 @@ use AuthenticatesUsers;
 			$id = $request->id;
 			Menus::find($id)->delete(); //stored procedures: delete row. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:843
 			$message = "Menu Data Deleted";
-			return redirect('admin/menuselect')->with('status', $message);
+			return redirect('admin/menuselect')->with('success', $message);
 		}
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
@@ -885,7 +885,7 @@ use AuthenticatesUsers;
 		]);
 		
 		$message = "Parent Data Updated";
-		return redirect('admin/viewparent')->with('status', $message);
+		return redirect('admin/viewparent')->with('success', $message);
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 	//Delete Student data in database
@@ -899,7 +899,7 @@ use AuthenticatesUsers;
 			$id = $request->id;
 			User::find($id)->delete(); //stored procedures: delete row. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:843
 			$message = "Parent Data Deleted";
-			return redirect('admin/viewparent')->with('status', $message);
+			return redirect('admin/viewparent')->with('success', $message);
 		}
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
@@ -972,8 +972,8 @@ use AuthenticatesUsers;
 			'parentid'=>$parentid,
 		]);
 		
-		$message = "Student Data Updated";
-		return redirect('admin/viewstudent')->with('status', $message);
+		$message = "Child Data Updated";
+		return redirect('admin/viewstudent')->with('success', $message);
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 	//Delete Student data in database
@@ -986,8 +986,8 @@ use AuthenticatesUsers;
 		else {
 			$id = $request->id;
 			Student::find($id)->delete(); //stored procedures: delete row. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:843
-			$message = "Student Data Deleted";
-			return redirect('admin/viewstudent')->with('status', $message);
+			$message = "Child Data Deleted";
+			return redirect('admin/viewstudent')->with('success', $message);
 		}
 	}	
 //---------------------------------------------------------------------------------------------------------------------------------------------//
@@ -1029,7 +1029,7 @@ use AuthenticatesUsers;
 		]);
 		
 		$message = "Staff Data Updated";
-		return redirect('admin/viewstaff')->with('status', $message);
+		return redirect('admin/viewstaff')->with('success', $message);
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 	//Delete Student data in database
@@ -1043,7 +1043,7 @@ use AuthenticatesUsers;
 			$id = $request->id;
 			Staff::find($id)->delete(); //stored procedures: delete row. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:843
 			$message = "Staff Data Deleted";
-			return redirect('admin/viewstaff')->with('status', $message);
+			return redirect('admin/viewstaff')->with('success', $message);
 		}
 	}		
 //---------------------------------------------------------------------------------------------------------------------------------------------//

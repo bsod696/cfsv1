@@ -6,6 +6,7 @@
         <p>Seamless food management for your children</p>
 </header>
 <div class="box">
+    @include('flash-message')
                     <form method="POST" action="{{ route('admin.submit.storeaccount') }}">
                         @csrf
 

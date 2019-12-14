@@ -6,6 +6,7 @@
         <p>Seamless food management for your children</p>
 </header>
 <div class="box">
+    @include('flash-message')
                     @foreach( $updata as $u)
                     <form action="{{ route('admin.submit.deleteaccount') }}" method="POST" enctype="multipart/form-data">
                         @csrf

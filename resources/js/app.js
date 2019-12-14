@@ -5,6 +5,7 @@
  */
 
 require('./bootstrap');
+// require('./jquery-ui-multidatespicker/jquery-ui-multidatespicker');
 
 window.Vue = require('vue');
 
@@ -30,3 +31,13 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 const app = new Vue({
     el: '#app',
 });
+
+import $ from 'jquery';
+window.$ = window.jQuery = $;
+
+import 'jquery-ui/ui/widgets/datepicker.js';
+$('.#datepicker').datepicker();
+
+// import 'jquery-ui.multidatespicker/jquery-ui.multidatespicker.js';
+$('.#multiDatesPicker').multiDatesPicker();
+

@@ -32,6 +32,8 @@ class StaffLoginController extends Controller
     public function __construct(){$this->middleware('guest:staff')->except('logout');}
     public function logout() {
         Auth::guard('staff')->logout();
+        session()->flush();
+        session()->regenerate();
         return redirect('/staff/login');
     }
 }

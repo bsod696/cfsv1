@@ -2,16 +2,11 @@
 
 @section('content')
 <header>
-        <h2>{{ __('Student Menus') }}</h2>
+        <h2>{{ __('Child Menus') }}</h2>
         <p>Seamless food management for your children</p>
 </header>
 <div class="box">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
+    @include('flash-message')
                         @if(!$menu->isEmpty())
                                 @foreach($menu as $m)
                                 <section class="box">

@@ -6,15 +6,10 @@
         <p>Seamless food management for your children</p>
 </header>
 <div class="box">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
+    @include('flash-message')
                     <section class="box">
-                        <a href="{{url('/staff/takeorder')}}" class="button special fit small">Add New</a>
-                        <p></p>
+                        <!-- <a href="{{url('/staff/takeorder')}}" class="button special fit small">Add New</a>
+                        <p></p> -->
 
                         <p>
                             <form method="POST" action="{{ route('staff.submit.ordersummary') }}">
@@ -46,6 +41,7 @@
                     </section>
                     
                     <section class="box">
+                        <h3><b>Order Summary on: {{ $dateselected }}</b></h3>
                         @if(!empty($ordersorg))
                             <div class="table-wrapper">
                                 <table>
@@ -67,6 +63,17 @@
                                             <td><center>RM {{$o['totalpermenu']}}</center></td>
                                         </tr>
                                     @endforeach
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>
+                                            <h4><b>Total Sales:</b></h4>
+                                        </td>
+                                        <td>
+                                            <h4><b>RM {{ $totalsales }}</b></h4>
+                                        </td>
+                                        </tr>
                                 </table>
                             </div>
                         @else

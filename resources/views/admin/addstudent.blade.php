@@ -2,10 +2,11 @@
 
 @section('content')
 <header>
-        <h2>{{ __('Add Student') }}</h2>
+        <h2>{{ __('Add Child') }}</h2>
         <p>Seamless food management for your children</p>
 </header>
 <div class="box">
+    @include('flash-message')
                     <form method="POST" action="{{ route('admin.submit.storestudent') }}">
                         @csrf
 

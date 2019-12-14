@@ -7,13 +7,7 @@
         <p>Seamless food management for your children</p>
 </header>
 <div class="box">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-                    
-                    
+    @include('flash-message')
                     <form method="POST" action="{{ route('admin.submit.editmenuimage') }}" enctype="multipart/form-data">
                         @csrf
                         <input id="foodname" type="hidden" class="form-control @error('foodname') is-invalid @enderror" name="foodname" value="{{ $u->menuname }}" required autocomplete="id" readonly>

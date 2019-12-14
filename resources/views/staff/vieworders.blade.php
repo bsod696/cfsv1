@@ -6,12 +6,7 @@
         <p>Seamless food management for your children</p>
 </header>
 <div class="box">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
+    @include('flash-message')
                 <section class="box">
                     @if($updata['orders']->redeemstatus != 'REDEEMED')
                         <form action="{{ route('staff.submit.cancelorder') }}" method="POST" enctype="multipart/form-data">
@@ -30,7 +25,7 @@
                             <p> 
                                 <b> Order Reference : </b>{{ $updata['orders']->id }} <br>
                                 <b> Parent Reference: </b>{{ $updata['orders']->parentid }} <br>
-                                <b> Student Name: </b>{{ ucfirst($updata['orders']->studentname) }} <br>
+                                <b> Child Name: </b>{{ ucfirst($updata['orders']->studentname) }} <br>
                                 <b> Transaction ID : </b>{{ $updata['orders']->txid }} <br>
                                 <b> Transaction Amount : </b>RM {{ number_format($updata['orders']->menuprice*$updata['orders']->menuqty, 2, '.', '') }} <br>
                                 <b> Serving Date : </b>{{ date_format(date_create($updata['orders']->menudate), 'd/m/Y') }} <br>
@@ -93,7 +88,7 @@
                                 </div>
                                 <b> Menu Price: </b>RM {{ $updata['menus']->menuprice }} <br>
                                 <b> Menu Quantity: </b>{{ $updata['orders']->menuqty }} Units <br>
-                                <b> Menu Calories: </b>{{ $updata['menus']->menucalories }} KCal <br>
+                                <b> Total Calories: </b>{{ $updata['orders']->menuqty*$updata['menus']->menucalories }} KCal <br>
                                 <b> Redeem Status: </b>{{ $updata['orders']->redeemstatus }} <br>
                                 @if($updata['orders']->redeemstatus == 'REDEEMED')
                                     <b> Redeem Date: </b>{{ date_format(date_create($updata['orders']->redeemdate), 'h:i:s a d/m/Y') }} <br>

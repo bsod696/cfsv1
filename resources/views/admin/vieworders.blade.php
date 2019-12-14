@@ -6,24 +6,20 @@
         <p>Seamless food management for your children</p>
 </header>
 <div class="box">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
+    @include('flash-message')
                     <section class="box">
                         @if(!$orders->isEmpty())
                             <div class="table-wrapper">
                                 <table>
                                     <thead>
                                         <tr>
-                                            <th><center>Student</center></th>
+                                            <th><center>Child</center></th>
                                             <th><center>Menu</center></th>
                                             <th><center>Menu Date</center></th>
                                             <th><center>Price</center></th>
                                             <th><center>Quantity</center></th>
                                             <th><center>Total</center></th>
+                                            <th><center>Payment</center></th>
                                             <th><center>Status</center></th>
                                             <th></th>
                                             <th></th>
@@ -42,6 +38,16 @@
                                             @else
                                                 <td><center>PAID</center></td>
                                             @endif
+                                            @if($o->redeemstatus == 'REDEEMED')
+                                                <td>
+                                                    <center>
+                                                        REDEEMED <br>
+                                                        ({{date_format(date_create($o->redeemdate), 'h:i:s a d/m/Y')}})
+                                                    </center>
+                                                </td>
+                                            @else
+                                                <td><center>NOT REDEEM</center></td>
+                                            @endif       
                                             <td>
                                                 @if ($o->txid == '')
                                                     <form action="{{ route('admin.submit.deleteorder') }}" method="POST" enctype="multipart/form-data">

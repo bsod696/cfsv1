@@ -1,17 +1,6 @@
 @extends('layouts.staff-app')
 
 @section('content')
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-                    @if (!empty($message))
-                        <div class="alert alert-success" role="alert">
-                            {{ $message }}
-                        </div>
-                    @endif
-
                     <section class="box special">
                         <header class="major">
                             <h2>Staff Homepage</h2>
@@ -21,6 +10,7 @@
                     </section>
 
                     <section class="box special features">
+                        @include('flash-message')
                         <div class="features-row">
                             <section>
                                 <span class="icon solid major fa-bolt accent2"></span>

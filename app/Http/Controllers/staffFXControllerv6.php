@@ -21,6 +21,9 @@ use App\Orders;
 use App\Transaction;
 use App\AccountDet;
 
+use Mail;
+use App\Mail\RedeemNotify;
+
 class staffFXControllerv6 extends Controller
 {
 use AuthenticatesUsers;
@@ -79,7 +82,7 @@ use AuthenticatesUsers;
 			'defaultpay'=>$defaultpay,
 		]);
 		$message = "New Account Details added";
-		return redirect('staff/dashboard')->with('status', $message);
+		return redirect('staff/dashboard')->with('success', $message);
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 	public function viewaccount(){
@@ -143,11 +146,11 @@ use AuthenticatesUsers;
 					'defaultpay'=>$payflag,
 				]);
 				$message = "Account Details Updated";
-				return redirect('staff/viewaccount')->with('status', $message);
+				return redirect('staff/viewaccount')->with('success', $message);
    			}
    			else {
 	   			$message = "Only ONE account can be default at a time";
-				return redirect('staff/viewaccount')->with('status', $message);
+				return redirect('staff/viewaccount')->with('error', $message);
 	   		}	
    		}
    		else {
@@ -165,7 +168,7 @@ use AuthenticatesUsers;
 				'defaultpay'=>$payflag,
 			]);
 			$message = "Account Details Updated";
-			return redirect('staff/viewaccount')->with('status', $message);
+			return redirect('staff/viewaccount')->with('success', $message);
    		}	
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
@@ -180,7 +183,7 @@ use AuthenticatesUsers;
 			$id = $request->id;
 			AccountDet::find($id)->delete(); //stored procedures: delete row. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:843
 			$message = "Account Data Deleted";
-			return redirect('staff/viewaccount')->with('status', $message);
+			return redirect('staff/viewaccount')->with('success', $message);
 		}
 	}	
 
@@ -223,7 +226,7 @@ use AuthenticatesUsers;
 		]);
 		
 		$message = "Staff Data Updated";
-		return redirect('staff/dashboard')->with('status', $message);
+		return redirect('staff/dashboard')->with('success', $message);
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 	public function changepasswordinit(){
@@ -252,11 +255,11 @@ use AuthenticatesUsers;
 				'password'=>$passwordhashed,
 			]);	
 			$message = "Password Updated";
-			return redirect('staff/dashboard')->with('status', $message);
+			return redirect('staff/dashboard')->with('success', $message);
    		}
    		else {
    			$message = "Incorrect Current Password";
-			return redirect('staff/changepass')->with('status', $message);
+			return redirect('staff/changepass')->with('error', $message);
    		}
 	}
 
@@ -285,8 +288,42 @@ use AuthenticatesUsers;
 		}
 		else {
 	  		$id = Auth::guard('staff')->user()->id;
-	  		$orders = Orders::where('staffid', $id)->orderby('menudate', 'desc')->get();
-	  		return view('staff.listorders', compact('orders'));
+	  		// $orders = Orders::where('staffid', $id)->orderby('menudate', 'desc')->get();
+	  		$orders = Orders::where('staffid', $id)
+	  			->orderby('menudate', 'asc')
+	  			->get()
+	  			->groupBy(function($date) {
+	  				return Carbon::parse($date->menudate)->format('W');
+			        //return Carbon::parse($date->created_at)->format('Y'); // grouping by years
+			        //return Carbon::parse($date->created_at)->format('m'); // grouping by months
+				});
+			// $week = 45;
+	  //$year = 2019;
+
+	  //$timestamp = mktime( 0, 0, 0, 1, 1,  $year ) + ( $week * 7 * 24 * 60 * 60 );
+
+	  //$timestamp_for_monday = $timestamp - 86400 * ( date( 'N', $timestamp ) -1 );
+	  //$date_for_monday = date( 'Y-m-d', $timestamp_for_monday );
+
+	  //$timestamp_for_friday = $timestamp - 86400 * ( date( 'N', $timestamp ) -5 );
+	  //$date_for_friday = date( 'Y-m-d', $timestamp_for_friday );
+	        // dd($orders->toArray(), date('d/m/Y',strtotime('2019W46')), date_format(Carbon::parse(date('d/m/Y',strtotime('2019W46')))->addDays(4), 'd/m/Y'));
+	        // dd(date_format(Carbon::parse('02/12/2019')->addDays(4), 'd/m/Y'), Carbon::parse(date('d/m/Y',strtotime(Carbon\Carbon::now()->format('Y').'W46')))->addDays(4));
+	        // dd( date('d/m/Y',strtotime(Carbon\Carbon::now()->format('Y').'W46') ' + 4 days') );
+	        // $Date = "02/12/2019";
+			// dd(date('d/m/Y', strtotime(date_format(date_create($Date), 'Y-m-d'). ' + 4 days')));
+			// $w = 49;
+			// $f = date('Y/m/d',strtotime(Carbon::now()->format('Y').'W'.$w));
+			// $f1 = date_format(date_create(date('Y/m/d',strtotime(Carbon::now()->format('Y').'W'.$w))), 'd/m/Y');
+
+			// $l = date_format(date_add(date_create($f),date_interval_create_from_date_string("4 days")), 'Y/m/d');
+			// $l1 = date_format(date_add(date_create(date('Y/m/d',strtotime(Carbon::now()->format('Y').'W'.$w))),date_interval_create_from_date_string("4 days")), 'd/m/Y');
+			//dd($f, $l, $f1, $l1);
+			// dd( date('d/m/Y', strtotime( date('d/m/Y',strtotime(Carbon::now()->format('Y').'W'.$w)). ' + 4 days')) );
+			//dd(Carbon::now()->format('Y'));
+			//dd( date('d/m/Y',strtotime(Carbon::now()->format('Y').'W'.$w)) );
+	  		$weeknum = array_keys($orders->toArray());
+	  		return view('staff.listorders', compact('orders', 'weeknum'));
 	    }
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
@@ -307,29 +344,29 @@ use AuthenticatesUsers;
       		return view('staff.vieworders', compact('updata'));
 	    }
 	}
-//---------------------------------------------------------------------------------------------------------------------------------------------//
-	public function takeordersinit(){
-		if (!Auth::guard('staff')) {
-			Session::flash('message', trans('errors.session_label'));
-		  	Session::flash('type', 'warning');
-		  	return redirect()->route('');
-		}
-		else {
-	      	$orders = Orders::where('staffid', '')->whereNotNull('txid')->orderby('created_at', 'desc')->get();
-	      	return view('staff.pickorders', compact('orders'));
-	    }
-	}
-//---------------------------------------------------------------------------------------------------------------------------------------------//
-   	public function takeordersProc(Request $request){
-   		$id = $request->id;
-   		$staffid = $request->staffid;
+// //---------------------------------------------------------------------------------------------------------------------------------------------//
+// 	public function takeordersinit(){
+// 		if (!Auth::guard('staff')) {
+// 			Session::flash('message', trans('errors.session_label'));
+// 		  	Session::flash('type', 'warning');
+// 		  	return redirect()->route('');
+// 		}
+// 		else {
+// 	      	$orders = Orders::where('staffid', '')->whereNotNull('txid')->orderby('created_at', 'desc')->get();
+// 	      	return view('staff.pickorders', compact('orders'));
+// 	    }
+// 	}
+// //---------------------------------------------------------------------------------------------------------------------------------------------//
+//    	public function takeordersProc(Request $request){
+//    		$id = $request->id;
+//    		$staffid = $request->staffid;
 
-   		$orders = Orders::where('id', $id)->update([
-   			'staffid' => $staffid
-   		]);
-   		$message = "Orders Successfully Updated";
-		return redirect('staff/listorder')->with('status', $message);
-	}
+//    		$orders = Orders::where('id', $id)->update([
+//    			'staffid' => $staffid
+//    		]);
+//    		$message = "Orders Successfully Updated";
+// 		return redirect('staff/listorder')->with('status', $message);
+// 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 	public function cancelordersProc(Request $request){
 		if (!Auth::guard('staff')) {
@@ -343,7 +380,7 @@ use AuthenticatesUsers;
 	   			'staffid' => ''
 	   		]);
 			$message = "Orders Cancelled";
-			return redirect('staff/listorder')->with('status', $message);
+			return redirect('staff/listorder')->with('success', $message);
 		}
 	}	
 //---------------------------------------------------------------------------------------------------------------------------------------------//
@@ -384,9 +421,18 @@ use AuthenticatesUsers;
 				        'totalpermenu' => number_format($out['menuqty']*$menudet->menuprice, 2, '.', '')
 		  			);
 				}
-		  		return view('staff.orderssummary', compact('ordersorg'));
+				$sum = 0;
+				foreach ($ordersorg as $ord) {
+					$sum += $ord['totalpermenu'];
+				}
+				$totalsales = number_format($sum, 2, '.', '');
+				$dateselected = $nextday;
+			  	return view('staff.orderssummary', compact('ordersorg', 'dateselected', 'totalsales'));
 	  		}
-	  		else {return view('staff.orderssummary');}
+	  		else {
+	  			$dateselected = $nextday;
+	  			return view('staff.orderssummary', compact('dateselected'));
+	  		}
 	    }
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
@@ -421,9 +467,18 @@ use AuthenticatesUsers;
 			        'totalpermenu' => number_format($out['menuqty']*$menudet->menuprice, 2, '.', '')
 		  		);
 			}
-		  	return view('staff.orderssummary', compact('ordersorg'));
+			$sum = 0;
+			foreach ($ordersorg as $ord) {
+				$sum += $ord['totalpermenu'];
+			}
+			$totalsales = number_format($sum, 2, '.', '');
+			$dateselected = $servedate;
+		  	return view('staff.orderssummary', compact('ordersorg', 'dateselected', 'totalsales'));
 	  	}
-	  	else {return view('staff.orderssummary');}
+	  	else {
+	  		$dateselected = $servedate;
+	  		return view('staff.orderssummary', compact('dateselected'));
+	  	}
    	}	
 
 
@@ -447,6 +502,7 @@ use AuthenticatesUsers;
    		$redorder = null;
 
    		foreach ($ordersdet as $orders) {
+   			$parentdet = User::where('id', $ordersdet->parentid)->first();
    			$servedate = date_format(date_create($orders->menudate), 'd/m/Y');
    			if ($servedate == $currdate) {$redorder[] = $orders;}
    		}
@@ -458,13 +514,24 @@ use AuthenticatesUsers;
 	   				'redeemdate'=>Carbon::now(),
 	   			]);
 	   		}
-	   		$message = "Orders Redeemed";
-	   		return view('staff.viewredeem', compact('redorder'))->with('status', $message);
+	   		$redeemdetails = $redorder;
+	   		Mail::to($parentdet->email, $parentdet->username)->send(new RedeemNotify($parentdet, $redeemdetails));
+	   		$message = "Orders Redeemed and notified to Parents";
+	   		return view('staff.viewredeem', compact('redorder'))->with('success', $message);
    		}
    		else {
    			$message = "No Today Orders for ".$studentid;
-			return redirect('staff/redeem')->with('status', $message);
+			return redirect('staff/redeem')->with('error', $message);
    		}
+   	}
+   	public function debug(){
+   		$parentdet = User::where('id', 20)->first();
+   		$orderid = array(23, 24, 25);
+   		foreach ($orderid as $id) {
+   			$orders[] = Orders::where('id', $id)->first();
+   		}
+   		$redeemdetails = $orders;
+	   	Mail::to($parentdet->email, $parentdet->username)->send(new RedeemNotify($parentdet, $redeemdetails));
    	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 //---------------------------------------------------------------------------------------------------------------------------------------------//

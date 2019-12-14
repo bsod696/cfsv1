@@ -1,18 +1,6 @@
 @extends('layouts.user-app')
 
 @section('content')
-<!-- <section id="main" class="container"> -->
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-                    @if (!empty($message))
-                        <div class="alert alert-success" role="alert">
-                            {{ $message }}
-                        </div>
-                    @endif
-
                     <section class="box special">
                         <header class="major">
                             <h2>Parent Homepage</h2>
@@ -21,6 +9,7 @@
                         <!-- <span class="image featured"><img src="{{ asset('images/pic01.jpg') }}" alt="" /></span> -->
                     </section>
 
+                    @include('flash-message')
                     <div class="row">
                         <div class="col-6 col-12-narrower">
 
@@ -29,8 +18,8 @@
                                 <h3>Manage you Children</h3>
                                 <p>Add or update details of your children.</p>
                                 <ul class="actions special">
-                                    <li><a href="{{url('/user/storestudent')}}" class="button alt">Add Student</a></li>
-                                    <li><a href="{{url('/user/viewstudent')}}" class="button alt">List Student</a></li>
+                                    <li><a href="{{url('/user/storestudent')}}" class="button alt">Add Child</a></li>
+                                    <li><a href="{{url('/user/viewstudent')}}" class="button alt">List Child</a></li>
                                 </ul>
                             </section>
 

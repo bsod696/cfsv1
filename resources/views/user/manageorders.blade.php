@@ -6,12 +6,7 @@
         <p>Seamless food management for your children</p>
 </header>
 <div class="box">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
+    @include('flash-message')
                     <section class="box">
                         <a href="{{url('/user/menuselect')}}" class="button special fit small">Add New</a>
                         <p></p>
@@ -23,7 +18,7 @@
                                     <table>
                                         <thead>
                                             <tr>
-                                                <th><center>Student</center></th>
+                                                <th><center>Child</center></th>
                                                 <th><center>Menu</center></th>
                                                 <th><center>Menu Date</center></th>
                                                 <th><center>Price</center></th>

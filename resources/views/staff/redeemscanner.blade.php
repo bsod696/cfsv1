@@ -216,6 +216,7 @@
 
         <!-- Main -->
                 <section id="main" class="container">
+                    @include('flash-message')
                     <header>
                         <h2>{{ __('Redemption Scanner') }}</h2>
                 </header>
@@ -232,21 +233,6 @@
                         </div>
                     </div>
                     <p></p>
-
-                    <!-- <div class="row gtr-50 gtr-uniform"> -->
-                    <center>
-                        @if (session('status'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('status') }}
-                            </div>
-                        @endif
-                        @if (!empty($message))
-                            <div class="alert alert-success" role="alert">
-                                {{ $message }}
-                            </div>
-                        @endif
-                    </center>
-                    <!-- </div> -->
 
                     <p></p>
                     <form action="{{ route('staff.submit.redeem') }}" id="redeemform" method="POST" enctype="multipart/form-data">

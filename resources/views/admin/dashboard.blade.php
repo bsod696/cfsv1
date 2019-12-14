@@ -1,17 +1,6 @@
 @extends('layouts.admin-app')
 
 @section('content')
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-                    @if (!empty($message))
-                        <div class="alert alert-success" role="alert">
-                            {{ $message }}
-                        </div>
-                    @endif
-
                     <section class="box special">
                         <header class="major">
                             <h2>Admin Homepage</h2>
@@ -21,6 +10,7 @@
                     </section>
 
                     <section class="box special features">
+                        @include('flash-message')
                         <div class="features-row">
                             <section>
                                 <span class="icon solid major fa-bolt accent2"></span>
@@ -34,7 +24,7 @@
                                        <a href="{{url('/staff/register')}}">Add Staff</a> 
                                     </li>
                                     <li>
-                                       <a href="{{url('/admin/storestudent')}}">Add Student</a> 
+                                       <a href="{{url('/admin/storestudent')}}">Add Child</a> 
                                     </li>
                                 </ul>
                             </section>
@@ -50,7 +40,7 @@
                                        <a href="{{url('/admin/viewstaff')}}">List Staff</a> 
                                     </li>
                                     <li>
-                                       <a href="{{url('/admin/viewstudent')}}">List Student</a> 
+                                       <a href="{{url('/admin/viewstudent')}}">List Child</a> 
                                     </li>
                                 </ul>
                             </section>

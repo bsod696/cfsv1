@@ -89,8 +89,8 @@ use AuthenticatesUsers;
 			'allergies'=>serialize($allcomp), //unserialize  = string array to array
 			'parentid'=>$parentid,
 		]);
-		$message = "New Student added";
-		return redirect('user/viewstudent')->with('status', $message);
+		$message = "New Child added";
+		return redirect('user/viewstudent')->with('success',$message);
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 	public function viewstudent(){
@@ -151,8 +151,8 @@ use AuthenticatesUsers;
 			'parentid'=>$parentid,
 		]);
 		
-		$message = "Student Updated";
-		return redirect('user/viewstudent')->with('status', $message);
+		$message = "Child Updated";
+		return redirect('user/viewstudent')->with('success',$message);
 	}
 
 
@@ -213,7 +213,7 @@ use AuthenticatesUsers;
    			}
    			else {
 	   			$message = "Only ONE card can be default at a time";
-				return redirect('user/home')->with('status', $message);
+				return redirect('user/home')->with('error',$message);
 	   		}	
    		}
    		else {
@@ -233,7 +233,7 @@ use AuthenticatesUsers;
 				'defaultpay'=>$payflag,
 			]);
 			$message = "Payment Details Added";
-			return redirect('user/viewpayment')->with('status', $message);
+			return redirect('user/viewpayment')->with('success',$message);
    		}
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
@@ -303,11 +303,11 @@ use AuthenticatesUsers;
 					'defaultpay'=>$payflag,
 				]);
 				$message = "Payment Details Updated";
-				return redirect('user/editpayment')->with('status', $message);
+				return redirect('user/editpayment')->with('success',$message);
    			}
    			else {
 	   			$message = "Only ONE card can be default at a time";
-				return redirect('user/home')->with('status', $message);
+				return redirect('user/home')->with('error',$message);
 	   		}	
    		}
    		else {
@@ -327,7 +327,7 @@ use AuthenticatesUsers;
 				'defaultpay'=>$payflag,
 			]);
 			$message = "Payment Details Updated";
-			return redirect('user/viewpayment')->with('status', $message);
+			return redirect('user/viewpayment')->with('success',$message);
    		}	
 	}
 
@@ -368,7 +368,7 @@ use AuthenticatesUsers;
 		]);
 		
 		$message = "Parent Data Updated";
-		return redirect('user/home')->with('status', $message);
+		return redirect('user/home')->with('success',$message);
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 	public function changepasswordinit(){
@@ -397,11 +397,11 @@ use AuthenticatesUsers;
 				'password'=>$passwordhashed,
 			]);	
 			$message = "Password Updated";
-			return redirect('user/home')->with('status', $message);
+			return redirect('user/home')->with('success',$message);
    		}
    		else {
    			$message = "Incorrect Current Password";
-			return redirect('user/changepass')->with('status', $message);
+			return redirect('user/changepass')->with('error',$message);
    		}
 	}
 
@@ -435,23 +435,31 @@ use AuthenticatesUsers;
    		$menudate = $request->dateserve;
    		$price = $menuselect->menuprice;
 
-   		Orders::create([
-   			'parentid'=>$parent_id,
-			'studentid'=>$student_id,
-			'studentname'=>$student_name,
-			'menuid'=>$menu_id,
-			'menuname'=>$menuname,
-			'menudate'=>$menudate,
-			'menuqty'=>$foodqty,
-			'menuprice'=>$price,
-			'redeemstatus'=>'NOTREDEEEMED',
-			'redeemdate'=> '',
-			'txid'=> '',
-			'staffid'=>'',
-		]);
+   		$currenttimestamp = Carbon::now();
 
-		$message = "Orders added";
-		return redirect('user/menuselect')->with('status', $message);
+   		if($currenttimestamp->isWeekend()){
+   			Orders::create([
+	   			'parentid'=>$parent_id,
+				'studentid'=>$student_id,
+				'studentname'=>$student_name,
+				'menuid'=>$menu_id,
+				'menuname'=>$menuname,
+				'menudate'=>$menudate,
+				'menuqty'=>$foodqty,
+				'menuprice'=>$price,
+				'redeemstatus'=>'NOTREDEEEMED',
+				'redeemdate'=> '',
+				'txid'=> '',
+				'staffid'=>'',
+			]);
+
+			$message = "Orders added";
+			return redirect('user/menuselect')->with('success',$message);
+   		}
+   		else{
+   			$message = "Orders to be made on weekend only to avoid mishandling";
+			return redirect('user/home')->with('error',$message);
+   		}
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 	public function vieworderinit(){
@@ -462,8 +470,23 @@ use AuthenticatesUsers;
 		}
 		else {
 			$orders = Orders::where('parentid', Auth::user()->id)->where('txid' , '')->get();
-			$ordersp = Orders::where('parentid', Auth::user()->id)->where('txid' ,'!=', '')->orderBy('updated_at', 'desc')->get();
-	      	return view('user.vieworders', compact('orders', 'ordersp'));
+			// $ordersp = Orders::where('parentid', Auth::user()->id)->where('txid' ,'!=', '')->orderBy('updated_at', 'desc')->get();
+			// $orders = Orders::where('parentid', Auth::user()->id)->where('txid' , '')
+	  // 			->orderby('menudate', 'asc')
+	  // 			->get()
+	  // 			->groupBy(function($date) {
+	  // 				return Carbon::parse($date->menudate)->format('W');
+			// 	});
+			// $weeknumorders = array_keys($orders->toArray());
+
+			$ordersp = Orders::where('parentid', Auth::user()->id)->where('txid' ,'!=', '')
+	  			->orderby('menudate', 'asc')
+	  			->get()
+	  			->groupBy(function($date) {
+	  				return Carbon::parse($date->menudate)->format('W');
+				});
+	  		$weeknumordersp = array_keys($ordersp->toArray());
+	      	return view('user.vieworders', compact('orders', 'ordersp', 'weeknumordersp'));
 	    }
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
@@ -495,7 +518,7 @@ use AuthenticatesUsers;
 		]);
 		
 		$message = "Orders Updated";
-		return redirect('user/vieworder')->with('status', $message);
+		return redirect('user/vieworder')->with('success', $message);
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 	public function payorderinit(Request $request){
@@ -510,7 +533,7 @@ use AuthenticatesUsers;
 				$id = $request->selectorder;
 				if(empty($id)){
 					$message = "Please select Orders before making a payment";
-					return redirect('user/vieworder')->with('status', $message);
+					return redirect('user/vieworder')->with('error', $message);
 				}
 				else {
 					$payments = PaymentDet::where('parentid', Auth::user()->id)->get();
@@ -530,7 +553,7 @@ use AuthenticatesUsers;
 			}
 			else {
 				$message = "No Credit/Debit cards added. Please add card before making a payment";
-				return redirect('user/vieworder')->with('status', $message);
+				return redirect('user/vieworder')->with('error', $message);
 			}
 			
 	    }
@@ -551,6 +574,7 @@ use AuthenticatesUsers;
 	   	foreach ($order_id as $id) {
 	   		Orders::where('id', $id)->update([
 			   	'txid'=>$payment_txid,
+			   	'staffid'=>'1',
 			]);
 	   	}
 		Transaction::create([
@@ -574,7 +598,7 @@ use AuthenticatesUsers;
 		// dd($bulkorderid, $arr);
 
    		$message = "Orders Successfully Paid";
-		return redirect('user/vieworder')->with('status', $message);
+		return redirect('user/vieworder')->with('success', $message);
 
   //  		foreach ($order_id as $id) {
   //  			$ordersdet = Orders::where('id', $id)->get();
@@ -670,7 +694,7 @@ use AuthenticatesUsers;
 			$id = $request->deleteid;
 			Orders::find($id)->delete();
 			$message = "Orders Data Deleted";
-			return redirect('user/deleteorder')->with('status', $message);
+			return redirect('user/deleteorder')->with('success', $message);
 		}
 	}
 
@@ -697,6 +721,7 @@ use AuthenticatesUsers;
 		}
 		else {
 			$payment_txid = $request->txid;
+			$txdate = Transaction::where('txid', $payment_txid)->first()->created_at;
 			$trans = Transaction::where('txid', $payment_txid)
 				->leftJoin('payment_details', 'transaction.paymentid', '=', 'payment_details.id')
 				->first();
@@ -705,10 +730,25 @@ use AuthenticatesUsers;
 			foreach ($singorderid as $orderid) {
 				$orders[] = Orders::where('id', $orderid)->first();
 			}
-
-			return view('user.viewtrans', compact('updata', 'orders'));
+			return view('user.viewtrans', compact('txdate', 'updata', 'orders'));
 	    }
 	}
+
+
+
+//---------------------------------------------------------------------------------------------------------------------------------------------//
+	public function debug(){
+		if (!Auth::check()) {
+			Session::flash('message', trans('errors.session_label'));
+		  	Session::flash('type', 'warning');
+		  	return redirect()->route('');
+		}
+		else {
+			$menu = Menus::all();
+			$stud = Student::where('parentid', Auth::user()->id)->get();
+	      	return view('user.selectdates', compact('menu', 'stud'));
+		}
+	}	
 
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 //---------------------------------------------------------------------------------------------------------------------------------------------//

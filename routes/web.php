@@ -68,6 +68,7 @@ Route::prefix('user')->group(function() {
 	//TRANSACTION
 	Route::get('/listtrans','userFXControllerv6@listtransinit');
 	Route::post('/viewtrans','userFXControllerv6@viewtransinit')->name('user.submit.viewtrans');
+	Route::get('/debug','userFXControllerv6@debug');
 });
 
 //-----------------------------------------------------------ADMIN-----------------------------------------------------------------------------//
@@ -205,4 +206,5 @@ Route::prefix('staff')->group(function() {
 	//REDEEM
 	Route::get('/redeem','staffFXControllerv6@redeeminit')->name('staff.redeem');
 	Route::post('/submit/redeem','staffFXControllerv6@redeemProc')->name('staff.submit.redeem');
+	Route::get('/debug','staffFXControllerv6@debug');
 });

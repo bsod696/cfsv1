@@ -6,6 +6,7 @@
         <p>Seamless food management for your children</p>
 </header>
 <div class="box">
+    @include('flash-message')
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">
                             {{ session('status') }}

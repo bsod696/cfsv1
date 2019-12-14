@@ -8,16 +8,7 @@
                 <div class="card-header">{{ __('Setting') }}</div>
 
                 <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-                    @if (!empty($message))
-                        <div class="alert alert-success" role="alert">
-                            {{ $message }}
-                        </div>
-                    @endif
+                    @include('flash-message')
                     <p>Personal Details</p>
                     <a href="{{url('/user/editparent')}}">Edit</a>
                     <br>

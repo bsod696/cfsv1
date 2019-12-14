@@ -6,12 +6,7 @@
         <p>Seamless food management for your children</p>
 </header>
 <div class="box">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
+    @include('flash-message')
                 <section class="box">
                     <div class="row gtr-50 gtr-uniform">
 
@@ -29,7 +24,7 @@
                             </div>
 
                             <div class="col-4">
-                                {{ date_format(date_create($t->created_at), 'h:i:s a d/m/Y') }}
+                                {{ date_format(date_create($txdate), 'h:i:s a d/m/Y') }}
                             </div>
 
                             <div class="col-12">

@@ -6,12 +6,7 @@
         <p>Seamless food management for your children</p>
 </header>
 <div class="box">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
+    @include('flash-message')
                     <section class="box">
                         <div class="row gtr-50 gtr-uniform">
                             <h4><b>{{ __('Checkout Item') }}</b></h4>
@@ -24,7 +19,7 @@
                                         <p> 
                                             <h4><b><u>#order{{ $o->id }}</u></b></h4>
                                             <b> Student ID: </b> {{ strtoupper($o->studentid) }} <br>
-                                            <b> Student Name : </b> {{ ucfirst($o->studentname) }}  <br>
+                                            <b> Child Name : </b> {{ ucfirst($o->studentname) }}  <br>
                                             <b> Menu Name : </b> {{ ucfirst($o->menuname) }} <br>
                                             <b> Menu Price : </b> RM {{ $o->menuprice }}  <br>
                                             <b> Menu Quantity : </b> {{ $o->menuqty }} <br>
@@ -68,7 +63,7 @@
                                     @endif
                             </div>
                             <div class="col-12">
-                                    <input type="submit" value="{{ __('Pay Now') }}" class="button special fit small"></input>
+                                    <input type="submit" value="{{ __('Pay Now') }}" class="button special fit small" onclick="return confirm('Confirm Payment?');"></input>
                             </div>
                                 </form>
                             </div>

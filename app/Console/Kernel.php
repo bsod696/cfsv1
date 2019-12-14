@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        Commands\ParentOrderNotify::class,
     ];
 
     /**
@@ -24,8 +24,12 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        $schedule->command('parent:ordernotify')
+            ->weekly()->friday()->at('10:00');
+        $schedule->command('parent:ordernotify')
+            ->weekly()->saturday()->at('10:00');
+        $schedule->command('parent:ordernotify')
+            ->weekly()->sunday()->at('10:00');        
     }
 
     /**

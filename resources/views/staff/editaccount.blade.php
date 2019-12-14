@@ -6,6 +6,7 @@
         <p>Seamless food management for your children</p>
 </header>
 <div class="box">
+    @include('flash-message')
                     @foreach( $updata as $u)
                     <form method="POST" action="{{ route('staff.submit.editaccount') }}">
                         @csrf
