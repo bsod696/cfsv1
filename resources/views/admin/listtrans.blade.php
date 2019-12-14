@@ -18,6 +18,7 @@
                                             <th><center>Amount</center></th>
                                             <th><center>Reference</center></th>
                                             <th><center>Status</center></th>
+                                            <th><center>Transaction Date</center></th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -28,6 +29,7 @@
                                             <td><center>RM {{$t->txamount}}</center></td>
                                             <td><center>{{$t->txreference}}</center></td>
                                             <td><center>{{ strtoupper($t->txstatus) }}</center></td>
+                                            <td><center>{{ date_format(date_create($t->created_at), 'h:i:s a d/m/Y') }}</center></td>
                                             <td><center>
                                                 <form action="{{ route('admin.submit.viewtrans') }}" method="POST" enctype="multipart/form-data">
                                                      @csrf

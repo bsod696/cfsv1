@@ -27,7 +27,7 @@
 
                             <div class="col-12">
                                 <label for="fooddesc" class="col-md-4 col-form-label text-md-right">{{ __('Menu Description') }}</label>
-                                <input id="fooddesc" type="textarea" class="form-control @error('fooddesc') is-invalid @enderror" name="fooddesc" value="{{ $u->menudesc }}" required autocomplete="fooddesc" autofocus>
+                                <input id="fooddesc" type="text" class="form-control @error('fooddesc') is-invalid @enderror" name="fooddesc" value="{{ $u->menudesc }}" required autocomplete="fooddesc" autofocus>
 
                                 @error('fooddesc')
                                     <span class="invalid-feedback" role="alert">
@@ -184,34 +184,8 @@
                                     </li>
                                 </ul>
                             </div>
-
                         </div>
                     </form>
+                @endforeach
 </div>
-<script>
-    function showBMI() {
-        var height = document.getElementById('height').value;
-        var weight = document.getElementById('weight').value;
-        var bmicalc = 0.0;
-        bmicalc = parseFloat((weight/Math.pow(height, 2))*10000).toFixed(1);
-        document.getElementById('bmi').value=bmicalc; 
-    }
-
-    function readURLfoodpic(input) {
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function (e) {$('#foodp').attr('src', e.target.result).width(250).height(150);};
-        reader.readAsDataURL(input.files[0]);
-    }
-}
-
-    // function getClass(){
-    //     var today = new Date();
-    //     var birthDate = new Date(document.getElementById('dob').value);
-    //     var age = today.getFullYear() - birthDate.getFullYear();
-    //     var m = today.getMonth() - birthDate.getMonth();
-    //     if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())){age--;}
-    //     document.getElementById('age').value=age;
-    // }
-</script>
 @endsection

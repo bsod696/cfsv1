@@ -24,7 +24,7 @@
                             </div>
 
                             <div class="col-4">
-                                {{ date_format(date_create($t->created_at), 'h:i:s a d/m/Y') }}
+                                {{ date_format(date_create($txdate), 'h:i:s a d/m/Y') }}
                             </div>
 
                             <div class="col-12">

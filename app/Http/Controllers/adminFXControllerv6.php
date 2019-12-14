@@ -136,8 +136,8 @@ use AuthenticatesUsers;
    		if($payflag == 'Y'){
    			$parentpaycheck = PaymentDet::where('parentid', $parentid)->where('defaultpay', 'Y')->count();
    			if($parentpaycheck < 1){
-   				PaymentDet::create([  //stored procedures: create new row. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:746
-					'parentid'=>$parentid,
+   				PaymentDet::create([
+					'parentid'=>(int)$parentid,
 					'fullname'=>$fullname,
 					'billaddr1'=>$billaddr1,
 					'billaddr2'=>$billaddr2,
@@ -152,32 +152,96 @@ use AuthenticatesUsers;
 					'defaultpay'=>$payflag,
 				]);
 				$message = "Payment Details Added";
-				return redirect('admin/dashboard')->with('success', $message);
+				return redirect('admin/viewpayment')->with('success', $message);
    			}
    			else {
-	   			$message = "Only ONE card can be default at a time";
-				return redirect('admin/dashboard')->with('error', $message);
-	   		}	
+	   			PaymentDet::where('parentid', $parentid)->where('defaultpay', 'Y')->update([
+						'defaultpay'=>'N'
+				]);
+	   			PaymentDet::create([
+					'parentid'=>(int)$parentid,
+					'fullname'=>$fullname,
+					'billaddr1'=>$billaddr1,
+					'billaddr2'=>$billaddr2,
+					'city'=>$city,
+					'zipcode'=>$zipcode,
+					'state'=>$state,
+					'country'=>$country,
+					'cardtype'=>$cardtype,
+					'cardnum'=>$cardnum,
+					'cvvnum'=>$cvvnum,
+					'expdate'=>$expdate,
+					'defaultpay'=>$payflag,
+				]);
+				$message = "Payment Details Added";
+				return redirect('admin/viewpayment')->with('success',$message);
+	   		}
    		}
    		else {
-   			PaymentDet::create([ //stored procedures: create new row. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:746
-				'parentid'=>$parentid,
-				'fullname'=>$fullname,
-				'billaddr1'=>$billaddr1,
-				'billaddr2'=>$billaddr2,
-				'city'=>$city,
-				'zipcode'=>$zipcode,
-				'state'=>$state,
-				'country'=>$country,
-				'cardtype'=>$cardtype,
-				'cardnum'=>$cardnum,
-				'cvvnum'=>$cvvnum,
-				'expdate'=>$expdate,
-				'defaultpay'=>$payflag,
-			]);
-			$message = "Payment Details Added";
-			return redirect('admin/viewpayment')->with('success', $message);
-   		}	
+   			PaymentDet::create([
+					'parentid'=>(int)$parentid,
+					'fullname'=>$fullname,
+					'billaddr1'=>$billaddr1,
+					'billaddr2'=>$billaddr2,
+					'city'=>$city,
+					'zipcode'=>$zipcode,
+					'state'=>$state,
+					'country'=>$country,
+					'cardtype'=>$cardtype,
+					'cardnum'=>$cardnum,
+					'cvvnum'=>$cvvnum,
+					'expdate'=>$expdate,
+					'defaultpay'=>$payflag,
+				]);
+				$message = "Payment Details Added";
+				return redirect('admin/viewpayment')->with('success',$message);
+   		}
+  
+   // 		if($payflag == 'Y'){
+   // 			$parentpaycheck = PaymentDet::where('parentid', $parentid)->where('defaultpay', 'Y')->count();
+   // 			if($parentpaycheck < 1){
+   // 				PaymentDet::create([  //stored procedures: create new row. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:746
+			// 		'parentid'=>$parentid,
+			// 		'fullname'=>$fullname,
+			// 		'billaddr1'=>$billaddr1,
+			// 		'billaddr2'=>$billaddr2,
+			// 		'city'=>$city,
+			// 		'zipcode'=>$zipcode,
+			// 		'state'=>$state,
+			// 		'country'=>$country,
+			// 		'cardtype'=>$cardtype,
+			// 		'cardnum'=>$cardnum,
+			// 		'cvvnum'=>$cvvnum,
+			// 		'expdate'=>$expdate,
+			// 		'defaultpay'=>$payflag,
+			// 	]);
+			// 	$message = "Payment Details Added";
+			// 	return redirect('admin/dashboard')->with('success', $message);
+   // 			}
+   // 			else {
+	  //  			$message = "Only ONE card can be default at a time";
+			// 	return redirect('admin/dashboard')->with('error', $message);
+	  //  		}	
+   // 		}
+   // 		else {
+   // 			PaymentDet::create([ //stored procedures: create new row. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:746
+			// 	'parentid'=>$parentid,
+			// 	'fullname'=>$fullname,
+			// 	'billaddr1'=>$billaddr1,
+			// 	'billaddr2'=>$billaddr2,
+			// 	'city'=>$city,
+			// 	'zipcode'=>$zipcode,
+			// 	'state'=>$state,
+			// 	'country'=>$country,
+			// 	'cardtype'=>$cardtype,
+			// 	'cardnum'=>$cardnum,
+			// 	'cvvnum'=>$cvvnum,
+			// 	'expdate'=>$expdate,
+			// 	'defaultpay'=>$payflag,
+			// ]);
+			// $message = "Payment Details Added";
+			// return redirect('admin/viewpayment')->with('success', $message);
+   // 		}	
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 	//Store Account details in database
@@ -359,8 +423,26 @@ use AuthenticatesUsers;
 				return redirect('admin/dashboard')->with('success', $message);
    			}
    			else {
-	   			$message = "Only ONE card can be default at a time";
-				return redirect('admin/dashboard')->with('error', $message);
+	   			PaymentDet::where('parentid', $parentid)->where('defaultpay', 'Y')->update([ //stored procedures: update rows. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:772
+						'defaultpay'=>'N'
+				]);
+	   			PaymentDet::where('id', $id)->update([ //stored procedures: update rows. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:772
+					'parentid'=>(int)$parentid,
+					'fullname'=>$fullname,
+					'billaddr1'=>$billaddr1,
+					'billaddr2'=>$billaddr2,
+					'city'=>$city,
+					'zipcode'=>$zipcode,
+					'state'=>$state,
+					'country'=>$country,
+					'cardtype'=>$cardtype,
+					'cardnum'=>$cardnum,
+					'cvvnum'=>$cvvnum,
+					'expdate'=>$expdate,
+					'defaultpay'=>$payflag,
+				]);
+				$message = "Payment Details Updated";
+				return redirect('admin/viewpayment')->with('success',$message);
 	   		}	
    		}
    		else {
@@ -622,6 +704,7 @@ use AuthenticatesUsers;
 
 	   		Orders::where('id', $order_id)->update([ //stored procedures: update rows. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:772
 	   			'txid'=>$payment_txid,
+	   			'staffid'=>'10',
 			]);
 
 			Transaction::create([ //stored procedures: create new row. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:746
@@ -667,7 +750,7 @@ use AuthenticatesUsers;
 		  	return redirect()->route('');
 		}
 		else {
-			$trans = Transaction::all(); //stored procedures: select *. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:521
+			$trans = Transaction::orderBy('updated_at', 'desc')->get(); //stored procedures: select *. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:521
 	      	return view('admin.listtrans', compact('trans'));
 	    }
 	}
@@ -680,6 +763,7 @@ use AuthenticatesUsers;
 		}
 		else {
 			$payment_txid = $request->txid;
+			$txdate = Transaction::where('txid', $payment_txid)->first()->created_at;
 			$trans = Transaction::where('txid', $payment_txid)
 				->leftJoin('payment_details', 'transaction.paymentid', '=', 'payment_details.id')
 				->first();
@@ -688,7 +772,7 @@ use AuthenticatesUsers;
 			foreach ($singorderid as $orderid) {
 				$orders[] = Orders::where('id', $orderid)->first();
 			}
-			return view('admin.viewtrans', compact('updata', 'orders'));
+			return view('admin.viewtrans', compact('txdate', 'updata', 'orders'));
 	    }
 	}
 

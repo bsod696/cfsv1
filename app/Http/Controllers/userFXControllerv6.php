@@ -209,12 +209,30 @@ use AuthenticatesUsers;
 					'defaultpay'=>$payflag,
 				]);
 				$message = "Payment Details Added";
-				return redirect('user/home')->with('status', $message);
+				return redirect('user/viewpayment')->with('success', $message);
    			}
    			else {
-	   			$message = "Only ONE card can be default at a time";
-				return redirect('user/home')->with('error',$message);
-	   		}	
+	   			PaymentDet::where('parentid', $parentid)->where('defaultpay', 'Y')->update([
+						'defaultpay'=>'N'
+				]);
+	   			PaymentDet::create([
+					'parentid'=>(int)$parentid,
+					'fullname'=>$fullname,
+					'billaddr1'=>$billaddr1,
+					'billaddr2'=>$billaddr2,
+					'city'=>$city,
+					'zipcode'=>$zipcode,
+					'state'=>$state,
+					'country'=>$country,
+					'cardtype'=>$cardtype,
+					'cardnum'=>$cardnum,
+					'cvvnum'=>$cvvnum,
+					'expdate'=>$expdate,
+					'defaultpay'=>$payflag,
+				]);
+				$message = "Payment Details Added";
+				return redirect('user/viewpayment')->with('success',$message);
+	   		}
    		}
    		else {
    			PaymentDet::create([
@@ -303,11 +321,29 @@ use AuthenticatesUsers;
 					'defaultpay'=>$payflag,
 				]);
 				$message = "Payment Details Updated";
-				return redirect('user/editpayment')->with('success',$message);
+				return redirect('user/viewpayment')->with('success',$message);
    			}
    			else {
-	   			$message = "Only ONE card can be default at a time";
-				return redirect('user/home')->with('error',$message);
+	   			PaymentDet::where('parentid', $parentid)->where('defaultpay', 'Y')->update([
+						'defaultpay'=>'N'
+				]);
+	   			PaymentDet::where('id', $id)->update([
+					'parentid'=>(int)$parentid,
+					'fullname'=>$fullname,
+					'billaddr1'=>$billaddr1,
+					'billaddr2'=>$billaddr2,
+					'city'=>$city,
+					'zipcode'=>$zipcode,
+					'state'=>$state,
+					'country'=>$country,
+					'cardtype'=>$cardtype,
+					'cardnum'=>$cardnum,
+					'cvvnum'=>$cvvnum,
+					'expdate'=>$expdate,
+					'defaultpay'=>$payflag,
+				]);
+				$message = "Payment Details Updated";
+				return redirect('user/viewpayment')->with('success',$message);
 	   		}	
    		}
    		else {
@@ -574,7 +610,7 @@ use AuthenticatesUsers;
 	   	foreach ($order_id as $id) {
 	   		Orders::where('id', $id)->update([
 			   	'txid'=>$payment_txid,
-			   	'staffid'=>'1',
+			   	'staffid'=>'10',
 			]);
 	   	}
 		Transaction::create([
