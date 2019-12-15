@@ -15,7 +15,7 @@
 		<br>
 
 		<p>
-			This is a reminder on making meal orders for our <a href="https://localhost/cfsv1/public/">Canteen Food System</a>. Please make sure you have submitted your children's meal orders for next week of school session. Kindly make meal orders on weekends only as orders that are made not on weekends will not be processed by our canteen provider. Do note that our menus will be updated by every Friday (excluding school holidays).
+			This is a reminder on making meal orders for our <a href="https://localhost/cfsv1/public/">Canteen Food System</a>. Please make sure you have submitted your children's meal orders for next week of school session. Kindly make meal orders for next day only as orders that are made not on same date to serve will not be processed by our canteen provider. Do note that our menus will be updated by every Friday (excluding school holidays).
 		</p>
 		<h2>
 			<center><b><a href="https://localhost/cfsv1/public/user/menuselect">Make Orders Now</a></b></center>

@@ -472,8 +472,10 @@ use AuthenticatesUsers;
    		$price = $menuselect->menuprice;
 
    		$currenttimestamp = Carbon::now();
+   		$menudtformat = Carbon::parse($menudate);
 
-   		if($currenttimestamp->isWeekend()){
+   		//if($currenttimestamp->isWeekend()){
+   		if($menudtformat > $currenttimestamp){
    			Orders::create([
 	   			'parentid'=>$parent_id,
 				'studentid'=>$student_id,
@@ -493,8 +495,8 @@ use AuthenticatesUsers;
 			return redirect('user/menuselect')->with('success',$message);
    		}
    		else{
-   			$message = "Orders to be made on weekend only to avoid mishandling";
-			return redirect('user/home')->with('error',$message);
+   			$message = "Orders to be made on next day only to avoid mishandling";
+			return redirect('user/menuselect')->with('error',$message);
    		}
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
