@@ -428,16 +428,22 @@ use AuthenticatesUsers;
    		$request->validate(['password' => ['required', 'min:8', 'regex:/[a-z]/', 'regex:/[A-Z]/', 'regex:/[0-9]/', 'confirmed']]);
    		$userdet = User::where('id', $id)->first();
 
-   		if(Hash::check($cpassword, $userdet->password) == true){
-   			User::where('id', $id)->update([ //stored procedures: update rows. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:772
-				'password'=>$passwordhashed,
-			]);	
-			$message = "Password Updated";
-			return redirect('user/home')->with('success',$message);
-   		}
-   		else {
-   			$message = "Incorrect Current Password";
+   		if($cpassword == $password){
+   			$message = "New Password cannot be same as Old Password";
 			return redirect('user/changepass')->with('error',$message);
+   		}
+   		else{
+   			if(Hash::check($cpassword, $userdet->password) == true){
+	   			User::where('id', $id)->update([ //stored procedures: update rows. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:772
+					'password'=>$passwordhashed,
+				]);	
+				$message = "Password Updated";
+				return redirect('user/home')->with('success',$message);
+	   		}
+	   		else {
+	   			$message = "Incorrect Current Password";
+				return redirect('user/changepass')->with('error',$message);
+	   		}
    		}
 	}
 

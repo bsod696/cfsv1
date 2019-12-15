@@ -250,16 +250,22 @@ use AuthenticatesUsers;
    		$request->validate(['password' => ['required', 'min:8', 'regex:/[a-z]/', 'regex:/[A-Z]/', 'regex:/[0-9]/', 'confirmed']]);
    		$staffdet = Staff::where('id', $id)->first();
    		
-   		if(Hash::check($cpassword, $staffdet->password) == true){
-   			Staff::where('id', $id)->update([ //stored procedures: update rows. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:772
-				'password'=>$passwordhashed,
-			]);	
-			$message = "Password Updated";
-			return redirect('staff/dashboard')->with('success', $message);
+   		if($cpassword == $password){
+   			$message = "New Password cannot be same as Old Password";
+			return redirect('staff/changepass')->with('error',$message);
    		}
-   		else {
-   			$message = "Incorrect Current Password";
-			return redirect('staff/changepass')->with('error', $message);
+   		else{
+   			if(Hash::check($cpassword, $staffdet->password) == true){
+	   			Staff::where('id', $id)->update([ //stored procedures: update rows. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:772
+					'password'=>$passwordhashed,
+				]);	
+				$message = "Password Updated";
+				return redirect('staff/dashboard')->with('success',$message);
+	   		}
+	   		else {
+	   			$message = "Incorrect Current Password";
+				return redirect('staff/changepass')->with('error',$message);
+	   		}
    		}
 	}
 
