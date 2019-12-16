@@ -381,9 +381,10 @@ use AuthenticatesUsers;
 		}
 		else {
 			$id = $request->id;
-			$orders = Orders::where('id', $id)->update([
-	   			'staffid' => ''
-	   		]);
+			// $orders = Orders::where('id', $id)->update([
+	  //  			'staffid' => ''
+	  //  		]);
+			$orders = Orders::where('id', $id)->delete();
 			$message = "Orders Cancelled";
 			return redirect('staff/listorder')->with('success', $message);
 		}
@@ -399,9 +400,9 @@ use AuthenticatesUsers;
 			$nextday = date_format(Carbon::now()->tomorrow(), 'd/m/Y');
 			$staffid = Auth::guard('staff')->user()->id; 
 
-	  		$orderscheck = Orders::where('staffid', $staffid)->where('redeemstatus', 'NOTREDEEEMED')->count();
+	  		$orderscheck = Orders::where('redeemstatus', 'NOTREDEEEMED')->count();
 	  		if($orderscheck > 0){
-	  			$orders = Orders::where('staffid', $staffid)->where('redeemstatus', 'NOTREDEEEMED')->get();
+	  			$orders = Orders::where('redeemstatus', 'NOTREDEEEMED')->get();
 	  			$tmp = array();
 	  			foreach ($orders as $ord) {
 	  				if(date_format(date_create($ord['menudate']), 'd/m/Y') == $nextday){
