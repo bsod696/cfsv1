@@ -295,8 +295,7 @@ use AuthenticatesUsers;
 		else {
 	  		$id = Auth::guard('staff')->user()->id;
 	  		// $orders = Orders::where('staffid', $id)->orderby('menudate', 'desc')->get();
-	  		$orders = Orders::where('staffid', $id)
-	  			->orderby('menudate', 'desc')
+	  		$orders = Orders::orderby('menudate', 'desc')
 	  			->get()
 	  			->groupBy(function($date) {
 	  				return Carbon::parse($date->menudate)->format('W');
@@ -504,7 +503,7 @@ use AuthenticatesUsers;
    		$studentid = strtoupper($request->studentid);
    		$staffid = Auth::guard('staff')->user()->id; 
    		$currdate = date_format(Carbon::now(), 'd/m/Y');
-   		$ordersdet = Orders::where('studentid', $studentid)->where('staffid', $staffid)->where('redeemstatus', 'NOTREDEEEMED')->get();
+   		$ordersdet = Orders::where('studentid', $studentid)->where('redeemstatus', 'NOTREDEEEMED')->get();
    		$redorder = null;
 
    		foreach ($ordersdet as $orders) {
