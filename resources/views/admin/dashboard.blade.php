@@ -70,6 +70,9 @@
                                     <li>
                                        <a href="{{url('/admin/listtrans')}}">List Transactions</a>
                                     </li>
+                                    <li>
+                                       <a href="{{url('/admin/ordersummary')}}">Order Summary</a>
+                                    </li>
                                 </ul>
                             </section>
                         </div>

@@ -759,6 +759,102 @@ use AuthenticatesUsers;
 			return redirect('admin/vieworder')->with('success', $message);
 		}
 	}
+//---------------------------------------------------------------------------------------------------------------------------------------------//
+	public function ordersummaryinit(){
+		if (!Auth::guard('admin')) {
+			Session::flash('message', trans('errors.session_label'));
+		  	Session::flash('type', 'warning');
+		  	return redirect()->route('');
+		}
+		else {
+			$nextday = date_format(Carbon::now()->tomorrow(), 'd/m/Y');
+
+	  		$orderscheck = Orders::where('redeemstatus', 'NOTREDEEEMED')->count();
+	  		if($orderscheck > 0){
+	  			$orders = Orders::where('redeemstatus', 'NOTREDEEEMED')->get();
+	  			$tmp = array();
+	  			foreach ($orders as $ord) {
+	  				if(date_format(date_create($ord['menudate']), 'd/m/Y') == $nextday){
+	  					$tmp[$ord['menuname']][] = $ord['menuqty'];
+	  				}
+	  			}
+	  			$output = array();
+		  		foreach ($tmp as $menuname => $menuqty) {
+		  			$output[] = array(
+				        'menuname' => $menuname,
+				        'menuqty' => array_sum($menuqty)
+				    );
+		  		}
+		  		$ordersorg = array();
+		  		foreach($output as $out){
+		  			$menudet = Menus::where('menuname', $out['menuname'])->first();
+		  			$ordersorg[] = array(
+		  				'menudate' => $nextday,
+		  				'menuname' => $out['menuname'],
+		  				'menuprice' => $menudet->menuprice,
+				        'menuqty' => $out['menuqty'],
+				        'totalpermenu' => number_format($out['menuqty']*$menudet->menuprice, 2, '.', '')
+		  			);
+				}
+				$sum = 0;
+				foreach ($ordersorg as $ord) {
+					$sum += $ord['totalpermenu'];
+				}
+				$totalsales = number_format($sum, 2, '.', '');
+				$dateselected = $nextday;
+			  	return view('admin.orderssummary', compact('ordersorg', 'dateselected', 'totalsales'));
+	  		}
+	  		else {
+	  			$dateselected = $nextday;
+	  			return view('admin.orderssummary', compact('dateselected'));
+	  		}
+	    }
+	}
+//---------------------------------------------------------------------------------------------------------------------------------------------//
+   	public function ordersummaryProc(Request $request){
+   		$servedate = date_format(date_create($request->servedate), 'd/m/Y');
+   		// $staffid = Auth::guard('staff')->user()->id; 
+
+   		$orderscheck = Orders::where('redeemstatus', 'NOTREDEEEMED')->count();
+   		if($orderscheck > 0){
+	  		$orders = Orders::where('redeemstatus', 'NOTREDEEEMED')->get();
+	  		$tmp = array();
+	  		foreach ($orders as $ord) {
+	  			if(date_format(date_create($ord['menudate']), 'd/m/Y') == $servedate){
+	  				$tmp[$ord['menuname']][] = $ord['menuqty'];
+	  			}
+	  		}
+	  		$output = array();
+		  	foreach ($tmp as $menuname => $menuqty) {
+		  		$output[] = array(
+			        'menuname' => $menuname,
+			        'menuqty' => array_sum($menuqty)
+			    );
+		  	}
+		  	$ordersorg = array();
+		  	foreach($output as $out){
+		  		$menudet = Menus::where('menuname', $out['menuname'])->first();
+		  		$ordersorg[] = array(
+		  			'menudate' => $servedate,
+		  			'menuname' => $out['menuname'],
+		  			'menuprice' => $menudet->menuprice,
+			        'menuqty' => $out['menuqty'],
+			        'totalpermenu' => number_format($out['menuqty']*$menudet->menuprice, 2, '.', '')
+		  		);
+			}
+			$sum = 0;
+			foreach ($ordersorg as $ord) {
+				$sum += $ord['totalpermenu'];
+			}
+			$totalsales = number_format($sum, 2, '.', '');
+			$dateselected = $servedate;
+		  	return view('admin.orderssummary', compact('ordersorg', 'dateselected', 'totalsales'));
+	  	}
+	  	else {
+	  		$dateselected = $servedate;
+	  		return view('admin.orderssummary', compact('dateselected'));
+	  	}
+   	}	
 
 
 
@@ -1001,6 +1097,7 @@ use AuthenticatesUsers;
 		}
 		else {
 			$id = $request->id;
+			PaymentDet::where('parentid', $id)->delete();
 			User::find($id)->delete(); //stored procedures: delete row. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:843
 			$message = "Parent Data Deleted";
 			return redirect('admin/viewparent')->with('success', $message);

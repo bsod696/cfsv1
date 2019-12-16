@@ -8,7 +8,7 @@
 <div class="box">
     @include('flash-message')
                     @foreach( $updata as $u)
-                    <form action="{{ route('admin.submit.deleteparent') }}" method="POST" enctype="multipart/form-data">
+                    <!-- <form action="{{ route('admin.submit.deleteparent') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="row gtr-50 gtr-uniform">
                             <input id="id" type="hidden" class="form-control{{ $errors->has('id') ? ' is-invalid' : '' }}" name="id"  value="{{ $u->id }}" hidden />
@@ -21,7 +21,7 @@
                                 </ul>
                             </div>
                         </div>
-                    </form>
+                    </form> -->
 
                     <form method="POST" action="{{ route('admin.submit.editparent') }}">
                         @csrf

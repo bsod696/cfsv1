@@ -143,6 +143,8 @@ Route::prefix('admin')->group(function() {
 	Route::post('/submit/deleteorder','adminFXControllerv6@deleteorderProc')->name('admin.submit.deleteorder');
 	Route::get('/payorder','adminFXControllerv6@payorderinit')->name('admin.payorder');
 	Route::post('/submit/payorder','adminFXControllerv6@payorderProc')->name('admin.submit.payorder');
+	Route::get('/ordersummary','adminFXControllerv6@ordersummaryinit');
+	Route::post('/submit/ordersummary','adminFXControllerv6@ordersummaryProc')->name('admin.submit.ordersummary');
 
 	//TRANSACTION
 	Route::get('/listtrans','adminFXControllerv6@listtransinit');
