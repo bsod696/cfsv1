@@ -83,23 +83,30 @@ use AuthenticatesUsers;
    		$parentid = $request->parentid;
    		$age = Carbon::parse($dob)->age;
 
-   		Student::create([ //stored procedures: create new row. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:746
-			'studentid'=>$studentid,
-			'fullname'=>$fullname,
-			'gender'=>$gender,
-			'dob'=>$dob,
-			'age'=>$age	,
-			'class'=>$class,
-			'school_session'=>$school_session,
-			'height'=>$height,
-			'weight'=>$weight,
-			'bmi'=>$bmi,
-			'target_calories'=>$target_calories,
-			'allergies'=>serialize($allcomp), //unserialize  = string array to array
-			'parentid'=>$parentid,
-		]);
-		$message = "New Child added";
-		return redirect('admin/viewstudent')->with('success', $message);
+   		$studentcheck = Student::where('studentid', $studentid)->count();
+   		if($studentcheck > 0){
+   			$message = "Another Child has registered with that Student ID.";
+			return redirect('user/storestudent')->with('error',$message);
+   		}
+   		else{
+	   		Student::create([ //stored procedures: create new row. ref=vendor\laravel\frameworks\src\Illuminate\Database\Eloquent\Builder.php:746
+				'studentid'=>$studentid,
+				'fullname'=>$fullname,
+				'gender'=>$gender,
+				'dob'=>$dob,
+				'age'=>$age	,
+				'class'=>$class,
+				'school_session'=>$school_session,
+				'height'=>$height,
+				'weight'=>$weight,
+				'bmi'=>$bmi,
+				'target_calories'=>$target_calories,
+				'allergies'=>serialize($allcomp), //unserialize  = string array to array
+				'parentid'=>$parentid,
+			]);
+			$message = "New Child added";
+			return redirect('admin/viewstudent')->with('success', $message);
+		}
 	}
 //---------------------------------------------------------------------------------------------------------------------------------------------//
 	//Store Payment details in database
